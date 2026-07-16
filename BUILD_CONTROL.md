@@ -1,0 +1,25 @@
+# Build Control Record
+
+- Project/repository/environment: XAUWatch, local Next.js App Router, Node/npm
+- Approved handoff/gate: continued from approved mobile Dashboard prototype and MVP v0.2 conversation; Gate 6 treated as approved by repeated “ต่อเลยครับ”
+- Platform decision/evidence/tradeoffs: Next.js PWA keeps one TypeScript codebase for Android web install, API routes, and Vercel; native Android packaging remains out of MVP scope
+- Requirements traceability:
+  - Live price/freshness → `lib/market.ts` → `/api/market` → market hero and stale guard
+  - Bias/action separation → `lib/types.ts` and analysis schema → decision panel
+  - M5/M15/H1 + levels → structured analysis → timeframe and levels sections
+  - Entry/SL/TP/invalidation → structured plan schema → plan section
+  - Thai analysis command → `/api/analyze` → command form
+  - Conversation continuity → `previous_response_id` persisted on latest analysis
+  - Android install → manifest, icons, service worker
+  - Private API use → optional `DASHBOARD_ACCESS_TOKEN`, server-only provider keys
+- Vertical slices/status:
+  - Demo feed + rule engine + Dashboard: implemented
+  - OpenAI Responses adapter: implemented, requires user key for live verification
+  - Twelve Data adapter: implemented, requires user key for live verification
+  - PWA shell: implemented; install behavior requires HTTPS/UAT
+- Dependencies/data/content: external providers optional; all demo output visibly labelled stale/demo
+- Accessibility/performance/SEO/analytics/security/privacy: keyboard/focus, labels, reduced motion, no indexing, security headers, no client-side provider secrets; Lighthouse and live-provider checks pending
+- Commands/checks/results/failures/limitations: see `QA_REPORT.md`
+- Defects/risks: market provider symbol availability and feed latency require account-level UAT; analysis is decision support, not execution
+- Capacity/change decisions: no production deploy or external account mutation performed
+- Gate 7 readiness/owner/date: pending browser visual QA and live-provider UAT; owner David; 2026-07-16

@@ -1,0 +1,9 @@
+{
+  "date": "2026-07-16",
+  "signals": "empty project",
+  "framework": "Next.js App Router",
+  "fontStack": "IBM Plex Sans + JetBrains Mono",
+  "palette": "OKLCH Terminal",
+  "motion": "motion-cut",
+  "spacing": "4pt semantic scale"
+}

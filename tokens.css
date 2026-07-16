@@ -1,0 +1,60 @@
+/* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4
+ * genre: atmospheric · macrostructure: Workbench · theme: Terminal · enrichment: none · nav: N8 · footer: Ft4
+ * audience: Android day trader · use: decide wait/buy/sell · tone: premium technical terminal
+ * contrast: pass (40–41) · chrome/tokens/icons: pass (30, 42–48) · mobile static: pass (50–57) · visual: pending (34, 49)
+ */
+:root {
+  --color-paper: oklch(14% 0.012 125);
+  --color-paper-2: oklch(18% 0.014 125);
+  --color-paper-3: oklch(22% 0.016 125);
+  --color-ink: oklch(94% 0.016 102);
+  --color-ink-2: oklch(79% 0.02 105);
+  --color-muted: oklch(73% 0.02 112);
+  --color-rule: oklch(32% 0.018 118);
+  --color-rule-strong: oklch(45% 0.035 105);
+  --color-accent: oklch(78% 0.145 82);
+  --color-accent-ink: oklch(16% 0.02 85);
+  --color-focus: oklch(86% 0.16 105);
+  --color-buy: oklch(84% 0.18 125);
+  --color-buy-surface: oklch(23% 0.055 132);
+  --color-sell: oklch(72% 0.18 32);
+  --color-sell-surface: oklch(22% 0.05 28);
+  --color-wait: oklch(85% 0.08 82);
+  --color-wait-surface: oklch(23% 0.035 82);
+  --color-error: oklch(72% 0.18 32);
+  --color-error-surface: oklch(20% 0.045 28);
+
+  --font-display: "JetBrains Mono", ui-monospace, monospace;
+  --font-body: "IBM Plex Sans", ui-sans-serif, sans-serif;
+  --font-outlier: "JetBrains Mono", ui-monospace, monospace;
+
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  --text-xs: 0.6875rem;
+  --text-sm: 0.8125rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.563rem;
+  --text-2xl: 1.953rem;
+  --text-display: clamp(3rem, 12vw, 5.5rem);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-slow: 420ms;
+
+  --rule-hair: 1px;
+  --rule-strong: 2px;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-round: 999px;
+}
