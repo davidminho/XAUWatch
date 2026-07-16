@@ -4,6 +4,8 @@ Android-first XAUUSD day-trade Dashboard. It keeps `Bias`, `Action`, and `Trigge
 
 ## v0.6 chart vision and visual plans
 
+Patch v0.6.1 adds visible image-analysis loading/error/retry feedback, a mobile image-decoding fallback, smaller upload payloads, and one automatic retry when an older AI conversation context cannot be reused.
+
 - Upload a PNG, JPG, or WEBP chart screenshot from Android
 - Client-side resize before the image is sent to OpenAI Vision
 - Optional M5/M15/H1 timeframe hint with market snapshot as the price authority

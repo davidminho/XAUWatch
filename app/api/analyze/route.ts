@@ -6,6 +6,7 @@ import { createAiAnalysis } from "@/lib/openai-analysis";
 import { createRuleAnalysis } from "@/lib/rule-engine";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
 const requestSchema = z.object({
   message: z.string().trim().min(1).max(500),
@@ -27,11 +28,24 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ analysis: createRuleAnalysis(market), market, fallback: true, chartUsed: false });
     }
     try {
-      const analysis = await createAiAnalysis(market, input.message, input.previousResponseId, {
+      const visualContext = {
         imageDataUrl: input.chartImage,
         timeframe: input.chartTimeframe
-      });
-      return NextResponse.json({ analysis, market, fallback: false, chartUsed: Boolean(input.chartImage) });
+      };
+      try {
+        const analysis = await createAiAnalysis(market, input.message, input.previousResponseId, visualContext);
+        return NextResponse.json({ analysis, market, fallback: false, chartUsed: Boolean(input.chartImage) });
+      } catch (firstError) {
+        if (!input.previousResponseId) throw firstError;
+        const analysis = await createAiAnalysis(market, input.message, undefined, visualContext);
+        return NextResponse.json({
+          analysis,
+          market,
+          fallback: false,
+          chartUsed: Boolean(input.chartImage),
+          warning: "เริ่มบริบทสนทนาใหม่เพื่ออ่านภาพล่าสุดสำเร็จ"
+        });
+      }
     } catch (error) {
       return NextResponse.json({
         analysis: createRuleAnalysis(market),

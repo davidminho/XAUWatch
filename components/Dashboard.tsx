@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ServiceWorker from "./ServiceWorker";
 import PlanChart from "./PlanChart";
+import { chartAnalysisError, readApiPayload } from "@/lib/api-response";
 import { buildPlanAlertRules, evaluatePlanAlerts, type TriggeredPlanAlert } from "@/lib/alerts";
 import { prepareChartImage, type PreparedChartImage } from "@/lib/chart-image";
 import {
@@ -136,12 +137,20 @@ export default function Dashboard() {
 
   const requestAnalysis = useCallback(async (prompt = INITIAL_MESSAGE, includeChart = false) => {
     setStatus("loading"); setError(""); setWarning("");
+    if (includeChart) {
+      setChartStatus("loading");
+      setChartMessage("กำลังส่งภาพให้ AI… ปกติใช้เวลาประมาณ 10–45 วินาที");
+      setVisionUsed(false);
+    }
     const parsedManualPrice = manualPrice.trim() ? Number(manualPrice) : undefined;
     try {
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 60_000);
       const response = await fetch("/api/analyze", {
         method: "POST",
         cache: "no-store",
         headers: { "Content-Type": "application/json", ...(accessToken ? { "x-dashboard-token": accessToken } : {}) },
+        signal: controller.signal,
         body: JSON.stringify({
           message: prompt,
           manualPrice: parsedManualPrice,
@@ -150,12 +159,18 @@ export default function Dashboard() {
           chartTimeframe
         })
       });
-      const payload = (await response.json()) as ApiPayload & { error?: string };
+      window.clearTimeout(timeout);
+      const payload = await readApiPayload<ApiPayload>(response);
       if (!response.ok) throw new Error(payload.error || "วิเคราะห์ไม่สำเร็จ");
       setAnalysis(payload.analysis); setMarket(payload.market);
       setVisionUsed(includeChart && Boolean(payload.chartUsed));
-      if (includeChart && payload.chartUsed) setChartMessage("AI ใช้ Screenshot นี้ประกอบแผนล่าสุดแล้ว");
-      else if (includeChart && chartImage && payload.fallback) setChartMessage("ยังไม่ได้อ่านภาพ เพราะระบบใช้ Rule Engine สำรอง");
+      if (includeChart && payload.chartUsed) {
+        setChartStatus("success");
+        setChartMessage(`อ่าน Screenshot และอัปเดตแผนแล้ว · ${timeFormatter.format(Date.now())}`);
+      } else if (includeChart && chartImage && payload.fallback) {
+        setChartStatus("error");
+        setChartMessage("AI ยังไม่ได้อ่านภาพ ระบบแสดงแผนสำรอง — กดลองอีกครั้งได้");
+      }
       persistSnapshot(payload.analysis, payload.market);
       setWarning(payload.warning || (payload.fallback ? "กำลังใช้ Demo rule engine — ยังไม่ใช่คำวิเคราะห์จาก AI" : ""));
       setHistory((current) => {
@@ -165,7 +180,12 @@ export default function Dashboard() {
       });
       setStatus("success");
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "เกิดข้อผิดพลาด"); setStatus("error");
+      const message = chartAnalysisError(caught);
+      setError(message); setStatus("error");
+      if (includeChart) {
+        setChartStatus("error");
+        setChartMessage(`วิเคราะห์ภาพไม่สำเร็จ · ${message}`);
+      }
     }
   }, [accessToken, chartImage, chartTimeframe, manualPrice, previousResponseId]);
 
@@ -360,8 +380,8 @@ export default function Dashboard() {
                 <label htmlFor="chart-timeframe">Timeframe<select id="chart-timeframe" value={chartTimeframe} data-state={chartStatus} onChange={(event) => setChartTimeframe(event.target.value as typeof chartTimeframe)}><option value="AUTO">Auto detect</option><option value="M5">M5</option><option value="M15">M15</option><option value="H1">H1</option></select></label>
                 <div><label className="chart-upload__replace" htmlFor="chart-screenshot" data-state={chartStatus}>{chartImage ? "เปลี่ยนภาพ" : "เพิ่มภาพ"}</label>{chartImage && <button type="button" onClick={clearChartImage}>เอาภาพออก</button>}</div>
               </div>
-              <button className="chart-upload__analyze" type="button" onClick={() => void requestAnalysis("วิเคราะห์ทองจาก Screenshot และราคาล่าสุด เน้นแผนเข้า M5–M15", true)} disabled={!chartImage || chartStatus === "loading" || status === "loading"} data-state={status}>{status === "loading" && chartImage ? "กำลังอ่านกราฟ…" : "วิเคราะห์จากภาพ"}</button>
-              <p className={`chart-upload__status ${chartStatus === "error" ? "chart-upload__status--error" : ""}`} role="status">{chartMessage || "ภาพจะถูกส่งให้ OpenAI เมื่อกดวิเคราะห์ และ XAUWatch ไม่บันทึกภาพลงฐานข้อมูล"}</p>
+              <button className="chart-upload__analyze" type="button" onClick={() => void requestAnalysis("วิเคราะห์ทองจาก Screenshot และราคาล่าสุด เน้นแผนเข้า M5–M15", true)} disabled={!chartImage || chartStatus === "loading" || status === "loading"} data-state={chartStatus} aria-describedby="chart-analysis-status">{chartStatus === "loading" && chartImage ? "กำลังอ่านกราฟ…" : chartStatus === "error" ? "ลองวิเคราะห์อีกครั้ง" : "วิเคราะห์จากภาพ"}</button>
+              <p id="chart-analysis-status" className={`chart-upload__status ${chartStatus === "error" ? "chart-upload__status--error" : ""}`} data-state={chartStatus} role="status" aria-live="polite">{chartMessage || "ภาพจะถูกส่งให้ OpenAI เมื่อกดวิเคราะห์ และ XAUWatch ไม่บันทึกภาพลงฐานข้อมูล"}</p>
             </div>
             {chartSeries?.bars.length ? <PlanChart bars={chartSeries.bars} plan={plan} currentPrice={market.price} stale={chartSeries.stale} /> : <div className="chart-placeholder" aria-busy="true">กำลังเตรียมกราฟ M5…</div>}
           </div>
@@ -414,7 +434,7 @@ export default function Dashboard() {
         <p className="risk-note">{analysis.riskNote}</p>
       </main>
 
-      <footer className="foot-dense"><p><span>XAUWATCH v0.6 · {analysis.source.toUpperCase()} · DATA {freshness}</span><span>ไม่ใช่คำรับรองผลกำไร · ตรวจสอบราคา ข่าว และ contract size ก่อนส่งคำสั่งจริง</span></p></footer>
+      <footer className="foot-dense"><p><span>XAUWATCH v0.6.1 · {analysis.source.toUpperCase()} · DATA {freshness}</span><span>ไม่ใช่คำรับรองผลกำไร · ตรวจสอบราคา ข่าว และ contract size ก่อนส่งคำสั่งจริง</span></p></footer>
     </>
   );
 }

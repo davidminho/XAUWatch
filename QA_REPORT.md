@@ -1,4 +1,4 @@
-# Coding and Technical QA — XAUWatch v0.6.0
+# Coding and Technical QA — XAUWatch v0.6.1
 
 Date: 2026-07-16 (Asia/Bangkok)
 
@@ -34,6 +34,7 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 | Runtime smoke | Pass | `node scripts/smoke.mjs` — `/`, health, market, 96-bar chart, analyze; manual price 4022; stale data → WAIT |
 | Live provider smoke | Pass | Production health reports `ai: true`, `market: true`; analysis `source: ai`, market `source: twelve-data`, `stale: false`, `fallback: false` |
 | Production chart + Vision smoke | Pass | `/api/chart` returned 96 live M5 bars from Twelve Data; a synthetic XAUUSD screenshot returned `source: ai`, `chartUsed: true`, `fallback: false`, and a safety-first `WAIT / NEUTRAL` result |
+| DEFECT-061 image action feedback | Pass | Loading, success, fallback, timeout, payload, and API failures now remain visible beside the image-analysis button; retry retains the selected image |
 | Performance browser QA | Pass | First uncached demo flow showed Dashboard within 800ms; repeat load DOM ready ≈60ms and Dashboard visible within 100ms |
 | Static payload reduction | Pass | `.next/static` ≈1.3MB → 876KB; font media 616KB → 200KB |
 

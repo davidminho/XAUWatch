@@ -1,6 +1,6 @@
 export const CHART_IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp"] as const;
 export const CHART_IMAGE_MAX_SOURCE_BYTES = 12 * 1024 * 1024;
-export const CHART_IMAGE_MAX_DATA_URL_LENGTH = 4_000_000;
+export const CHART_IMAGE_MAX_DATA_URL_LENGTH = 2_000_000;
 
 export type PreparedChartImage = {
   dataUrl: string;
@@ -28,22 +28,62 @@ const blobToDataUrl = (blob: Blob) => new Promise<string>((resolve, reject) => {
 
 export async function prepareChartImage(file: File): Promise<PreparedChartImage> {
   validateChartImageMeta(file.type, file.size);
-  const bitmap = await createImageBitmap(file);
-  const maxEdge = 1_600;
-  const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
-  const width = Math.max(1, Math.round(bitmap.width * scale));
-  const height = Math.max(1, Math.round(bitmap.height * scale));
+  let drawable: CanvasImageSource;
+  let sourceWidth: number;
+  let sourceHeight: number;
+  let cleanup = () => {};
+
+  let bitmap: ImageBitmap | null = null;
+  if (typeof createImageBitmap === "function") {
+    try { bitmap = await createImageBitmap(file); } catch { /* Fall back to an HTML image on mobile decoders. */ }
+  }
+
+  if (bitmap) {
+    drawable = bitmap;
+    sourceWidth = bitmap.width;
+    sourceHeight = bitmap.height;
+    cleanup = () => bitmap?.close();
+  } else {
+    const objectUrl = URL.createObjectURL(file);
+    const image = new window.Image();
+    image.decoding = "async";
+    image.src = objectUrl;
+    await new Promise<void>((resolve, reject) => {
+      image.onload = () => resolve();
+      image.onerror = () => reject(new Error("เปิดภาพนี้ไม่สำเร็จ กรุณาบันทึกเป็น PNG หรือ JPG แล้วลองใหม่"));
+    }).catch((error) => {
+      URL.revokeObjectURL(objectUrl);
+      throw error;
+    });
+    drawable = image;
+    sourceWidth = image.naturalWidth;
+    sourceHeight = image.naturalHeight;
+    cleanup = () => URL.revokeObjectURL(objectUrl);
+  }
+
+  const maxEdge = 1_280;
+  const scale = Math.min(1, maxEdge / Math.max(sourceWidth, sourceHeight));
+  const width = Math.max(1, Math.round(sourceWidth * scale));
+  const height = Math.max(1, Math.round(sourceHeight * scale));
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
   const context = canvas.getContext("2d");
-  if (!context) throw new Error("เบราว์เซอร์ไม่รองรับการเตรียมภาพ");
-  context.drawImage(bitmap, 0, 0, width, height);
-  bitmap.close();
+  if (!context) {
+    cleanup();
+    throw new Error("เบราว์เซอร์ไม่รองรับการเตรียมภาพ");
+  }
+  try {
+    context.fillStyle = "#101418";
+    context.fillRect(0, 0, width, height);
+    context.drawImage(drawable, 0, 0, width, height);
+  } finally {
+    cleanup();
+  }
   const blob = await new Promise<Blob>((resolve, reject) => canvas.toBlob(
     (value) => value ? resolve(value) : reject(new Error("ย่อภาพไม่สำเร็จ")),
     "image/jpeg",
-    0.86
+    0.8
   ));
   const dataUrl = await blobToDataUrl(blob);
   if (dataUrl.length > CHART_IMAGE_MAX_DATA_URL_LENGTH) {
