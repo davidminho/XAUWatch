@@ -5,6 +5,20 @@ const asNumber = (value: unknown, fallback: number) => {
   return Number.isFinite(parsed) ? parsed : fallback;
 };
 
+type TwelveDataBar = {
+  datetime?: unknown;
+  open?: unknown;
+  high?: unknown;
+  low?: unknown;
+  close?: unknown;
+};
+
+const asUtcIso = (value: unknown) => {
+  if (typeof value !== "string") return null;
+  const parsed = new Date(`${value.replace(" ", "T")}Z`);
+  return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString();
+};
+
 export async function getMarketSnapshot(manualPrice?: number): Promise<MarketSnapshot> {
   const key = process.env.TWELVE_DATA_API_KEY;
   const now = new Date();
@@ -26,8 +40,11 @@ export async function getMarketSnapshot(manualPrice?: number): Promise<MarketSna
   }
 
   const symbol = process.env.TWELVE_DATA_SYMBOL || "XAU/USD";
-  const url = new URL("https://api.twelvedata.com/quote");
+  const url = new URL("https://api.twelvedata.com/time_series");
   url.searchParams.set("symbol", symbol);
+  url.searchParams.set("interval", "5min");
+  url.searchParams.set("outputsize", "288");
+  url.searchParams.set("timezone", "UTC");
   url.searchParams.set("apikey", key);
 
   const response = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(8_000) });
@@ -35,19 +52,30 @@ export async function getMarketSnapshot(manualPrice?: number): Promise<MarketSna
   const data = (await response.json()) as Record<string, unknown>;
   if (data.status === "error") throw new Error(String(data.message || "Market feed error"));
 
-  const close = manualPrice ?? asNumber(data.close, 0);
-  const asOf = typeof data.timestamp === "number"
-    ? new Date(data.timestamp * 1000).toISOString()
-    : now.toISOString();
-  const stale = now.getTime() - new Date(asOf).getTime() > 5 * 60_000;
+  const bars = Array.isArray(data.values) ? (data.values as TwelveDataBar[]) : [];
+  const latest = bars[0];
+  if (!latest) throw new Error("Market feed returned no XAUUSD bars");
+
+  const latestClose = asNumber(latest.close, 0);
+  if (latestClose <= 0) throw new Error("Market feed returned an invalid XAUUSD price");
+
+  const price = manualPrice ?? latestClose;
+  const oldest = bars[bars.length - 1] ?? latest;
+  const sessionOpen = asNumber(oldest.open, price);
+  const highs = bars.map((bar) => asNumber(bar.high, price));
+  const lows = bars.map((bar) => asNumber(bar.low, price));
+  const asOf = asUtcIso(latest.datetime) ?? now.toISOString();
+  // The latest completed 5-minute bar can be several minutes old while the
+  // current bar is forming, so allow two full bars before marking data stale.
+  const stale = now.getTime() - new Date(asOf).getTime() > 12 * 60_000;
 
   return {
     symbol: "XAUUSD",
-    price: close,
-    open: asNumber(data.open, close),
-    high: asNumber(data.high, close),
-    low: asNumber(data.low, close),
-    changePercent: asNumber(data.percent_change, 0),
+    price,
+    open: sessionOpen,
+    high: Math.max(...highs),
+    low: Math.min(...lows),
+    changePercent: sessionOpen > 0 ? ((price - sessionOpen) / sessionOpen) * 100 : 0,
     asOf,
     source: "twelve-data",
     stale
