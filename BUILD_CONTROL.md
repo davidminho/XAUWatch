@@ -25,6 +25,7 @@
   - PWA lifecycle: service-worker cache v6 and visible update-available handoff
   - v0.6 chart vision: client-side screenshot validation/resize, explicit OpenAI image input, timeframe hint, and no XAUWatch image persistence
   - v0.6 visual plan: `/api/chart` M5 OHLC series, accessible SVG candles, Entry/SL/TP/current overlays, and PNG export
+  - v0.6 production smoke: 96 live M5 bars from Twelve Data and synthetic screenshot analysis completed through OpenAI Vision with `chartUsed: true` and no fallback
 - Dependencies/data/content: provider secrets remain server-only; demo output visibly labelled stale/demo; chart screenshots are user-selected, bounded to supported raster formats, and sent only with an explicit analysis request
 - Accessibility/performance/SEO/analytics/security/privacy: keyboard/focus, labels, reduced motion, no indexing, security headers, no client-side provider secrets; repeat-load browser QA, 320/375/414/768 responsive checks, contrast audit, and production provider checks passed
 - Commands/checks/results/failures/limitations: see `QA_REPORT.md`

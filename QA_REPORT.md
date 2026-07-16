@@ -33,6 +33,7 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 | v0.5 interactions | Pass | Copy and alert controls resolve uniquely; alert opt-in state persists; console has 0 errors/warnings |
 | Runtime smoke | Pass | `node scripts/smoke.mjs` — `/`, health, market, 96-bar chart, analyze; manual price 4022; stale data → WAIT |
 | Live provider smoke | Pass | Production health reports `ai: true`, `market: true`; analysis `source: ai`, market `source: twelve-data`, `stale: false`, `fallback: false` |
+| Production chart + Vision smoke | Pass | `/api/chart` returned 96 live M5 bars from Twelve Data; a synthetic XAUUSD screenshot returned `source: ai`, `chartUsed: true`, `fallback: false`, and a safety-first `WAIT / NEUTRAL` result |
 | Performance browser QA | Pass | First uncached demo flow showed Dashboard within 800ms; repeat load DOM ready ≈60ms and Dashboard visible within 100ms |
 | Static payload reduction | Pass | `.next/static` ≈1.3MB → 876KB; font media 616KB → 200KB |
 
@@ -65,7 +66,7 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 | Risk sizing | `lib/risk.ts` + Risk Calculator | Unit/browser pass; broker contract disclaimer visible |
 | Entry/TP/Stop alerts | `lib/alerts.ts` + Level Alerts | Unit/browser pass; closed-app push deferred |
 | Copy + PWA lifecycle | plan copy controls + service worker update banner | Browser/build pass |
-| Screenshot chart analysis | client resize + `/api/analyze` vision input | Type/unit/schema pass; live-image UAT pending user screenshot |
+| Screenshot chart analysis | client resize + `/api/analyze` vision input | Production synthetic-image Vision pass; real broker-image UAT remains open |
 | Visual trade plan | `/api/chart` + `PlanChart` SVG/PNG export | Unit/browser/build pass |
 
 ## Open limitations and risks
