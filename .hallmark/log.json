@@ -4,6 +4,16 @@
     "macrostructure": "Stat-Led",
     "theme": "Midnight",
     "enrichment": "none",
+    "brief": "v0.5 operational safety cards for freshness, risk, proximity, and alerts",
+    "variation": "density=compact / operations=two-card / data-state=explicit",
+    "nav": "N9",
+    "footer": "Ft2"
+  },
+  {
+    "date": "2026-07-16",
+    "macrostructure": "Stat-Led",
+    "theme": "Midnight",
+    "enrichment": "none",
     "brief": "Compact separated-card refinement for mobile decision scanning",
     "variation": "density=compact / surfaces=separated / hierarchy=unchanged",
     "nav": "N9",

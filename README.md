@@ -2,6 +2,18 @@
 
 Android-first XAUUSD day-trade Dashboard. It keeps `Bias`, `Action`, and `Trigger` separate so a bearish market can still say `WAIT` when price is sitting on support.
 
+## v0.5 decision-safety layer
+
+- Live data age with `LIVE`, `DELAYED`, `STALE`, and `DEMO` states
+- Automatic `WAIT` when market data is unsafe, a plan is expired, or price is already too late
+- 30-minute plan validity and live Entry proximity (`IN ZONE`, `NEAR ENTRY`, `TOO LATE`, `INVALIDATED`)
+- XAUUSD position sizing from balance, risk percentage, entry, and stop loss
+- Client-side Entry/TP/Stop alerts with five-minute cooldown and optional Browser Notifications
+- One-tap copy for Entry, SL, TP, and the complete plan
+- PWA update-available banner instead of a silent stale app shell
+
+Level alerts require the Dashboard to remain open. Background push while the app is closed is intentionally deferred beyond v0.5.
+
 ## Run locally
 
 ```bash
@@ -31,4 +43,4 @@ npm run build
 npm audit
 ```
 
-The software is decision support, not automated trading or a guarantee of profit. Confirm prices, spreads, news, and orders with the broker used for execution.
+The risk calculator assumes 100 oz per XAUUSD lot and a 0.01 lot step. Broker contract sizes vary, so verify the symbol specification before execution. The software is decision support, not automated trading or a guarantee of profit. Confirm prices, spreads, news, and orders with the broker used for execution.

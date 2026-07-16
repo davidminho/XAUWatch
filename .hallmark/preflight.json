@@ -1,11 +1,12 @@
 {
   "date": "2026-07-16",
-  "signals": "existing production XAUUSD dashboard v0.4 with live market and AI analysis flows",
+  "signals": "existing production XAUUSD dashboard v0.4 with live market and AI analysis flows; v0.5 adds explicit decision-safety operations",
   "framework": "Next.js App Router",
   "fontStack": "IBM Plex Sans + JetBrains Mono",
   "palette": "OKLCH Midnight graphite with bullion gold accent",
-  "motion": "fade-only panels plus live-status pulse; no new motion introduced",
+  "motion": "live-status pulse plus native control feedback; no decorative motion introduced",
   "spacing": "4pt semantic scale",
   "sourceFiles": ["components/Dashboard.tsx", "app/globals.css", "tokens.css"],
-  "preserve": ["Midnight palette", "font stack", "API flows", "analysis history", "auto refresh", "PWA behavior"]
+  "preserve": ["Midnight palette", "font stack", "API flows", "analysis history", "auto refresh", "compact separated cards"],
+  "add": ["feed age states", "plan expiry", "entry proximity", "risk calculator", "level alerts", "visible PWA updates"]
 }
