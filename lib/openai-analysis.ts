@@ -35,6 +35,7 @@ export async function createAiAnalysis(
   const body: Record<string, unknown> = {
     model: process.env.OPENAI_MODEL || "gpt-5.6-terra",
     reasoning: { effort: "low" },
+    max_output_tokens: 1_600,
     instructions: SYSTEM_PROMPT,
     input: `คำขอ: ${userMessage}\nMarket snapshot: ${JSON.stringify(market)}`,
     text: {

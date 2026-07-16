@@ -47,7 +47,10 @@ export async function getMarketSnapshot(manualPrice?: number): Promise<MarketSna
   url.searchParams.set("timezone", "UTC");
   url.searchParams.set("apikey", key);
 
-  const response = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(8_000) });
+  const response = await fetch(url, {
+    next: { revalidate: 45 },
+    signal: AbortSignal.timeout(8_000)
+  });
   if (!response.ok) throw new Error("Market feed is unavailable");
   const data = (await response.json()) as Record<string, unknown>;
   if (data.status === "error") throw new Error(String(data.message || "Market feed error"));

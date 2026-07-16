@@ -14,12 +14,13 @@
   - Private API use → optional `DASHBOARD_ACCESS_TOKEN`, server-only provider keys
 - Vertical slices/status:
   - Demo feed + rule engine + Dashboard: implemented
-  - OpenAI Responses adapter: implemented, requires user key for live verification
-  - Twelve Data adapter: implemented, requires user key for live verification
-  - PWA shell: implemented; install behavior requires HTTPS/UAT
-- Dependencies/data/content: external providers optional; all demo output visibly labelled stale/demo
-- Accessibility/performance/SEO/analytics/security/privacy: keyboard/focus, labels, reduced motion, no indexing, security headers, no client-side provider secrets; Lighthouse and live-provider checks pending
+  - OpenAI Responses adapter: implemented and production-smoke verified
+  - Twelve Data M5 adapter: implemented and production-smoke verified with freshness guard
+  - PWA shell: implemented and served over Vercel HTTPS
+  - Performance pass: cached snapshot boot, fast rule-plan bootstrap, 1-minute market refresh, 5-minute AI refresh, 45-second server feed cache, reduced font subsets
+- Dependencies/data/content: provider secrets remain server-only; demo output visibly labelled stale/demo
+- Accessibility/performance/SEO/analytics/security/privacy: keyboard/focus, labels, reduced motion, no indexing, security headers, no client-side provider secrets; repeat-load browser QA and production provider checks passed
 - Commands/checks/results/failures/limitations: see `QA_REPORT.md`
-- Defects/risks: market provider symbol availability and feed latency require account-level UAT; analysis is decision support, not execution
-- Capacity/change decisions: no production deploy or external account mutation performed
-- Gate 7 readiness/owner/date: pending browser visual QA and live-provider UAT; owner David; 2026-07-16
+- Defects/risks: Twelve Data Basic 8 quota remains finite; analysis is decision support, not execution; broader device-matrix UAT remains open
+- Capacity/change decisions: production is deployed through GitHub `main` to Vercel with explicit user authority
+- Gate 7 readiness/owner/date: core technical checks pass; broader Android device UAT remains owner David; 2026-07-16

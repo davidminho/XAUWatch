@@ -1,7 +1,8 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ServiceWorker from "./ServiceWorker";
+import { createRuleAnalysis } from "@/lib/rule-engine";
 import type { Analysis, MarketSnapshot, Trend } from "@/lib/types";
 
 type ApiPayload = {
@@ -12,8 +13,13 @@ type ApiPayload = {
 };
 
 const INITIAL_MESSAGE = "วิเคราะห์ทองตอนนี้ให้หน่อย";
+const SNAPSHOT_KEY = "xauwatch-latest-snapshot";
 const formatter = new Intl.NumberFormat("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const dateFormatter = new Intl.DateTimeFormat("th-TH", { hour: "2-digit", minute: "2-digit", day: "numeric", month: "short", timeZone: "Asia/Bangkok" });
+
+function persistSnapshot(analysis: Analysis, market: MarketSnapshot) {
+  try { localStorage.setItem(SNAPSHOT_KEY, JSON.stringify({ analysis, market })); } catch { /* Storage is optional. */ }
+}
 
 function TrendMark({ trend }: { trend: Trend }) {
   const mark = trend === "bullish" ? "↗" : trend === "bearish" ? "↘" : "→";
@@ -42,7 +48,32 @@ export default function Dashboard() {
   const [error, setError] = useState("");
   const [warning, setWarning] = useState("");
   const [autoRefresh, setAutoRefresh] = useState(true);
+  const [hydrated, setHydrated] = useState(false);
+  const booted = useRef(false);
   const previousResponseId = analysis?.responseId;
+
+  const requestMarket = useCallback(async () => {
+    const params = new URLSearchParams();
+    if (manualPrice.trim()) params.set("price", manualPrice.trim());
+    try {
+      const response = await fetch(`/api/market${params.size ? `?${params}` : ""}`, {
+        headers: accessToken ? { "x-dashboard-token": accessToken } : undefined
+      });
+      const payload = (await response.json()) as MarketSnapshot & { error?: string };
+      if (!response.ok) throw new Error(payload.error || "ดึงราคาล่าสุดไม่สำเร็จ");
+      setError("");
+      setMarket(payload);
+      setAnalysis((current) => {
+        const next = current ?? createRuleAnalysis(payload);
+        persistSnapshot(next, payload);
+        return next;
+      });
+      return payload;
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "ดึงราคาล่าสุดไม่สำเร็จ");
+      return null;
+    }
+  }, [accessToken, manualPrice]);
 
   const requestAnalysis = useCallback(async (prompt = INITIAL_MESSAGE) => {
     setStatus("loading");
@@ -66,10 +97,11 @@ export default function Dashboard() {
       if (!response.ok) throw new Error(payload.error || "วิเคราะห์ไม่สำเร็จ");
       setAnalysis(payload.analysis);
       setMarket(payload.market);
+      persistSnapshot(payload.analysis, payload.market);
       setWarning(payload.warning || (payload.fallback ? "กำลังใช้ Demo rule engine — ยังไม่ใช่คำวิเคราะห์จาก AI" : ""));
       setHistory((current) => {
         const next = [payload.analysis, ...current.filter((item) => item.id !== payload.analysis.id)].slice(0, 30);
-        localStorage.setItem("xauwatch-history", JSON.stringify(next));
+        try { localStorage.setItem("xauwatch-history", JSON.stringify(next)); } catch { /* Storage is optional. */ }
         return next;
       });
       setStatus("success");
@@ -82,26 +114,45 @@ export default function Dashboard() {
   useEffect(() => {
     const timer = window.setTimeout(() => {
       const saved = localStorage.getItem("xauwatch-history");
+      const cached = localStorage.getItem(SNAPSHOT_KEY);
       const token = sessionStorage.getItem("xauwatch-token") || "";
       if (saved) {
         try { setHistory(JSON.parse(saved) as Analysis[]); } catch { localStorage.removeItem("xauwatch-history"); }
       }
+      if (cached) {
+        try {
+          const snapshot = JSON.parse(cached) as { analysis?: Analysis; market?: MarketSnapshot };
+          if (snapshot.analysis && snapshot.market) {
+            setAnalysis(snapshot.analysis);
+            setMarket(snapshot.market);
+            setStatus("success");
+          }
+        } catch { localStorage.removeItem(SNAPSHOT_KEY); }
+      }
       setAccessToken(token);
+      setHydrated(true);
     }, 0);
     return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    if (status !== "loading" || analysis) return;
-    const timer = window.setTimeout(() => { void requestAnalysis(); }, 0);
-    return () => window.clearTimeout(timer);
-  }, [analysis, requestAnalysis, status]);
+    if (!hydrated || booted.current) return;
+    booted.current = true;
+    void requestMarket();
+    void requestAnalysis();
+  }, [hydrated, requestAnalysis, requestMarket]);
 
   useEffect(() => {
-    if (!autoRefresh) return;
+    if (!hydrated || !autoRefresh) return;
+    const interval = window.setInterval(() => { void requestMarket(); }, 60_000);
+    return () => window.clearInterval(interval);
+  }, [autoRefresh, hydrated, requestMarket]);
+
+  useEffect(() => {
+    if (!hydrated || !autoRefresh) return;
     const interval = window.setInterval(() => requestAnalysis("เช็กแผนเดิมจากราคาล่าสุด"), 5 * 60_000);
     return () => window.clearInterval(interval);
-  }, [autoRefresh, requestAnalysis]);
+  }, [autoRefresh, hydrated, requestAnalysis]);
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -248,8 +299,8 @@ export default function Dashboard() {
             </div>
             <p id="command-helper" className="field-helper">AI จะได้รับ snapshot ล่าสุดและบริบทจากแผนก่อนหน้า</p>
             <div className="quick-actions" aria-label="คำสั่งด่วน">
-              <button type="button" onClick={() => { setMessage("วิเคราะห์ทองตอนนี้ เน้นเข้าเร็ว M5–M15"); requestAnalysis("วิเคราะห์ทองตอนนี้ เน้นเข้าเร็ว M5–M15"); }}>เข้าเร็ว</button>
-              <button type="button" onClick={() => { setMessage("เช็กแผนเดิมจากราคาล่าสุด"); requestAnalysis("เช็กแผนเดิมจากราคาล่าสุด"); }}>เช็กแผนเดิม</button>
+              <button type="button" disabled={status === "loading"} onClick={() => { setMessage("วิเคราะห์ทองตอนนี้ เน้นเข้าเร็ว M5–M15"); requestAnalysis("วิเคราะห์ทองตอนนี้ เน้นเข้าเร็ว M5–M15"); }}>เข้าเร็ว</button>
+              <button type="button" disabled={status === "loading"} onClick={() => { setMessage("เช็กแผนเดิมจากราคาล่าสุด"); requestAnalysis("เช็กแผนเดิมจากราคาล่าสุด"); }}>เช็กแผนเดิม</button>
             </div>
           </form>
         </section>
@@ -261,7 +312,7 @@ export default function Dashboard() {
             <input id="manual-price" inputMode="decimal" value={manualPrice} onChange={(event) => setManualPrice(event.target.value)} placeholder="เช่น 4040.2" />
             <label htmlFor="access-token">รหัส Dashboard</label>
             <input id="access-token" type="password" value={accessToken} onChange={(event) => saveToken(event.target.value)} autoComplete="current-password" placeholder="กรอกเมื่อ server เปิดการป้องกัน" />
-            <label className="toggle"><input type="checkbox" checked={autoRefresh} onChange={(event) => setAutoRefresh(event.target.checked)} /> วิเคราะห์ใหม่ทุก 5 นาที</label>
+            <label className="toggle"><input type="checkbox" checked={autoRefresh} onChange={(event) => setAutoRefresh(event.target.checked)} /> ราคาใหม่ทุก 1 นาที / วิเคราะห์ทุก 5 นาที</label>
           </div>
         </details>
 
