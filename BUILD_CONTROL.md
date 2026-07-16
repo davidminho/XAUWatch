@@ -22,10 +22,12 @@
   - Compact-card refinement: clear one-function-per-card boundaries, tighter spacing, and first-screen Price/Decision/Timeframe visibility on required mobile widths
   - v0.5 decision safety: feed age states, manual refresh, 30-minute plan expiry, proximity/late-entry guard, and forced WAIT fail-safe
   - v0.5 execution support: broker-aware risk estimate, copyable plan levels, in-app level crossing alerts, and opt-in Browser Notifications
-  - PWA lifecycle: service-worker cache v5 and visible update-available handoff
-- Dependencies/data/content: provider secrets remain server-only; demo output visibly labelled stale/demo
+  - PWA lifecycle: service-worker cache v6 and visible update-available handoff
+  - v0.6 chart vision: client-side screenshot validation/resize, explicit OpenAI image input, timeframe hint, and no XAUWatch image persistence
+  - v0.6 visual plan: `/api/chart` M5 OHLC series, accessible SVG candles, Entry/SL/TP/current overlays, and PNG export
+- Dependencies/data/content: provider secrets remain server-only; demo output visibly labelled stale/demo; chart screenshots are user-selected, bounded to supported raster formats, and sent only with an explicit analysis request
 - Accessibility/performance/SEO/analytics/security/privacy: keyboard/focus, labels, reduced motion, no indexing, security headers, no client-side provider secrets; repeat-load browser QA, 320/375/414/768 responsive checks, contrast audit, and production provider checks passed
 - Commands/checks/results/failures/limitations: see `QA_REPORT.md`
-- Defects/risks: Twelve Data Basic 8 quota remains finite; calculator assumes 100 oz/lot until broker-specific metadata is added; alerts only operate while the Dashboard is open; broader device-matrix UAT remains open
+- Defects/risks: Twelve Data Basic 8 quota remains finite; Vision may misread low-resolution chart labels so market data remains authoritative; calculator assumes 100 oz/lot until broker-specific metadata is added; alerts only operate while the Dashboard is open; broader device-matrix UAT remains open
 - Capacity/change decisions: production is deployed through GitHub `main` to Vercel with explicit user authority
 - Gate 7 readiness/owner/date: core technical checks pass; broader Android device UAT remains owner David; 2026-07-16

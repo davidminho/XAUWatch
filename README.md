@@ -2,6 +2,16 @@
 
 Android-first XAUUSD day-trade Dashboard. It keeps `Bias`, `Action`, and `Trigger` separate so a bearish market can still say `WAIT` when price is sitting on support.
 
+## v0.6 chart vision and visual plans
+
+- Upload a PNG, JPG, or WEBP chart screenshot from Android
+- Client-side resize before the image is sent to OpenAI Vision
+- Optional M5/M15/H1 timeframe hint with market snapshot as the price authority
+- Live/demo M5 OHLC endpoint and an accessible SVG candlestick chart
+- Entry zone, Stop Loss, TP1–TP3, and current-price overlays
+- One-tap PNG export of the visual trade plan
+- Screenshot data is sent only with an explicit analysis request and is not persisted by XAUWatch
+
 ## v0.5 decision-safety layer
 
 - Live data age with `LIVE`, `DELAYED`, `STALE`, and `DEMO` states
@@ -43,4 +53,4 @@ npm run build
 npm audit
 ```
 
-The risk calculator assumes 100 oz per XAUUSD lot and a 0.01 lot step. Broker contract sizes vary, so verify the symbol specification before execution. The software is decision support, not automated trading or a guarantee of profit. Confirm prices, spreads, news, and orders with the broker used for execution.
+Vision can misread low-resolution chart labels, so live market data remains the price authority and unclear images should result in `WAIT`. The risk calculator assumes 100 oz per XAUUSD lot and a 0.01 lot step. Broker contract sizes vary, so verify the symbol specification before execution. The software is decision support, not automated trading or a guarantee of profit. Confirm prices, spreads, news, and orders with the broker used for execution.

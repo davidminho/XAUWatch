@@ -1,4 +1,4 @@
-import type { MarketSnapshot } from "./types";
+import type { Candle, MarketSeries, MarketSnapshot } from "./types";
 
 const asNumber = (value: unknown, fallback: number) => {
   const parsed = Number(value);
@@ -19,25 +19,35 @@ const asUtcIso = (value: unknown) => {
   return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString();
 };
 
-export async function getMarketSnapshot(manualPrice?: number): Promise<MarketSnapshot> {
-  const key = process.env.TWELVE_DATA_API_KEY;
-  const now = new Date();
+const round = (value: number) => Math.round(value * 10) / 10;
 
-  if (!key) {
-    const minuteWave = Math.sin(now.getMinutes() / 8) * 3.2;
-    const price = manualPrice ?? Math.round((4040.2 + minuteWave) * 10) / 10;
-    return {
-      symbol: "XAUUSD",
-      price,
-      open: 4052.9,
-      high: 4065.4,
-      low: 4033.8,
-      changePercent: Math.round(((price - 4052.9) / 4052.9) * 10000) / 100,
-      asOf: now.toISOString(),
-      source: "demo",
-      stale: true
-    };
+export function createDemoCandles(now = new Date(), count = 96): Candle[] {
+  const end = Math.floor(now.getTime() / 300_000) * 300_000;
+  const bars: Candle[] = [];
+  let previousClose = 4040.2;
+
+  for (let index = 0; index < count; index += 1) {
+    const wave = Math.sin(index / 5.7) * 4.2 + Math.sin(index / 15) * 6.5;
+    const drift = (index - count / 2) * -0.035;
+    const close = round(4040.2 + wave + drift);
+    const open = round(index === 0 ? close - 0.8 : previousClose);
+    const wick = 1.1 + Math.abs(Math.sin(index * 1.7)) * 1.8;
+    bars.push({
+      time: new Date(end - (count - 1 - index) * 300_000).toISOString(),
+      open,
+      high: round(Math.max(open, close) + wick),
+      low: round(Math.min(open, close) - wick * 0.85),
+      close
+    });
+    previousClose = close;
   }
+
+  return bars;
+}
+
+async function getProviderCandles(): Promise<Candle[]> {
+  const key = process.env.TWELVE_DATA_API_KEY;
+  if (!key) return createDemoCandles();
 
   const symbol = process.env.TWELVE_DATA_SYMBOL || "XAU/USD";
   const url = new URL("https://api.twelvedata.com/time_series");
@@ -55,22 +65,43 @@ export async function getMarketSnapshot(manualPrice?: number): Promise<MarketSna
   const data = (await response.json()) as Record<string, unknown>;
   if (data.status === "error") throw new Error(String(data.message || "Market feed error"));
 
-  const bars = Array.isArray(data.values) ? (data.values as TwelveDataBar[]) : [];
-  const latest = bars[0];
+  const values = Array.isArray(data.values) ? (data.values as TwelveDataBar[]) : [];
+  const bars = values.flatMap((bar) => {
+    const time = asUtcIso(bar.datetime);
+    const open = asNumber(bar.open, 0);
+    const high = asNumber(bar.high, 0);
+    const low = asNumber(bar.low, 0);
+    const close = asNumber(bar.close, 0);
+    return time && open > 0 && high > 0 && low > 0 && close > 0
+      ? [{ time, open, high, low, close }]
+      : [];
+  }).reverse();
+
+  if (!bars.length) throw new Error("Market feed returned no XAUUSD bars");
+  return bars;
+}
+
+export async function getMarketSeries(limit = 96): Promise<MarketSeries> {
+  const bars = await getProviderCandles();
+  const selected = bars.slice(-Math.max(24, Math.min(limit, 288)));
+  const asOf = selected.at(-1)?.time ?? new Date().toISOString();
+  const source = process.env.TWELVE_DATA_API_KEY ? "twelve-data" : "demo";
+  const stale = source === "demo" || Date.now() - new Date(asOf).getTime() > 12 * 60_000;
+  return { symbol: "XAUUSD", interval: "5min", bars: selected, asOf, source, stale };
+}
+
+export async function getMarketSnapshot(manualPrice?: number): Promise<MarketSnapshot> {
+  const series = await getMarketSeries(288);
+  const bars = series.bars;
+  const latest = bars.at(-1);
   if (!latest) throw new Error("Market feed returned no XAUUSD bars");
 
-  const latestClose = asNumber(latest.close, 0);
-  if (latestClose <= 0) throw new Error("Market feed returned an invalid XAUUSD price");
-
-  const price = manualPrice ?? latestClose;
-  const oldest = bars[bars.length - 1] ?? latest;
-  const sessionOpen = asNumber(oldest.open, price);
-  const highs = bars.map((bar) => asNumber(bar.high, price));
-  const lows = bars.map((bar) => asNumber(bar.low, price));
-  const asOf = asUtcIso(latest.datetime) ?? now.toISOString();
-  // The latest completed 5-minute bar can be several minutes old while the
-  // current bar is forming, so allow two full bars before marking data stale.
-  const stale = now.getTime() - new Date(asOf).getTime() > 12 * 60_000;
+  const price = manualPrice ?? latest.close;
+  const sessionBars = bars.slice(-288);
+  const oldest = sessionBars[0] ?? latest;
+  const sessionOpen = oldest.open;
+  const highs = sessionBars.map((bar) => bar.high);
+  const lows = sessionBars.map((bar) => bar.low);
 
   return {
     symbol: "XAUUSD",
@@ -79,8 +110,8 @@ export async function getMarketSnapshot(manualPrice?: number): Promise<MarketSna
     high: Math.max(...highs),
     low: Math.min(...lows),
     changePercent: sessionOpen > 0 ? ((price - sessionOpen) / sessionOpen) * 100 : 0,
-    asOf,
-    source: "twelve-data",
-    stale
+    asOf: series.asOf,
+    source: series.source,
+    stale: series.stale
   };
 }

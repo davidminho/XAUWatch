@@ -1,8 +1,11 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ServiceWorker from "./ServiceWorker";
+import PlanChart from "./PlanChart";
 import { buildPlanAlertRules, evaluatePlanAlerts, type TriggeredPlanAlert } from "@/lib/alerts";
+import { prepareChartImage, type PreparedChartImage } from "@/lib/chart-image";
 import {
   deriveMarketFreshness,
   derivePlanPosition,
@@ -14,9 +17,9 @@ import {
 } from "@/lib/market-status";
 import { calculateXauRisk, planMidpoint } from "@/lib/risk";
 import { createRuleAnalysis } from "@/lib/rule-engine";
-import type { Action, Analysis, MarketSnapshot, Trend } from "@/lib/types";
+import type { Action, Analysis, MarketSeries, MarketSnapshot, Trend } from "@/lib/types";
 
-type ApiPayload = { analysis: Analysis; market: MarketSnapshot; fallback: boolean; warning?: string };
+type ApiPayload = { analysis: Analysis; market: MarketSnapshot; fallback: boolean; warning?: string; chartUsed?: boolean };
 type RiskPreferences = { balance: string; riskPercent: string };
 
 const INITIAL_MESSAGE = "วิเคราะห์ทองตอนนี้ให้หน่อย";
@@ -76,10 +79,33 @@ export default function Dashboard() {
   const [lastTriggered, setLastTriggered] = useState<Record<string, number>>({});
   const [copyState, setCopyState] = useState("");
   const [updateAvailable, setUpdateAvailable] = useState(false);
+  const [chartSeries, setChartSeries] = useState<MarketSeries | null>(null);
+  const [chartImage, setChartImage] = useState<PreparedChartImage | null>(null);
+  const [chartTimeframe, setChartTimeframe] = useState<"AUTO" | "M5" | "M15" | "H1">("AUTO");
+  const [chartStatus, setChartStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [chartMessage, setChartMessage] = useState("");
+  const [visionUsed, setVisionUsed] = useState(false);
   const booted = useRef(false);
   const previousPrice = useRef<number | null>(null);
   const riskPlanId = useRef("");
+  const chartInputRef = useRef<HTMLInputElement>(null);
   const previousResponseId = analysis?.responseId;
+
+  const requestChart = useCallback(async () => {
+    try {
+      const response = await fetch("/api/chart", {
+        cache: "no-store",
+        headers: accessToken ? { "x-dashboard-token": accessToken } : undefined
+      });
+      const payload = (await response.json()) as MarketSeries & { error?: string };
+      if (!response.ok) throw new Error(payload.error || "ดึงข้อมูลกราฟไม่สำเร็จ");
+      setChartSeries(payload);
+      return payload;
+    } catch (caught) {
+      setChartMessage(caught instanceof Error ? caught.message : "ดึงข้อมูลกราฟไม่สำเร็จ");
+      return null;
+    }
+  }, [accessToken]);
 
   const requestMarket = useCallback(async () => {
     const params = new URLSearchParams();
@@ -108,7 +134,7 @@ export default function Dashboard() {
     }
   }, [accessToken, manualPrice]);
 
-  const requestAnalysis = useCallback(async (prompt = INITIAL_MESSAGE) => {
+  const requestAnalysis = useCallback(async (prompt = INITIAL_MESSAGE, includeChart = false) => {
     setStatus("loading"); setError(""); setWarning("");
     const parsedManualPrice = manualPrice.trim() ? Number(manualPrice) : undefined;
     try {
@@ -116,11 +142,20 @@ export default function Dashboard() {
         method: "POST",
         cache: "no-store",
         headers: { "Content-Type": "application/json", ...(accessToken ? { "x-dashboard-token": accessToken } : {}) },
-        body: JSON.stringify({ message: prompt, manualPrice: parsedManualPrice, previousResponseId })
+        body: JSON.stringify({
+          message: prompt,
+          manualPrice: parsedManualPrice,
+          previousResponseId,
+          chartImage: includeChart ? chartImage?.dataUrl : undefined,
+          chartTimeframe
+        })
       });
       const payload = (await response.json()) as ApiPayload & { error?: string };
       if (!response.ok) throw new Error(payload.error || "วิเคราะห์ไม่สำเร็จ");
       setAnalysis(payload.analysis); setMarket(payload.market);
+      setVisionUsed(includeChart && Boolean(payload.chartUsed));
+      if (includeChart && payload.chartUsed) setChartMessage("AI ใช้ Screenshot นี้ประกอบแผนล่าสุดแล้ว");
+      else if (includeChart && chartImage && payload.fallback) setChartMessage("ยังไม่ได้อ่านภาพ เพราะระบบใช้ Rule Engine สำรอง");
       persistSnapshot(payload.analysis, payload.market);
       setWarning(payload.warning || (payload.fallback ? "กำลังใช้ Demo rule engine — ยังไม่ใช่คำวิเคราะห์จาก AI" : ""));
       setHistory((current) => {
@@ -132,7 +167,7 @@ export default function Dashboard() {
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "เกิดข้อผิดพลาด"); setStatus("error");
     }
-  }, [accessToken, manualPrice, previousResponseId]);
+  }, [accessToken, chartImage, chartTimeframe, manualPrice, previousResponseId]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -158,8 +193,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!hydrated || booted.current) return;
-    booted.current = true; void requestMarket(); void requestAnalysis();
-  }, [hydrated, requestAnalysis, requestMarket]);
+    booted.current = true; void requestMarket(); void requestChart(); void requestAnalysis();
+  }, [hydrated, requestAnalysis, requestChart, requestMarket]);
 
   useEffect(() => {
     const interval = window.setInterval(() => setClock(Date.now()), 1_000);
@@ -168,9 +203,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!hydrated || !autoRefresh) return;
-    const interval = window.setInterval(() => { void requestMarket(); }, 60_000);
+    const interval = window.setInterval(() => { void requestMarket(); void requestChart(); }, 60_000);
     return () => window.clearInterval(interval);
-  }, [autoRefresh, hydrated, requestMarket]);
+  }, [autoRefresh, hydrated, requestChart, requestMarket]);
 
   useEffect(() => {
     if (!hydrated || !autoRefresh) return;
@@ -210,7 +245,24 @@ export default function Dashboard() {
     });
   }, [analysis, balance, riskEntry, riskPercent, riskStop]);
 
-  const onSubmit = (event: FormEvent) => { event.preventDefault(); if (message.trim()) void requestAnalysis(message.trim()); };
+  const onSubmit = (event: FormEvent) => { event.preventDefault(); if (message.trim()) void requestAnalysis(message.trim(), Boolean(chartImage)); };
+  const onChartImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setChartStatus("loading"); setChartMessage(""); setVisionUsed(false);
+    try {
+      const prepared = await prepareChartImage(file);
+      setChartImage(prepared); setChartStatus("success");
+      setChartMessage(`พร้อมวิเคราะห์ · ${prepared.width}×${prepared.height} · ${(prepared.bytes / 1024).toFixed(0)} KB`);
+    } catch (caught) {
+      setChartImage(null); setChartStatus("error");
+      setChartMessage(caught instanceof Error ? caught.message : "เตรียมภาพไม่สำเร็จ");
+    }
+  };
+  const clearChartImage = () => {
+    setChartImage(null); setChartStatus("idle"); setChartMessage(""); setVisionUsed(false);
+    if (chartInputRef.current) chartInputRef.current.value = "";
+  };
   const saveToken = (value: string) => { setAccessToken(value); if (value) sessionStorage.setItem("xauwatch-token", value); else sessionStorage.removeItem("xauwatch-token"); };
   const saveRiskPreference = (nextBalance: string, nextRisk: string) => {
     setBalance(nextBalance); setRiskPercent(nextRisk);
@@ -269,7 +321,7 @@ export default function Dashboard() {
           <div className="market-hero__meta"><span>MARKET SNAPSHOT</span><dl><div><dt>OPEN</dt><dd>{formatter.format(market.open)}</dd></div><div><dt>HIGH</dt><dd>{formatter.format(market.high)}</dd></div><div><dt>LOW</dt><dd>{formatter.format(market.low)}</dd></div></dl><p><time dateTime={market.asOf}>{dateFormatter.format(new Date(market.asOf))}</time> · {market.source === "demo" ? "Demo" : "Twelve Data"}</p></div>
           <div className="market-controls">
             <div><span className={`freshness-badge freshness-badge--${freshness.toLowerCase()}`}>{freshness}</span><p>{formatAgeThai(age)} · เวลาไทย {timeFormatter.format(clock)}</p></div>
-            <button type="button" onClick={() => void requestMarket()} disabled={marketRefreshing}>{marketRefreshing ? "กำลังรีเฟรช…" : "รีเฟรชราคา"}</button>
+            <button type="button" onClick={() => { void requestMarket(); void requestChart(); }} disabled={marketRefreshing}>{marketRefreshing ? "กำลังรีเฟรช…" : "รีเฟรชราคา"}</button>
           </div>
         </section>
 
@@ -288,6 +340,32 @@ export default function Dashboard() {
         </section>
 
         <section className="timeframes" aria-label="แนวโน้มตามกรอบเวลา">{(["m5", "m15", "h1"] as const).map((frame) => <div key={frame}><span>{frame.toUpperCase()}</span><TrendMark trend={analysis.trend[frame]} /><strong>{analysis.trend[frame]}</strong></div>)}</section>
+
+        <section className="chart-studio" aria-labelledby="chart-studio-title">
+          <div className="section-heading chart-studio__heading"><div><h2 id="chart-studio-title">Chart Plan</h2><p>อัปโหลดกราฟเพื่อให้ AI อ่านภาพ แล้วเทียบกับข้อมูล M5 จริง</p></div><span className={visionUsed ? "vision-state vision-state--used" : "vision-state"}>{visionUsed ? "VISION USED" : "MARKET DATA"}</span></div>
+          <div className="chart-studio__layout">
+            <div className="chart-upload">
+              <input ref={chartInputRef} id="chart-screenshot" className="chart-upload__input" type="file" accept="image/png,image/jpeg,image/webp" aria-label="อัปโหลด Screenshot กราฟ" disabled={chartStatus === "loading" || status === "loading"} onChange={(event) => void onChartImageChange(event)} />
+              {chartImage ? (
+                <figure className="chart-upload__preview">
+                  <Image src={chartImage.dataUrl} width={chartImage.width} height={chartImage.height} sizes="(max-width: 639px) 100vw, 320px" alt={`Screenshot กราฟ ${chartImage.name}`} unoptimized />
+                  <figcaption><strong>{chartImage.name}</strong><span>ใช้เป็นบริบท ไม่ใช้แทนราคาปัจจุบัน</span></figcaption>
+                </figure>
+              ) : (
+                <label className="chart-upload__drop" htmlFor="chart-screenshot" data-state={chartStatus}>
+                  <span aria-hidden="true">＋</span><strong>{chartStatus === "loading" ? "กำลังย่อภาพ…" : chartStatus === "error" ? "เลือกภาพใหม่" : "เลือก Screenshot กราฟ"}</strong><small>PNG, JPG หรือ WEBP · สูงสุด 12 MB</small>
+                </label>
+              )}
+              <div className="chart-upload__controls">
+                <label htmlFor="chart-timeframe">Timeframe<select id="chart-timeframe" value={chartTimeframe} data-state={chartStatus} onChange={(event) => setChartTimeframe(event.target.value as typeof chartTimeframe)}><option value="AUTO">Auto detect</option><option value="M5">M5</option><option value="M15">M15</option><option value="H1">H1</option></select></label>
+                <div><label className="chart-upload__replace" htmlFor="chart-screenshot" data-state={chartStatus}>{chartImage ? "เปลี่ยนภาพ" : "เพิ่มภาพ"}</label>{chartImage && <button type="button" onClick={clearChartImage}>เอาภาพออก</button>}</div>
+              </div>
+              <button className="chart-upload__analyze" type="button" onClick={() => void requestAnalysis("วิเคราะห์ทองจาก Screenshot และราคาล่าสุด เน้นแผนเข้า M5–M15", true)} disabled={!chartImage || chartStatus === "loading" || status === "loading"} data-state={status}>{status === "loading" && chartImage ? "กำลังอ่านกราฟ…" : "วิเคราะห์จากภาพ"}</button>
+              <p className={`chart-upload__status ${chartStatus === "error" ? "chart-upload__status--error" : ""}`} role="status">{chartMessage || "ภาพจะถูกส่งให้ OpenAI เมื่อกดวิเคราะห์ และ XAUWatch ไม่บันทึกภาพลงฐานข้อมูล"}</p>
+            </div>
+            {chartSeries?.bars.length ? <PlanChart bars={chartSeries.bars} plan={plan} currentPrice={market.price} stale={chartSeries.stale} /> : <div className="chart-placeholder" aria-busy="true">กำลังเตรียมกราฟ M5…</div>}
+          </div>
+        </section>
 
         <div className="trade-grid">
           <section className="levels" id="levels" aria-labelledby="levels-title"><div className="section-heading"><h2 id="levels-title">ระดับตัดสินใจ</h2><p>ยึดราคาโบรกเกอร์เป็นหลัก</p></div><div className="levels__columns"><div className="levels__side levels__side--resistance"><h3>แนวต้าน</h3>{analysis.resistance.map((level, index) => <div key={`${level}-${index}`}><span>R{index + 1}</span><strong>{formatter.format(level)}</strong></div>)}</div><div className="levels__side levels__side--support"><h3>แนวรับ</h3>{analysis.support.map((level, index) => <div key={`${level}-${index}`}><span>S{index + 1}</span><strong>{formatter.format(level)}</strong></div>)}</div></div></section>
@@ -327,7 +405,7 @@ export default function Dashboard() {
           </section>
         </div>
 
-        <section className="command" id="command" aria-labelledby="command-title"><div className="section-heading"><h2 id="command-title">ถามนักวิเคราะห์</h2><p>คำตอบใหม่จะแทนสถานะบน Dashboard</p></div><form onSubmit={onSubmit}><label htmlFor="analysis-command">คำสั่ง</label><div className="command__field"><textarea id="analysis-command" value={message} onChange={(event) => setMessage(event.target.value)} rows={3} maxLength={500} aria-describedby="command-helper" /><button type="submit" disabled={status === "loading"} data-state={status}>{status === "loading" ? "กำลังวิเคราะห์…" : status === "error" ? "ลองใหม่" : "วิเคราะห์ตอนนี้"}</button></div><p id="command-helper" className="field-helper">AI จะได้รับ snapshot ล่าสุดและบริบทจากแผนก่อนหน้า</p><div className="quick-actions" aria-label="คำสั่งด่วน"><button type="button" disabled={status === "loading"} onClick={() => { const prompt = "วิเคราะห์ทองตอนนี้ เน้นเข้าเร็ว M5–M15"; setMessage(prompt); void requestAnalysis(prompt); }}>เข้าเร็ว</button><button type="button" disabled={status === "loading"} onClick={() => { const prompt = "เช็กแผนเดิมจากราคาล่าสุด"; setMessage(prompt); void requestAnalysis(prompt); }}>เช็กแผนเดิม</button></div></form></section>
+        <section className="command" id="command" aria-labelledby="command-title"><div className="section-heading"><h2 id="command-title">ถามนักวิเคราะห์</h2><p>คำตอบใหม่จะแทนสถานะบน Dashboard</p></div><form onSubmit={onSubmit}><label htmlFor="analysis-command">คำสั่ง</label><div className="command__field"><textarea id="analysis-command" value={message} onChange={(event) => setMessage(event.target.value)} rows={3} maxLength={500} aria-describedby="command-helper" /><button type="submit" disabled={status === "loading"} data-state={status}>{status === "loading" ? "กำลังวิเคราะห์…" : status === "error" ? "ลองใหม่" : "วิเคราะห์ตอนนี้"}</button></div><p id="command-helper" className="field-helper">AI จะได้รับ snapshot ล่าสุด บริบทจากแผนก่อนหน้า{chartImage ? " และ Screenshot ที่เลือก" : ""}</p><div className="quick-actions" aria-label="คำสั่งด่วน"><button type="button" disabled={status === "loading"} onClick={() => { const prompt = "วิเคราะห์ทองตอนนี้ เน้นเข้าเร็ว M5–M15"; setMessage(prompt); void requestAnalysis(prompt); }}>เข้าเร็ว</button><button type="button" disabled={status === "loading"} onClick={() => { const prompt = "เช็กแผนเดิมจากราคาล่าสุด"; setMessage(prompt); void requestAnalysis(prompt); }}>เช็กแผนเดิม</button></div></form></section>
 
         <details className="settings"><summary>Feed, access และการรีเฟรช</summary><div className="settings__body"><label htmlFor="manual-price">ราคาโบรกเกอร์ (เว้นว่างเพื่อใช้ feed)</label><input id="manual-price" inputMode="decimal" value={manualPrice} onChange={(event) => setManualPrice(event.target.value)} placeholder="เช่น 4040.2" /><label htmlFor="access-token">รหัส Dashboard</label><input id="access-token" type="password" value={accessToken} onChange={(event) => saveToken(event.target.value)} autoComplete="current-password" placeholder="กรอกเมื่อ server เปิดการป้องกัน" /><label className="toggle"><input type="checkbox" checked={autoRefresh} onChange={(event) => setAutoRefresh(event.target.checked)} /> ราคาใหม่ทุก 1 นาที / วิเคราะห์ทุก 5 นาที</label></div></details>
 
@@ -336,7 +414,7 @@ export default function Dashboard() {
         <p className="risk-note">{analysis.riskNote}</p>
       </main>
 
-      <footer className="foot-dense"><p><span>XAUWATCH v0.5 · {analysis.source.toUpperCase()} · DATA {freshness}</span><span>ไม่ใช่คำรับรองผลกำไร · ตรวจสอบราคา ข่าว และ contract size ก่อนส่งคำสั่งจริง</span></p></footer>
+      <footer className="foot-dense"><p><span>XAUWATCH v0.6 · {analysis.source.toUpperCase()} · DATA {freshness}</span><span>ไม่ใช่คำรับรองผลกำไร · ตรวจสอบราคา ข่าว และ contract size ก่อนส่งคำสั่งจริง</span></p></footer>
     </>
   );
 }

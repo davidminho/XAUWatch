@@ -1,4 +1,4 @@
-# Coding and Technical QA — XAUWatch v0.5.0
+# Coding and Technical QA — XAUWatch v0.6.0
 
 Date: 2026-07-16 (Asia/Bangkok)
 
@@ -20,7 +20,7 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 |---|---|---|
 | ESLint | Pass | `npm run lint` — 0 findings |
 | TypeScript | Pass | `npm run typecheck` |
-| Unit tests | Pass | `npm run test` — 10/10, including freshness, plan safety, risk sizing, and alert crossing/cooldown |
+| Unit tests | Pass | `npm run test` — 13/13, including chart-image validation, OHLC integrity, freshness, plan safety, risk sizing, and alerts |
 | Production build | Pass | `npm run build` — Next.js 16.2.10, all routes generated |
 | Dependency audit | Pass | `npm install` audit — 0 vulnerabilities after PostCSS override |
 | Contrast | Pass | `node scripts/contrast.mjs` — all tested pairs ≥ 6.93:1 |
@@ -28,8 +28,10 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 | Compact card UI | Pass | 10/10 functional cards render with visible boundaries; Price, Decision, and Timeframes fit within the first 900 px at all required mobile widths |
 | v0.5 responsive UI | Pass | Browser QA at 320/375/414/768 px; document width matched viewport at every breakpoint and operations grid recomposed 1→2 columns |
 | Confidence meter | Pass | Native progress semantics, 4 px visual track, BUY/SELL/WAIT token colors, and no overflow at 320/375/414/768 px |
+| v0.6 chart workspace | Pass | Accessible SVG chart, 72 M5 candles, Entry/SL/TP/current overlays, and PNG export success state |
+| v0.6 responsive UI | Pass | Browser QA at 320/375/414/768 px; chart, upload controls, and page width remained within every viewport |
 | v0.5 interactions | Pass | Copy and alert controls resolve uniquely; alert opt-in state persists; console has 0 errors/warnings |
-| Runtime smoke | Pass | `node scripts/smoke.mjs` — `/`, health, market, analyze; manual price 4022; stale data → WAIT |
+| Runtime smoke | Pass | `node scripts/smoke.mjs` — `/`, health, market, 96-bar chart, analyze; manual price 4022; stale data → WAIT |
 | Live provider smoke | Pass | Production health reports `ai: true`, `market: true`; analysis `source: ai`, market `source: twelve-data`, `stale: false`, `fallback: false` |
 | Performance browser QA | Pass | First uncached demo flow showed Dashboard within 800ms; repeat load DOM ready ≈60ms and Dashboard visible within 100ms |
 | Static payload reduction | Pass | `.next/static` ≈1.3MB → 876KB; font media 616KB → 200KB |
@@ -41,6 +43,7 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 - Compact-card refinement separates each functional area with one card boundary, removes nested card surfaces, and tightens padding/gaps without changing data hierarchy.
 - v0.5 retains the Stat-Led / Midnight system while adding operational status rows and two bounded work cards; no new gradients, visual enrichment, or ornamental surfaces were introduced.
 - Confidence now uses a compact semantic progress meter with quarter markers and existing signal colors; the narrow two-column breakpoint collapses the duplicate text label to protect the data width.
+- v0.6 adds one bounded Chart Plan workspace: the user-supplied screenshot remains visually secondary to the generated OHLC plan, and every overlay reuses the existing Entry/SELL/BUY/WAIT tokens.
 - Slop gates 1–58 pass, including token discipline, honest live market stats, two-role outlier typography, focus/reduced-motion support, contrast, mobile overflow, and single-line affordances.
 
 ## Acceptance traceability
@@ -62,6 +65,8 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 | Risk sizing | `lib/risk.ts` + Risk Calculator | Unit/browser pass; broker contract disclaimer visible |
 | Entry/TP/Stop alerts | `lib/alerts.ts` + Level Alerts | Unit/browser pass; closed-app push deferred |
 | Copy + PWA lifecycle | plan copy controls + service worker update banner | Browser/build pass |
+| Screenshot chart analysis | client resize + `/api/analyze` vision input | Type/unit/schema pass; live-image UAT pending user screenshot |
+| Visual trade plan | `/api/chart` + `PlanChart` SVG/PNG export | Unit/browser/build pass |
 
 ## Open limitations and risks
 
@@ -70,6 +75,7 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 3. This is decision support only. It does not place orders and must not represent stale/demo values as live prices.
 4. v0.5 level alerts are evaluated in the client while the Dashboard is open; background notifications require a future push service.
 5. Risk sizing uses a 100 oz/lot assumption and must be checked against the broker's XAUUSD contract specification.
+6. Vision can misread chart labels or structure when screenshots are cropped, blurred, or stale; market data remains authoritative and real broker-image UAT remains open.
 
 ## Gate recommendation
 
