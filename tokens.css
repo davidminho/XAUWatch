@@ -1,30 +1,30 @@
-/* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4
- * genre: atmospheric · macrostructure: Workbench · theme: Terminal · enrichment: none · nav: N8 · footer: Ft4
- * audience: Android day trader · use: decide wait/buy/sell · tone: premium technical terminal
- * contrast: pass (40–41) · chrome/tokens/icons: pass (30, 42–48) · mobile static: pass (50–57) · visual: pending (34, 49)
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5
+ * genre: atmospheric · macrostructure: Stat-Led · theme: Midnight · enrichment: none · nav: N9 · footer: Ft2
+ * audience: Android day trader · use: decide wait/buy/sell · tone: premium midnight market desk
+ * contrast: pass (40–41) · chrome/tokens/icons: pass (30, 42–48) · mobile: pass (34, 49, 50–57) · slop: pass (1–58)
  */
 :root {
-  --color-paper: oklch(14% 0.012 125);
-  --color-paper-2: oklch(18% 0.014 125);
-  --color-paper-3: oklch(22% 0.016 125);
-  --color-ink: oklch(94% 0.016 102);
-  --color-ink-2: oklch(79% 0.02 105);
-  --color-muted: oklch(73% 0.02 112);
-  --color-rule: oklch(32% 0.018 118);
-  --color-rule-strong: oklch(45% 0.035 105);
-  --color-accent: oklch(78% 0.145 82);
-  --color-accent-ink: oklch(16% 0.02 85);
-  --color-focus: oklch(86% 0.16 105);
-  --color-buy: oklch(84% 0.18 125);
-  --color-buy-surface: oklch(23% 0.055 132);
-  --color-sell: oklch(72% 0.18 32);
-  --color-sell-surface: oklch(22% 0.05 28);
-  --color-wait: oklch(85% 0.08 82);
-  --color-wait-surface: oklch(23% 0.035 82);
+  --color-paper: oklch(13% 0.012 72);
+  --color-paper-2: oklch(17% 0.014 72);
+  --color-paper-3: oklch(21% 0.016 72);
+  --color-ink: oklch(95% 0.012 82);
+  --color-ink-2: oklch(82% 0.016 80);
+  --color-muted: oklch(72% 0.018 78);
+  --color-rule: oklch(29% 0.018 72);
+  --color-rule-strong: oklch(39% 0.028 75);
+  --color-accent: oklch(80% 0.145 82);
+  --color-accent-ink: oklch(15% 0.018 78);
+  --color-focus: oklch(88% 0.13 92);
+  --color-buy: oklch(80% 0.16 145);
+  --color-buy-surface: oklch(21% 0.045 145);
+  --color-sell: oklch(73% 0.17 30);
+  --color-sell-surface: oklch(21% 0.045 30);
+  --color-wait: oklch(82% 0.09 82);
+  --color-wait-surface: oklch(21% 0.035 82);
   --color-error: oklch(72% 0.18 32);
   --color-error-surface: oklch(20% 0.045 28);
 
-  --font-display: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: "IBM Plex Sans", ui-sans-serif, sans-serif;
   --font-body: "IBM Plex Sans", ui-sans-serif, sans-serif;
   --font-outlier: "JetBrains Mono", ui-monospace, monospace;
 
@@ -54,7 +54,7 @@
 
   --rule-hair: 1px;
   --rule-strong: 2px;
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
   --radius-round: 999px;
 }

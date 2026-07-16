@@ -1,9 +1,11 @@
 {
   "date": "2026-07-16",
-  "signals": "empty project",
+  "signals": "existing production XAUUSD dashboard with live market and AI analysis flows",
   "framework": "Next.js App Router",
   "fontStack": "IBM Plex Sans + JetBrains Mono",
-  "palette": "OKLCH Terminal",
-  "motion": "motion-cut",
-  "spacing": "4pt semantic scale"
+  "palette": "OKLCH Midnight graphite with bullion gold accent",
+  "motion": "fade-only panels plus live-status pulse",
+  "spacing": "4pt semantic scale",
+  "sourceFiles": ["components/Dashboard.tsx", "app/globals.css", "tokens.css"],
+  "preserve": ["API flows", "analysis history", "auto refresh", "PWA behavior"]
 }

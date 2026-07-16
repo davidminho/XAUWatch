@@ -187,31 +187,39 @@ export default function Dashboard() {
     <>
       <ServiceWorker />
       <header className="nav-term">
-        <div className="nav-term__line">
-          <span className="prompt" aria-hidden="true">&gt;</span>
-          <strong>xauwatch</strong>
-          <a href="#levels">--levels</a>
-          <a href="#plan">--plan</a>
-          <span className="caret" aria-hidden="true">▮</span>
+        <a className="nav-term__line" href="#top" aria-label="XAUWatch — กลับด้านบน">
+          <span className="brand-mark" aria-hidden="true" />
+          <strong>XAUWATCH</strong>
+          <small>DAY TRADE DESK</small>
+        </a>
+        <div className="nav-term__actions">
+          <span className={`feed-state ${market.stale ? "feed-state--stale" : ""}`}>
+            <span aria-hidden="true" />{market.stale ? "DEMO / STALE" : "LIVE"}
+          </span>
+          <a className="nav-cta" href="#command">วิเคราะห์</a>
         </div>
-        <span className={`feed-state ${market.stale ? "feed-state--stale" : ""}`}>
-          <span aria-hidden="true" />{market.stale ? "DEMO / STALE" : "LIVE"}
-        </span>
       </header>
 
-      <main className="dashboard">
+      <main className="dashboard" id="top">
         <section className="market-hero" aria-labelledby="market-title">
-          <div>
+          <div className="market-hero__quote">
             <p className="market-hero__symbol" id="market-title">XAU / USD</p>
             <p className="market-hero__price">{formatter.format(market.price)}</p>
-            <p className={`market-hero__change ${market.changePercent < 0 ? "negative" : "positive"}`}>
-              {market.changePercent >= 0 ? "+" : ""}{market.changePercent.toFixed(2)}% วันนี้
-            </p>
+            <div className="market-hero__qualifier">
+              <p className={`market-hero__change ${market.changePercent < 0 ? "negative" : "positive"}`}>
+                {market.changePercent >= 0 ? "+" : ""}{market.changePercent.toFixed(2)}% วันนี้
+              </p>
+              <p>ราคาทองคำ · ดอลลาร์สหรัฐต่อออนซ์</p>
+            </div>
           </div>
           <div className="market-hero__meta">
-            <span>อัปเดต</span>
-            <time dateTime={market.asOf}>{dateFormatter.format(new Date(market.asOf))}</time>
-            <span>Feed: {market.source === "demo" ? "Demo" : "Twelve Data"}</span>
+            <span>MARKET SNAPSHOT</span>
+            <dl>
+              <div><dt>OPEN</dt><dd>{formatter.format(market.open)}</dd></div>
+              <div><dt>HIGH</dt><dd>{formatter.format(market.high)}</dd></div>
+              <div><dt>LOW</dt><dd>{formatter.format(market.low)}</dd></div>
+            </dl>
+            <p><time dateTime={market.asOf}>{dateFormatter.format(new Date(market.asOf))}</time> · {market.source === "demo" ? "Demo" : "Twelve Data"}</p>
           </div>
         </section>
 
@@ -222,11 +230,10 @@ export default function Dashboard() {
           <div className="decision-panel__bias">
             <span id="decision-title">BIAS</span>
             <strong className={`signal signal--${analysis.bias.toLowerCase()}`}>{analysis.bias}</strong>
-            <small>{analysis.confidence}% confidence</small>
+            <small>{analysis.confidence}% ความมั่นใจ</small>
           </div>
           <div className={`decision-panel__action action--${analysis.action.toLowerCase()}`}>
-            <span>ACTION</span>
-            <strong>{actionLabel}</strong>
+            <div><span>ACTION</span><strong>{actionLabel}</strong></div>
             <p>{analysis.summary}</p>
           </div>
         </section>
@@ -241,6 +248,7 @@ export default function Dashboard() {
           ))}
         </section>
 
+        <div className="trade-grid">
         <section className="levels" id="levels" aria-labelledby="levels-title">
           <div className="section-heading">
             <h2 id="levels-title">ระดับตัดสินใจ</h2>
@@ -276,8 +284,9 @@ export default function Dashboard() {
             <p><span>Invalidation</span>{plan.invalidation}</p>
           </div>
         </section>
+        </div>
 
-        <section className="command" aria-labelledby="command-title">
+        <section className="command" id="command" aria-labelledby="command-title">
           <div className="section-heading">
             <h2 id="command-title">ถามนักวิเคราะห์</h2>
             <p>คำตอบใหม่จะแทนสถานะบน Dashboard</p>
@@ -334,7 +343,7 @@ export default function Dashboard() {
       </main>
 
       <footer className="foot-dense">
-        <p>XAUWATCH v0.3 · {analysis.source.toUpperCase()} · DATA {market.stale ? "STALE" : "LIVE"} · ไม่ใช่คำรับรองผลกำไร · ตรวจสอบราคาและข่าวกับแหล่งทางการก่อนส่งคำสั่งจริง</p>
+        <p><span>XAUWATCH v0.4 · {analysis.source.toUpperCase()} · DATA {market.stale ? "STALE" : "LIVE"}</span><span>ไม่ใช่คำรับรองผลกำไร · ตรวจสอบราคาและข่าวก่อนส่งคำสั่งจริง</span></p>
       </footer>
     </>
   );
