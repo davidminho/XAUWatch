@@ -276,7 +276,14 @@ export default function Dashboard() {
         {warning && <p className="system-warning" role="status">{warning}</p>}{error && <p className="system-error" role="alert">{error}</p>}
 
         <section className="decision-panel" aria-labelledby="decision-title">
-          <div className="decision-panel__bias"><span id="decision-title">BIAS</span><strong className={`signal signal--${analysis.bias.toLowerCase()}`}>{analysis.bias}</strong><small>{analysis.confidence}% ความมั่นใจ</small></div>
+          <div className="decision-panel__bias">
+            <span id="decision-title">BIAS</span>
+            <strong className={`signal signal--${analysis.bias.toLowerCase()}`}>{analysis.bias}</strong>
+            <div className={`confidence-meter confidence-meter--${analysis.bias.toLowerCase()}`}>
+              <div className="confidence-meter__label"><span>ความมั่นใจ</span><strong>{analysis.confidence}%</strong></div>
+              <progress value={analysis.confidence} max="100" aria-label={`ความมั่นใจ ${analysis.confidence}%`}>{analysis.confidence}%</progress>
+            </div>
+          </div>
           <div className={`decision-panel__action action--${effectiveAction.toLowerCase()}`}><div><span>ACTION</span><strong>{actionText(effectiveAction)}</strong></div><p>{effectiveAction === analysis.action ? analysis.summary : `${analysis.summary} · ระบบพักแผนเพื่อความปลอดภัย`}</p></div>
         </section>
 

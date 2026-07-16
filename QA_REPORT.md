@@ -27,6 +27,7 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 | Responsive UI | Pass | Browser QA at 320, 375, 414, and 768 px — no horizontal overflow, wrapped CTA labels, or sub-44 px touch targets |
 | Compact card UI | Pass | 10/10 functional cards render with visible boundaries; Price, Decision, and Timeframes fit within the first 900 px at all required mobile widths |
 | v0.5 responsive UI | Pass | Browser QA at 320/375/414/768 px; document width matched viewport at every breakpoint and operations grid recomposed 1→2 columns |
+| Confidence meter | Pass | Native progress semantics, 4 px visual track, BUY/SELL/WAIT token colors, and no overflow at 320/375/414/768 px |
 | v0.5 interactions | Pass | Copy and alert controls resolve uniquely; alert opt-in state persists; console has 0 errors/warnings |
 | Runtime smoke | Pass | `node scripts/smoke.mjs` — `/`, health, market, analyze; manual price 4022; stale data → WAIT |
 | Live provider smoke | Pass | Production health reports `ai: true`, `market: true`; analysis `source: ai`, market `source: twelve-data`, `stale: false`, `fallback: false` |
@@ -39,6 +40,7 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 - Hallmark redesign uses Stat-Led / Midnight with N9 edge-aligned navigation and Ft2 inline footer; the previous fake terminal chrome was removed.
 - Compact-card refinement separates each functional area with one card boundary, removes nested card surfaces, and tightens padding/gaps without changing data hierarchy.
 - v0.5 retains the Stat-Led / Midnight system while adding operational status rows and two bounded work cards; no new gradients, visual enrichment, or ornamental surfaces were introduced.
+- Confidence now uses a compact semantic progress meter with quarter markers and existing signal colors; the narrow two-column breakpoint collapses the duplicate text label to protect the data width.
 - Slop gates 1–58 pass, including token discipline, honest live market stats, two-role outlier typography, focus/reduced-motion support, contrast, mobile overflow, and single-line affordances.
 
 ## Acceptance traceability
