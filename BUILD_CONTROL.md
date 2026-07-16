@@ -19,6 +19,7 @@
   - PWA shell: implemented and served over Vercel HTTPS
   - Performance pass: cached snapshot boot, fast rule-plan bootstrap, 1-minute market refresh, 5-minute AI refresh, 45-second server feed cache, reduced font subsets
   - UI redesign: Stat-Led / Midnight hierarchy, live Open/High/Low snapshot, N9 navigation, responsive Levels/Plan workspace, Ft2 status footer
+  - Compact-card refinement: clear one-function-per-card boundaries, tighter spacing, and first-screen Price/Decision/Timeframe visibility on required mobile widths
 - Dependencies/data/content: provider secrets remain server-only; demo output visibly labelled stale/demo
 - Accessibility/performance/SEO/analytics/security/privacy: keyboard/focus, labels, reduced motion, no indexing, security headers, no client-side provider secrets; repeat-load browser QA, 320/375/414/768 responsive checks, contrast audit, and production provider checks passed
 - Commands/checks/results/failures/limitations: see `QA_REPORT.md`

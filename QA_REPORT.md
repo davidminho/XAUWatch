@@ -25,6 +25,7 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 | Dependency audit | Pass | `npm install` audit — 0 vulnerabilities after PostCSS override |
 | Contrast | Pass | `node scripts/contrast.mjs` — all tested pairs ≥ 6.93:1 |
 | Responsive UI | Pass | Browser QA at 320, 375, 414, and 768 px — no horizontal overflow, wrapped CTA labels, or sub-44 px touch targets |
+| Compact card UI | Pass | 10/10 functional cards render with visible boundaries; Price, Decision, and Timeframes fit within the first 900 px at all required mobile widths |
 | Runtime smoke | Pass | `node scripts/smoke.mjs` — `/`, health, market, analyze; manual price 4022; stale data → WAIT |
 | Live provider smoke | Pass | Production health reports `ai: true`, `market: true`; analysis `source: ai`, market `source: twelve-data`, `stale: false`, `fallback: false` |
 | Performance browser QA | Pass | First uncached demo flow showed Dashboard within 800ms; repeat load DOM ready ≈60ms and Dashboard visible within 100ms |
@@ -32,8 +33,9 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 
 ## Hallmark audit
 
-- Pre-emit critique: Philosophy 5, Hierarchy 5, Execution 5, Specificity 5, Restraint 5, Variety 5.
+- Pre-emit critique: Philosophy 5, Hierarchy 5, Execution 5, Specificity 5, Restraint 5, Variety 4.
 - Hallmark redesign uses Stat-Led / Midnight with N9 edge-aligned navigation and Ft2 inline footer; the previous fake terminal chrome was removed.
+- Compact-card refinement separates each functional area with one card boundary, removes nested card surfaces, and tightens padding/gaps without changing data hierarchy.
 - Slop gates 1–58 pass, including token discipline, honest live market stats, two-role outlier typography, focus/reduced-motion support, contrast, mobile overflow, and single-line affordances.
 
 ## Acceptance traceability
