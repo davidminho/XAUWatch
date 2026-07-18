@@ -2,6 +2,14 @@
 
 Android-first XAUUSD and BTCUSD day-trade Dashboard. It keeps `Bias`, `Action`, and `Trigger` separate so a bearish market can still say `WAIT` when price is sitting on support.
 
+## v0.8 Terminal Neon interface
+
+- Cool navy trading-console surfaces with a restrained cyan signal rail and technical grid
+- Phosphor green BUY, hot red SELL, and amber WAIT states with accessible contrast
+- Sharper modular cards, monospaced price/level labels, and focused signal glows
+- Responsive price scaling with no horizontal overflow from 320px through desktop
+- Matching PWA theme and app icons, with all market, Vision, and analysis flows unchanged
+
 ## v0.7 multi-symbol and automatic chart sync
 
 - Switch between XAUUSD and BTCUSD without mixing prices, AI context, screenshots, or history

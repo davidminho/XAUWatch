@@ -473,7 +473,7 @@ export default function Dashboard() {
         <p className="risk-note">{analysis.riskNote}</p>
       </main>
 
-      <footer className="foot-dense"><p><span>XAUWATCH v0.7 · {analysis.symbol} · {analysis.source.toUpperCase()} · DATA {freshness}</span><span>ไม่ใช่คำรับรองผลกำไร · ตรวจสอบราคา ข่าว และ contract size ก่อนส่งคำสั่งจริง</span></p></footer>
+      <footer className="foot-dense"><p><span>XAUWATCH v0.8 · {analysis.symbol} · {analysis.source.toUpperCase()} · DATA {freshness}</span><span>ไม่ใช่คำรับรองผลกำไร · ตรวจสอบราคา ข่าว และ contract size ก่อนส่งคำสั่งจริง</span></p></footer>
     </>
   );
 }

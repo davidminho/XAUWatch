@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-07-18",
+    "macrostructure": "Stat-Led",
+    "theme": "Terminal Neon",
+    "enrichment": "technical grid",
+    "brief": "Restrained futuristic neon interface for rapid XAUUSD and BTCUSD decision scanning",
+    "variation": "density=compact / signal-rail=cyan / semantic-glow=restrained",
+    "nav": "N9",
+    "footer": "Ft2"
+  },
+  {
     "date": "2026-07-16",
     "macrostructure": "Stat-Led",
     "theme": "Midnight",

@@ -18,7 +18,7 @@
   - Twelve Data M5 adapter: implemented and production-smoke verified with freshness guard
   - PWA shell: implemented and served over Vercel HTTPS
   - Performance pass: cached snapshot boot, fast rule-plan bootstrap, 1-minute market refresh, 5-minute AI refresh, 45-second server feed cache, reduced font subsets
-  - UI redesign: Stat-Led / Midnight hierarchy, live Open/High/Low snapshot, N9 navigation, responsive Levels/Plan workspace, Ft2 status footer
+  - UI redesign: Stat-Led / Terminal Neon hierarchy, live Open/High/Low snapshot, N9 navigation, responsive Levels/Plan workspace, Ft2 status footer
   - Compact-card refinement: clear one-function-per-card boundaries, tighter spacing, and first-screen Price/Decision/Timeframe visibility on required mobile widths
   - v0.5 decision safety: feed age states, manual refresh, 30-minute plan expiry, proximity/late-entry guard, and forced WAIT fail-safe
   - v0.5 execution support: broker-aware risk estimate, copyable plan levels, in-app level crossing alerts, and opt-in Browser Notifications
@@ -30,9 +30,10 @@
   - v0.7 multi-symbol: XAUUSD/BTCUSD switcher, symbol-scoped API/feed/AI validation, history, snapshot, screenshot reset, alert copy, and risk assumptions
   - v0.7 chart sync: every completed analysis refreshes M5 candles, remounts the generated plan overlay, resets export state, and displays the analysis sync time
   - v0.7 production verification: Twelve Data and OpenAI returned isolated XAUUSD/BTCUSD payloads; BTCUSD was live while weekend XAUUSD was correctly marked stale and forced to WAIT
+  - v0.8 visual system: cool navy OKLCH surfaces, restrained cyan signal rails, semantic neon BUY/SELL/WAIT states, sharp modular cards, responsive single-line quote scaling, and matching PWA chrome/icons
 - Dependencies/data/content: provider secrets remain server-only; demo output visibly labelled stale/demo; chart screenshots are user-selected, bounded to supported raster formats, and sent only with an explicit analysis request
-- Accessibility/performance/SEO/analytics/security/privacy: keyboard/focus, labels, reduced motion, no indexing, security headers, no client-side provider secrets; repeat-load browser QA, 320/375/414/768 responsive checks, contrast audit, and production provider checks passed
+- Accessibility/performance/SEO/analytics/security/privacy: keyboard/focus, labels, reduced motion, no indexing, security headers, no client-side provider secrets; repeat-load browser QA, 320/375/414/768/1024 responsive checks, contrast audit, and production provider checks passed
 - Commands/checks/results/failures/limitations: see `QA_REPORT.md`
 - Defects/risks: Twelve Data Basic 8 quota remains finite; Vision may misread low-resolution chart labels so market data remains authoritative; calculator assumes 100 oz/lot until broker-specific metadata is added; alerts only operate while the Dashboard is open; broader device-matrix UAT remains open
 - Capacity/change decisions: production is deployed through GitHub `main` to Vercel with explicit user authority
-- Gate 7 readiness/owner/date: core technical checks pass; broader Android device UAT remains owner David; 2026-07-16
+- Gate 7 readiness/owner/date: core technical checks pass; broader Android device UAT remains owner David; 2026-07-18

@@ -1,12 +1,12 @@
 {
-  "date": "2026-07-16",
-  "signals": "existing production XAUUSD dashboard v0.4 with live market and AI analysis flows; v0.5 adds explicit decision-safety operations",
+  "date": "2026-07-18",
+  "signals": "existing production XAUUSD/BTCUSD dashboard v0.7 with live market, Vision, AI analysis, automatic chart sync, and explicit decision-safety operations",
   "framework": "Next.js App Router",
   "fontStack": "IBM Plex Sans + JetBrains Mono",
-  "palette": "OKLCH Midnight graphite with bullion gold accent",
-  "motion": "live-status pulse plus native control feedback; no decorative motion introduced",
+  "palette": "OKLCH Terminal Neon with cool navy surfaces, cyan signal accent, phosphor BUY, hot-red SELL, and amber WAIT",
+  "motion": "live-status pulse, plan-sync transition, and native control feedback; reduced-motion fallback preserved",
   "spacing": "4pt semantic scale",
   "sourceFiles": ["components/Dashboard.tsx", "app/globals.css", "tokens.css"],
-  "preserve": ["Midnight palette", "font stack", "API flows", "analysis history", "auto refresh", "compact separated cards"],
-  "add": ["feed age states", "plan expiry", "entry proximity", "risk calculator", "level alerts", "visible PWA updates"]
+  "preserve": ["font stack", "API flows", "analysis history", "auto refresh", "compact separated cards", "XAUUSD/BTCUSD symbol isolation", "Vision workflow"],
+  "add": ["Terminal Neon token system", "cyan signal rails", "semantic restrained glows", "responsive single-line quotes", "matching PWA chrome and icons"]
 }

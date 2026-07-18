@@ -1,6 +1,6 @@
-# Coding and Technical QA — XAUWatch v0.7.0
+# Coding and Technical QA — XAUWatch v0.8.0
 
-Date: 2026-07-16 (Asia/Bangkok)
+Date: 2026-07-18 (Asia/Bangkok)
 
 ## Status
 
@@ -20,7 +20,7 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 |---|---|---|
 | ESLint | Pass | `npm run lint` — 0 findings |
 | TypeScript | Pass | `npm run typecheck` |
-| Unit tests | Pass | `npm run test` — 13/13, including chart-image validation, OHLC integrity, freshness, plan safety, risk sizing, and alerts |
+| Unit tests | Pass | `npm run test` — 19/19, including multi-symbol chart/image validation, OHLC integrity, freshness, plan safety, risk sizing, and alerts |
 | Production build | Pass | `npm run build` — Next.js 16.2.10, all routes generated |
 | Dependency audit | Pass | `npm install` audit — 0 vulnerabilities after PostCSS override |
 | Contrast | Pass | `node scripts/contrast.mjs` — all tested pairs ≥ 6.93:1 |
@@ -41,6 +41,9 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 | v0.7 mobile switcher | Pass | 320px and 375px Browser QA; no horizontal overflow and both symbol targets measured 44×44px |
 | v0.7 Production providers | Pass | BTCUSD Twelve Data feed live (`stale: false`, ~63,974.82 at test time); XAUUSD correctly reported stale during the weekend |
 | v0.7 Production AI isolation | Pass | Both requests returned HTTP 200, `source: ai`, `fallback: false`, and matching analysis/market symbols; XAUUSD safely returned WAIT while stale |
+| v0.8 contrast | Pass | `node scripts/contrast.mjs` — all semantic token pairs passed; minimum tested ratio 6.56:1 |
+| v0.8 Terminal Neon responsive QA | Pass | Browser QA at 320/375/414/768/1024px; document width matched viewport, BTC price remained single-line, all visible button/link/summary targets were at least 44px, and console had 0 warnings/errors |
+| v0.8 symbol interaction | Pass | Browser switch changed pressed state and market title from BTCUSD to XAUUSD without overflow at 1024px |
 | Performance browser QA | Pass | First uncached demo flow showed Dashboard within 800ms; repeat load DOM ready ≈60ms and Dashboard visible within 100ms |
 | Static payload reduction | Pass | `.next/static` ≈1.3MB → 876KB; font media 616KB → 200KB |
 
@@ -52,6 +55,7 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 - v0.5 retains the Stat-Led / Midnight system while adding operational status rows and two bounded work cards; no new gradients, visual enrichment, or ornamental surfaces were introduced.
 - Confidence now uses a compact semantic progress meter with quarter markers and existing signal colors; the narrow two-column breakpoint collapses the duplicate text label to protect the data width.
 - v0.6 adds one bounded Chart Plan workspace: the user-supplied screenshot remains visually secondary to the generated OHLC plan, and every overlay reuses the existing Entry/SELL/BUY/WAIT tokens.
+- v0.8 moves the established Stat-Led structure to a restrained Terminal Neon theme: cyan is limited to signal rails, active controls, and Entry cues; BUY/SELL/WAIT remain semantic; grid and glow never replace text or state labels.
 - Slop gates 1–58 pass, including token discipline, honest live market stats, two-role outlier typography, focus/reduced-motion support, contrast, mobile overflow, and single-line affordances.
 
 ## Acceptance traceability
