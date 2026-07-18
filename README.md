@@ -2,6 +2,15 @@
 
 Android-first XAUUSD and BTCUSD day-trade Dashboard. It keeps `Bias`, `Action`, and `Trigger` separate so a bearish market can still say `WAIT` when price is sitting on support.
 
+## v1.0 Space Luxury
+
+- Quiet Midnight canvas with low-chroma silver and celestial-blue signals
+- Manrope display typography with JetBrains Mono reserved for technical market values
+- Split Studio market hero that gives the live quote one clear focal point
+- Soft matte modules, restrained transparency, and no orbital HUD, star map, or game-console decoration
+- Edge-aligned navigation and a quiet mast-headed footer designed for Android scanning
+- All XAUUSD/BTCUSD, Vision, chart sync, risk, alert, and AI behavior remains unchanged
+
 ## v0.9 Sci-Fi Space Command Center
 
 - Aurora deep-space canvas with a restrained star map and price-linked orbital HUD

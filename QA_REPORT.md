@@ -1,4 +1,4 @@
-# Coding and Technical QA — XAUWatch v0.9.0
+# Coding and Technical QA — XAUWatch v1.0.0
 
 Date: 2026-07-18 (Asia/Bangkok)
 
@@ -48,6 +48,9 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 | v0.9 orbital HUD integrity | Pass | HUD label tracked the selected symbol (`XAUUSD`/`BTCUSD`), remained `aria-hidden`, never intercepted input, and did not obscure quote or market controls |
 | v0.9 touch targets | Pass | All visible button/link/summary controls met 44px minimum at 320px, including the icon-only mobile wordmark target |
 | v0.9 contrast | Pass | `node scripts/contrast.mjs` — all tested semantic pairs passed; minimum tested ratio 6.82:1 |
+| v1.0 Space Luxury responsive QA | Pass | Browser QA at 320/375/414/768px; document width matched viewport at every breakpoint, market quote remained contained, and navigation controls stayed visible with 44px targets |
+| v1.0 symbol interaction | Pass | XAU/BTC switch changed pressed state and market title to `XAU / USD`; console had 0 warnings/errors |
+| v1.0 contrast | Pass | `node scripts/contrast.mjs` — all tested semantic pairs passed; minimum tested ratio 7.08:1 |
 | Performance browser QA | Pass | First uncached demo flow showed Dashboard within 800ms; repeat load DOM ready ≈60ms and Dashboard visible within 100ms |
 | Static payload reduction | Pass | `.next/static` ≈1.3MB → 876KB; font media 616KB → 200KB |
 
@@ -61,6 +64,7 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 - v0.6 adds one bounded Chart Plan workspace: the user-supplied screenshot remains visually secondary to the generated OHLC plan, and every overlay reuses the existing Entry/SELL/BUY/WAIT tokens.
 - v0.8 moves the established Stat-Led structure to a restrained Terminal Neon theme: cyan is limited to signal rails, active controls, and Entry cues; BUY/SELL/WAIT remain semantic; grid and glow never replace text or state labels.
 - v0.9 rotates to Map / Diagram + Aurora with N5 floating navigation and Ft5 statement footer; its single central move is a price-linked orbital map, while star texture and line effects remain inert, secondary, and reduced-motion safe.
+- v1.0 replaces the rejected HUD direction with Split Studio + Midnight, N9 edge-aligned navigation, and Ft1 mast-headed footer. Live market data and the chart are the only visual proof; ornamental orbital and star-map layers are removed.
 - Slop gates 1–58 pass, including token discipline, honest live market stats, two-role outlier typography, focus/reduced-motion support, contrast, mobile overflow, and single-line affordances.
 
 ## Acceptance traceability

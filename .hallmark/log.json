@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-07-18",
+    "macrostructure": "Split Studio",
+    "theme": "Midnight",
+    "enrichment": "none",
+    "brief": "Space Luxury market dashboard with quiet intelligence and Android-first decision scanning",
+    "variation": "canvas=matte-night / proof=live-chart / modules=soft-split",
+    "nav": "N9",
+    "footer": "Ft1"
+  },
+  {
+    "date": "2026-07-18",
     "macrostructure": "Map / Diagram",
     "theme": "Aurora",
     "enrichment": "Tier-A orbital HUD",
