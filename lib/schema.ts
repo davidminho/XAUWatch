@@ -4,7 +4,7 @@ const numberTuple = z.tuple([z.number(), z.number()]);
 const targetTuple = z.tuple([z.number(), z.number(), z.number()]);
 
 export const analysisSchema = z.object({
-  symbol: z.literal("XAUUSD"),
+  symbol: z.enum(["XAUUSD", "BTCUSD"]),
   price: z.number(),
   bias: z.enum(["BUY", "SELL", "NEUTRAL"]),
   action: z.enum(["BUY_NOW", "SELL_NOW", "WAIT"]),
@@ -33,7 +33,7 @@ export const analysisJsonSchema = {
   additionalProperties: false,
   required: ["symbol", "price", "bias", "action", "confidence", "summary", "trend", "resistance", "support", "primaryPlan", "riskNote"],
   properties: {
-    symbol: { type: "string", enum: ["XAUUSD"] },
+    symbol: { type: "string", enum: ["XAUUSD", "BTCUSD"] },
     price: { type: "number" },
     bias: { type: "string", enum: ["BUY", "SELL", "NEUTRAL"] },
     action: { type: "string", enum: ["BUY_NOW", "SELL_NOW", "WAIT"] },

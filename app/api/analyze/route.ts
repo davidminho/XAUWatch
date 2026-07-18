@@ -9,6 +9,7 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
 const requestSchema = z.object({
+  symbol: z.enum(["XAUUSD", "BTCUSD"]).default("XAUUSD"),
   message: z.string().trim().min(1).max(500),
   manualPrice: z.number().positive().optional(),
   previousResponseId: z.string().max(200).optional(),
@@ -23,7 +24,7 @@ export async function POST(request: NextRequest) {
   if (!isAuthorized(request)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
     const input = requestSchema.parse(await request.json());
-    const market = await getMarketSnapshot(input.manualPrice);
+    const market = await getMarketSnapshot(input.symbol, input.manualPrice);
     if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json({ analysis: createRuleAnalysis(market), market, fallback: true, chartUsed: false });
     }

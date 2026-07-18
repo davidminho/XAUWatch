@@ -10,3 +10,11 @@ test("demo candles are chronological and internally valid", () => {
   assert.ok(bars.every((bar, index) => index === 0 || bar.time > bars[index - 1].time));
   assert.equal(new Date(bars.at(-1)?.time || 0).getUTCMinutes() % 5, 0);
 });
+
+test("BTCUSD demo candles use an independent price scale", () => {
+  const bars = createDemoCandles(new Date("2026-07-16T08:00:00.000Z"), 48, "BTCUSD");
+  assert.equal(bars.length, 48);
+  assert.ok(bars.every((bar) => bar.close > 60_000));
+  assert.ok(bars.every((bar) => bar.high >= Math.max(bar.open, bar.close)));
+  assert.ok(bars.every((bar) => bar.low <= Math.min(bar.open, bar.close)));
+});

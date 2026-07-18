@@ -17,3 +17,10 @@ test("risk calculator floors to broker lot step and flags high risk", () => {
   assert.equal(result.warning, "Risk มากกว่า 1% ต่อแผน");
   assert.ok(result.estimatedLoss <= result.riskAmount);
 });
+
+test("risk calculator supports BTC spot-equivalent sizing", () => {
+  const result = calculateXauRisk({ balance: 10_000, riskPercent: 0.5, entry: 65_000, stopLoss: 64_000, takeProfit: [66_000, 67_000, 68_000], contractSize: 1, lotStep: 0.001 });
+  assert.equal(result.valid, true);
+  assert.equal(result.lotSize, 0.05);
+  assert.equal(result.estimatedLoss, 50);
+});

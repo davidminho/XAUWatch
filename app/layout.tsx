@@ -7,8 +7,8 @@ import "../tokens.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "XAUWatch — XAUUSD Day Trade Dashboard",
-  description: "Mobile-first XAUUSD decision dashboard.",
+  title: "XAUWatch — XAUUSD & BTCUSD Day Trade Dashboard",
+  description: "Mobile-first XAUUSD and BTCUSD decision dashboard.",
   applicationName: "XAUWatch",
   appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "XAUWatch" },
   robots: { index: false, follow: false }

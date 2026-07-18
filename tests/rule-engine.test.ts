@@ -36,3 +36,17 @@ test("bullish intraday structure creates a buy plan", () => {
   assert.equal(result.primaryPlan.direction, "buy");
   assert.ok(result.primaryPlan.stopLoss < result.primaryPlan.entryZone[0]);
 });
+
+test("BTCUSD produces a schema-valid plan without XAU levels", () => {
+  const result = createRuleAnalysis({
+    ...base,
+    symbol: "BTCUSD",
+    price: 65_000,
+    open: 64_500,
+    low: 63_800,
+    high: 65_500
+  });
+  assert.equal(result.symbol, "BTCUSD");
+  assert.ok(result.primaryPlan.entryZone[0] > 60_000);
+  assert.doesNotThrow(() => analysisSchema.parse(result));
+});

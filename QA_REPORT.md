@@ -1,4 +1,4 @@
-# Coding and Technical QA — XAUWatch v0.6.1
+# Coding and Technical QA — XAUWatch v0.7.0
 
 Date: 2026-07-16 (Asia/Bangkok)
 
@@ -36,6 +36,9 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 | Production chart + Vision smoke | Pass | `/api/chart` returned 96 live M5 bars from Twelve Data; a synthetic XAUUSD screenshot returned `source: ai`, `chartUsed: true`, `fallback: false`, and a safety-first `WAIT / NEUTRAL` result |
 | DEFECT-061 image action feedback | Pass | Loading, success, fallback, timeout, payload, and API failures now remain visible beside the image-analysis button; retry retains the selected image |
 | v0.6.1 Production retest | Pass | Service-worker shell v7 live; chained screenshot request returned HTTP 200, `source: ai`, `chartUsed: true`, and `fallback: false` |
+| v0.7 symbol isolation | Pass | XAUUSD/BTCUSD feed, schema, rule engine, client state, history, screenshot reset, and AI symbol checks; Browser switch produced BTC-only 64k-scale levels |
+| v0.7 automatic chart sync | Pass | Browser analysis changed `data-plan-sync` and visible `SYNCED` time from 07:20:31 to 07:20:44 while refreshing the M5 chart |
+| v0.7 mobile switcher | Pass | 320px and 375px Browser QA; no horizontal overflow and both symbol targets measured 44×44px |
 | Performance browser QA | Pass | First uncached demo flow showed Dashboard within 800ms; repeat load DOM ready ≈60ms and Dashboard visible within 100ms |
 | Static payload reduction | Pass | `.next/static` ≈1.3MB → 876KB; font media 616KB → 200KB |
 

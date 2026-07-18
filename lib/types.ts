@@ -1,6 +1,7 @@
 export type Direction = "BUY" | "SELL" | "NEUTRAL";
 export type Action = "BUY_NOW" | "SELL_NOW" | "WAIT";
 export type Trend = "bullish" | "bearish" | "neutral";
+export type SymbolCode = "XAUUSD" | "BTCUSD";
 
 export type Candle = {
   time: string;
@@ -11,7 +12,7 @@ export type Candle = {
 };
 
 export type MarketSeries = {
-  symbol: "XAUUSD";
+  symbol: SymbolCode;
   interval: "5min";
   bars: Candle[];
   asOf: string;
@@ -20,7 +21,7 @@ export type MarketSeries = {
 };
 
 export type MarketSnapshot = {
-  symbol: "XAUUSD";
+  symbol: SymbolCode;
   price: number;
   open: number;
   high: number;
@@ -42,7 +43,7 @@ export type TradePlan = {
 
 export type Analysis = {
   id: string;
-  symbol: "XAUUSD";
+  symbol: SymbolCode;
   price: number;
   bias: Direction;
   action: Action;

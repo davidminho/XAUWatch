@@ -22,11 +22,13 @@
   - Compact-card refinement: clear one-function-per-card boundaries, tighter spacing, and first-screen Price/Decision/Timeframe visibility on required mobile widths
   - v0.5 decision safety: feed age states, manual refresh, 30-minute plan expiry, proximity/late-entry guard, and forced WAIT fail-safe
   - v0.5 execution support: broker-aware risk estimate, copyable plan levels, in-app level crossing alerts, and opt-in Browser Notifications
-  - PWA lifecycle: service-worker cache v7 and visible update-available handoff
+  - PWA lifecycle: service-worker cache v8 and visible update-available handoff
   - v0.6 chart vision: client-side screenshot validation/resize, explicit OpenAI image input, timeframe hint, and no XAUWatch image persistence
   - v0.6 visual plan: `/api/chart` M5 OHLC series, accessible SVG candles, Entry/SL/TP/current overlays, and PNG export
   - v0.6 production smoke: 96 live M5 bars from Twelve Data and synthetic screenshot analysis completed through OpenAI Vision with `chartUsed: true` and no fallback
   - v0.6.1 defect fix: image analysis now reports loading, completion, fallback, timeout, payload, and API errors beside the initiating button; mobile image decoding and stale conversation context have safe fallbacks
+  - v0.7 multi-symbol: XAUUSD/BTCUSD switcher, symbol-scoped API/feed/AI validation, history, snapshot, screenshot reset, alert copy, and risk assumptions
+  - v0.7 chart sync: every completed analysis refreshes M5 candles, remounts the generated plan overlay, resets export state, and displays the analysis sync time
 - Dependencies/data/content: provider secrets remain server-only; demo output visibly labelled stale/demo; chart screenshots are user-selected, bounded to supported raster formats, and sent only with an explicit analysis request
 - Accessibility/performance/SEO/analytics/security/privacy: keyboard/focus, labels, reduced motion, no indexing, security headers, no client-side provider secrets; repeat-load browser QA, 320/375/414/768 responsive checks, contrast audit, and production provider checks passed
 - Commands/checks/results/failures/limitations: see `QA_REPORT.md`

@@ -1,13 +1,15 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import type { Candle, TradePlan } from "@/lib/types";
+import type { Candle, SymbolCode, TradePlan } from "@/lib/types";
 
 type PlanChartProps = {
+  symbol: SymbolCode;
   bars: Candle[];
   plan: TradePlan;
   currentPrice: number;
   stale: boolean;
+  syncedAt: string;
 };
 
 const WIDTH = 640;
@@ -15,7 +17,7 @@ const HEIGHT = 360;
 const PLOT = { top: 24, right: 82, bottom: 42, left: 20 };
 const formatPrice = (value: number) => value.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
-export default function PlanChart({ bars, plan, currentPrice, stale }: PlanChartProps) {
+export default function PlanChart({ symbol, bars, plan, currentPrice, stale, syncedAt }: PlanChartProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [exportState, setExportState] = useState<"idle" | "loading" | "success" | "error">("idle");
   const chart = useMemo(() => {
@@ -94,7 +96,7 @@ export default function PlanChart({ bars, plan, currentPrice, stale }: PlanChart
       const downloadUrl = URL.createObjectURL(png);
       const link = document.createElement("a");
       link.href = downloadUrl;
-      link.download = `xauwatch-plan-${new Date().toISOString().slice(0, 16).replaceAll(":", "-")}.png`;
+      link.download = `xauwatch-${symbol.toLowerCase()}-plan-${new Date().toISOString().slice(0, 16).replaceAll(":", "-")}.png`;
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -107,9 +109,9 @@ export default function PlanChart({ bars, plan, currentPrice, stale }: PlanChart
   };
 
   return (
-    <figure className="plan-chart">
+    <figure className="plan-chart" data-plan-sync={syncedAt}>
       <svg ref={svgRef} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-labelledby="plan-chart-title plan-chart-desc">
-        <title id="plan-chart-title">กราฟ XAUUSD M5 พร้อมแผน {plan.direction.toUpperCase()}</title>
+        <title id="plan-chart-title">กราฟ {symbol} M5 พร้อมแผน {plan.direction.toUpperCase()}</title>
         <desc id="plan-chart-desc">แท่งเทียนล่าสุดพร้อม Entry zone, Stop Loss, Take Profit สามระดับ และราคาปัจจุบัน</desc>
         <rect className="chart-bg" width={WIDTH} height={HEIGHT} />
         {chart.grid.map((line) => <g key={line.price}><line className="chart-grid" x1={PLOT.left} x2={WIDTH - PLOT.right} y1={line.y} y2={line.y} /><text className="chart-axis" x={WIDTH - PLOT.right + 10} y={line.y + 5}>{formatPrice(line.price)}</text></g>)}
@@ -129,7 +131,7 @@ export default function PlanChart({ bars, plan, currentPrice, stale }: PlanChart
         <text className="chart-axis chart-axis--end" x={WIDTH - PLOT.right} y={HEIGHT - 14}>{stale ? "DATA STALE" : "LIVE FEED"}</text>
       </svg>
       <figcaption>
-        <div className="chart-legend" aria-label="คำอธิบายกราฟ"><span className="chart-legend__entry">Entry</span><span className="chart-legend__sl">SL</span><span className="chart-legend__tp">TP</span></div>
+        <div><div className="chart-legend" aria-label="คำอธิบายกราฟ"><span className="chart-legend__entry">Entry</span><span className="chart-legend__sl">SL</span><span className="chart-legend__tp">TP</span></div><output className="plan-chart__sync" aria-live="polite">SYNCED · {new Intl.DateTimeFormat("th-TH", { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "Asia/Bangkok" }).format(new Date(syncedAt))}</output></div>
         <button type="button" onClick={() => void exportPng()} disabled={exportState === "loading"} data-state={exportState}>{exportState === "loading" ? "กำลังสร้างภาพ…" : exportState === "success" ? "บันทึกแล้ว" : exportState === "error" ? "ลองบันทึกใหม่" : "บันทึกภาพแผน"}</button>
       </figcaption>
     </figure>

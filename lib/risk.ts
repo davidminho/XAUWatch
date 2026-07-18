@@ -48,7 +48,7 @@ export function calculateXauRisk(input: {
 
   return {
     valid: lotSize >= lotStep,
-    error: lotSize < lotStep ? "ความเสี่ยงต่ำกว่าขนาด Lot ขั้นต่ำ 0.01 — ลดระยะ Stop หรือใช้บัญชีที่รองรับขนาดเล็กกว่า" : undefined,
+    error: lotSize < lotStep ? `ความเสี่ยงต่ำกว่าขนาดขั้นต่ำ ${lotStep} — ลดระยะ Stop หรือใช้บัญชีที่รองรับขนาดเล็กกว่า` : undefined,
     riskAmount: round(riskAmount),
     stopDistance: round(stopDistance, 1),
     lotSize: round(lotSize),

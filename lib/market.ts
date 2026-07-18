@@ -1,4 +1,13 @@
-import type { Candle, MarketSeries, MarketSnapshot } from "./types";
+import type { Candle, MarketSeries, MarketSnapshot, SymbolCode } from "./types";
+
+const SYMBOLS: Record<SymbolCode, { provider: string; demoBase: number }> = {
+  XAUUSD: { provider: process.env.TWELVE_DATA_XAU_SYMBOL || process.env.TWELVE_DATA_SYMBOL || "XAU/USD", demoBase: 4040.2 },
+  BTCUSD: { provider: process.env.TWELVE_DATA_BTC_SYMBOL || "BTC/USD", demoBase: 65000 }
+};
+
+export function parseSymbol(value: unknown): SymbolCode {
+  return value === "BTCUSD" ? "BTCUSD" : "XAUUSD";
+}
 
 const asNumber = (value: unknown, fallback: number) => {
   const parsed = Number(value);
@@ -21,17 +30,21 @@ const asUtcIso = (value: unknown) => {
 
 const round = (value: number) => Math.round(value * 10) / 10;
 
-export function createDemoCandles(now = new Date(), count = 96): Candle[] {
+export function createDemoCandles(now = new Date(), count = 96, symbol: SymbolCode = "XAUUSD"): Candle[] {
   const end = Math.floor(now.getTime() / 300_000) * 300_000;
   const bars: Candle[] = [];
-  let previousClose = 4040.2;
+  const config = SYMBOLS[symbol];
+  const amplitude = symbol === "BTCUSD" ? 95 : 4.2;
+  const slowAmplitude = symbol === "BTCUSD" ? 150 : 6.5;
+  const driftScale = symbol === "BTCUSD" ? -0.8 : -0.035;
+  let previousClose = config.demoBase;
 
   for (let index = 0; index < count; index += 1) {
-    const wave = Math.sin(index / 5.7) * 4.2 + Math.sin(index / 15) * 6.5;
-    const drift = (index - count / 2) * -0.035;
-    const close = round(4040.2 + wave + drift);
-    const open = round(index === 0 ? close - 0.8 : previousClose);
-    const wick = 1.1 + Math.abs(Math.sin(index * 1.7)) * 1.8;
+    const wave = Math.sin(index / 5.7) * amplitude + Math.sin(index / 15) * slowAmplitude;
+    const drift = (index - count / 2) * driftScale;
+    const close = round(config.demoBase + wave + drift);
+    const open = round(index === 0 ? close - amplitude * 0.2 : previousClose);
+    const wick = amplitude * 0.26 + Math.abs(Math.sin(index * 1.7)) * amplitude * 0.42;
     bars.push({
       time: new Date(end - (count - 1 - index) * 300_000).toISOString(),
       open,
@@ -45,13 +58,12 @@ export function createDemoCandles(now = new Date(), count = 96): Candle[] {
   return bars;
 }
 
-async function getProviderCandles(): Promise<Candle[]> {
+async function getProviderCandles(symbol: SymbolCode): Promise<Candle[]> {
   const key = process.env.TWELVE_DATA_API_KEY;
-  if (!key) return createDemoCandles();
+  if (!key) return createDemoCandles(new Date(), 96, symbol);
 
-  const symbol = process.env.TWELVE_DATA_SYMBOL || "XAU/USD";
   const url = new URL("https://api.twelvedata.com/time_series");
-  url.searchParams.set("symbol", symbol);
+  url.searchParams.set("symbol", SYMBOLS[symbol].provider);
   url.searchParams.set("interval", "5min");
   url.searchParams.set("outputsize", "288");
   url.searchParams.set("timezone", "UTC");
@@ -77,24 +89,24 @@ async function getProviderCandles(): Promise<Candle[]> {
       : [];
   }).reverse();
 
-  if (!bars.length) throw new Error("Market feed returned no XAUUSD bars");
+  if (!bars.length) throw new Error(`Market feed returned no ${symbol} bars`);
   return bars;
 }
 
-export async function getMarketSeries(limit = 96): Promise<MarketSeries> {
-  const bars = await getProviderCandles();
+export async function getMarketSeries(symbol: SymbolCode = "XAUUSD", limit = 96): Promise<MarketSeries> {
+  const bars = await getProviderCandles(symbol);
   const selected = bars.slice(-Math.max(24, Math.min(limit, 288)));
   const asOf = selected.at(-1)?.time ?? new Date().toISOString();
   const source = process.env.TWELVE_DATA_API_KEY ? "twelve-data" : "demo";
   const stale = source === "demo" || Date.now() - new Date(asOf).getTime() > 12 * 60_000;
-  return { symbol: "XAUUSD", interval: "5min", bars: selected, asOf, source, stale };
+  return { symbol, interval: "5min", bars: selected, asOf, source, stale };
 }
 
-export async function getMarketSnapshot(manualPrice?: number): Promise<MarketSnapshot> {
-  const series = await getMarketSeries(288);
+export async function getMarketSnapshot(symbol: SymbolCode = "XAUUSD", manualPrice?: number): Promise<MarketSnapshot> {
+  const series = await getMarketSeries(symbol, 288);
   const bars = series.bars;
   const latest = bars.at(-1);
-  if (!latest) throw new Error("Market feed returned no XAUUSD bars");
+  if (!latest) throw new Error(`Market feed returned no ${symbol} bars`);
 
   const price = manualPrice ?? latest.close;
   const sessionBars = bars.slice(-288);
@@ -104,7 +116,7 @@ export async function getMarketSnapshot(manualPrice?: number): Promise<MarketSna
   const lows = sessionBars.map((bar) => bar.low);
 
   return {
-    symbol: "XAUUSD",
+    symbol,
     price,
     open: sessionOpen,
     high: Math.max(...highs),

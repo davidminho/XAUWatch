@@ -3,13 +3,13 @@ import type { Analysis, MarketSnapshot, Trend } from "./types";
 const round = (value: number) => Math.round(value * 10) / 10;
 
 export function createRuleAnalysis(market: MarketSnapshot): Analysis {
-  const range = Math.max(market.high - market.low, 12);
+  const range = Math.max(market.high - market.low, market.symbol === "BTCUSD" ? 300 : 12);
   const location = (market.price - market.low) / range;
   const bearish = market.price < market.open;
   const bias = bearish ? "SELL" : "BUY";
   const nearEdge = location < 0.22 || location > 0.78;
   const trend: Trend = bearish ? "bearish" : "bullish";
-  const step = Math.max(range * 0.14, 4.5);
+  const step = Math.max(range * 0.14, market.symbol === "BTCUSD" ? 100 : 4.5);
 
   const resistance = [market.price + step, market.price + step * 2, market.high]
     .map(round)
@@ -29,7 +29,7 @@ export function createRuleAnalysis(market: MarketSnapshot): Analysis {
 
   return {
     id: crypto.randomUUID(),
-    symbol: "XAUUSD",
+    symbol: market.symbol,
     price: market.price,
     bias,
     action: market.stale || nearEdge ? "WAIT" : bearish ? "SELL_NOW" : "BUY_NOW",
