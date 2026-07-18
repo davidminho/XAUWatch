@@ -2,6 +2,15 @@
 
 Android-first XAUUSD and BTCUSD day-trade Dashboard. It keeps `Bias`, `Action`, and `Trigger` separate so a bearish market can still say `WAIT` when price is sitting on support.
 
+## v1.2 Trading Workbench
+
+- Action-first decision desk and live quote share the opening viewport
+- Analysis command moved directly below the decision desk for fast Android use
+- Cobalt-on-cool-paper visual system with compact modules and one containment layer
+- Space Grotesk display, Inter body, and JetBrains Mono only for market values
+- Chart, plan, levels, risk, and alerts now read as a working surface instead of decorative cards
+- All XAUUSD/BTCUSD, Vision, chart sync, risk, alert, and AI behavior remains unchanged
+
 ## v1.1 Cinematic Sci-Fi
 
 - Custom Event Horizon palette with a near-black blue void, warm silver type, and a restrained amber signal line

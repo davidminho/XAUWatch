@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
+import "@fontsource/inter/latin-400.css";
+import "@fontsource/inter/latin-500.css";
+import "@fontsource/inter/latin-600.css";
 import "@fontsource/jetbrains-mono/latin-400.css";
 import "@fontsource/jetbrains-mono/latin-600.css";
-import "@fontsource/manrope/latin-400.css";
-import "@fontsource/manrope/latin-500.css";
-import "@fontsource/manrope/latin-600.css";
 import "@fontsource/space-grotesk/latin-400.css";
 import "@fontsource/space-grotesk/latin-500.css";
 import "@fontsource/space-grotesk/latin-600.css";
@@ -22,7 +22,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#03050a"
+  themeColor: "#f8f9fc"
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

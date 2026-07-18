@@ -1,6 +1,18 @@
 [
   {
     "date": "2026-07-18",
+    "macrostructure": "Workbench",
+    "theme": "Cobalt",
+    "theme_axes": "light / geometric-sans / chromatic-cobalt",
+    "vibe": "quiet market paper, exact blue signal",
+    "enrichment": "none",
+    "brief": "Action-first XAUUSD and BTCUSD day-trade dashboard for fast Android decisions",
+    "variation": "action-first / command-in-fold / utility-below",
+    "nav": "N9",
+    "footer": "Ft5"
+  },
+  {
+    "date": "2026-07-18",
     "macrostructure": "Marquee Hero",
     "theme": "custom Event Horizon",
     "theme_axes": "dark / geometric-sans / chromatic-amber",

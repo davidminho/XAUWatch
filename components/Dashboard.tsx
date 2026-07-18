@@ -375,29 +375,32 @@ export default function Dashboard() {
       <main className="dashboard" id="top">
         {updateAvailable && <aside className="update-banner" role="status"><p><strong>มีเวอร์ชันใหม่พร้อมใช้</strong><span>รีโหลดเพื่อรับการแก้ไขล่าสุด</span></p><button onClick={() => window.location.reload()}>โหลดเวอร์ชันใหม่</button></aside>}
 
-        <section className="market-hero" aria-labelledby="market-title">
-          <div className="market-hero__horizon" aria-hidden="true" />
-          <div className="market-hero__quote"><p className="market-hero__symbol" id="market-title">{symbolLabel(market.symbol)}</p><p className="market-hero__price">{formatter.format(market.price)}</p><div className="market-hero__qualifier"><p className={`market-hero__change ${market.changePercent < 0 ? "negative" : "positive"}`}>{market.changePercent >= 0 ? "+" : ""}{market.changePercent.toFixed(2)}% วันนี้</p><p>{market.symbol === "BTCUSD" ? "ดอลลาร์สหรัฐต่อ Bitcoin" : "ดอลลาร์สหรัฐต่อออนซ์"}</p></div></div>
-          <div className="market-hero__meta"><span>MARKET SNAPSHOT</span><dl><div><dt>OPEN</dt><dd>{formatter.format(market.open)}</dd></div><div><dt>HIGH</dt><dd>{formatter.format(market.high)}</dd></div><div><dt>LOW</dt><dd>{formatter.format(market.low)}</dd></div></dl><p><time dateTime={market.asOf}>{dateFormatter.format(new Date(market.asOf))}</time> · {market.source === "demo" ? "Demo" : "Twelve Data"}</p></div>
-          <div className="market-controls">
-            <div><span className={`freshness-badge freshness-badge--${freshness.toLowerCase()}`}>{freshness}</span><p>{formatAgeThai(age)} · เวลาไทย {timeFormatter.format(clock)}</p></div>
-            <button type="button" onClick={() => { void requestMarket(); void requestChart(); }} disabled={marketRefreshing}>{marketRefreshing ? "กำลังรีเฟรช…" : "รีเฟรชราคา"}</button>
-          </div>
-        </section>
+        <div className="workbench-primary">
+          <section className="decision-panel" aria-labelledby="decision-title">
+            <div className={`decision-panel__action action--${effectiveAction.toLowerCase()}`}><div><span id="decision-title">ACTION</span><strong>{actionText(effectiveAction)}</strong></div><p>{effectiveAction === analysis.action ? analysis.summary : `${analysis.summary} · ระบบพักแผนเพื่อความปลอดภัย`}</p></div>
+            <div className="decision-panel__bias">
+              <span>BIAS</span>
+              <strong className={`signal signal--${analysis.bias.toLowerCase()}`}>{analysis.bias}</strong>
+              <div className={`confidence-meter confidence-meter--${analysis.bias.toLowerCase()}`}>
+                <div className="confidence-meter__label"><span>ความมั่นใจ</span><strong>{analysis.confidence}%</strong></div>
+                <progress value={analysis.confidence} max="100" aria-label={`ความมั่นใจ ${analysis.confidence}%`}>{analysis.confidence}%</progress>
+              </div>
+            </div>
+          </section>
+
+          <section className="market-hero" aria-labelledby="market-title">
+            <div className="market-hero__quote"><p className="market-hero__symbol" id="market-title">{symbolLabel(market.symbol)}</p><p className="market-hero__price">{formatter.format(market.price)}</p><div className="market-hero__qualifier"><p className={`market-hero__change ${market.changePercent < 0 ? "negative" : "positive"}`}>{market.changePercent >= 0 ? "+" : ""}{market.changePercent.toFixed(2)}% วันนี้</p><p>{market.symbol === "BTCUSD" ? "USD ต่อ Bitcoin" : "USD ต่อออนซ์"}</p></div></div>
+            <div className="market-hero__meta"><span>ช่วงราคาวันนี้</span><dl><div><dt>OPEN</dt><dd>{formatter.format(market.open)}</dd></div><div><dt>HIGH</dt><dd>{formatter.format(market.high)}</dd></div><div><dt>LOW</dt><dd>{formatter.format(market.low)}</dd></div></dl><p><time dateTime={market.asOf}>{dateFormatter.format(new Date(market.asOf))}</time> · {market.source === "demo" ? "Demo" : "Twelve Data"}</p></div>
+            <div className="market-controls">
+              <div><span className={`freshness-badge freshness-badge--${freshness.toLowerCase()}`}>{freshness}</span><p>{formatAgeThai(age)} · {timeFormatter.format(clock)}</p></div>
+              <button type="button" onClick={() => { void requestMarket(); void requestChart(); }} disabled={marketRefreshing}>{marketRefreshing ? "กำลังรีเฟรช…" : "รีเฟรชราคา"}</button>
+            </div>
+          </section>
+
+          <section className="command" id="command" aria-labelledby="command-title"><div className="section-heading"><h2 id="command-title">วิเคราะห์ {selectedSymbol}</h2><p>อัปเดตคำตัดสิน ระดับราคา และแผนภาพในครั้งเดียว</p></div><form onSubmit={onSubmit}><label htmlFor="analysis-command">คำสั่ง</label><div className="command__field"><textarea id="analysis-command" value={message} onChange={(event) => setMessage(event.target.value)} rows={2} maxLength={500} aria-describedby="command-helper" /><button type="submit" disabled={status === "loading"} data-state={status}>{status === "loading" ? "กำลังวิเคราะห์…" : status === "error" ? "ลองใหม่" : "วิเคราะห์ตอนนี้"}</button></div><p id="command-helper" className="field-helper">ใช้ snapshot {selectedSymbol} ล่าสุด แผนก่อนหน้า{chartImage ? " และ Screenshot ที่เลือก" : ""}</p><div className="quick-actions" aria-label="คำสั่งด่วน"><button type="button" disabled={status === "loading"} onClick={() => { const prompt = `วิเคราะห์ ${selectedSymbol} ตอนนี้ เน้นเข้าเร็ว M5–M15`; setMessage(prompt); void requestAnalysis(prompt); }}>เข้าเร็ว M5–M15</button><button type="button" disabled={status === "loading"} onClick={() => { const prompt = `เช็กแผน ${selectedSymbol} เดิมจากราคาล่าสุด`; setMessage(prompt); void requestAnalysis(prompt); }}>เช็กแผนเดิม</button></div></form></section>
+        </div>
 
         {warning && <p className="system-warning" role="status">{warning}</p>}{error && <p className="system-error" role="alert">{error}</p>}
-
-        <section className="decision-panel" aria-labelledby="decision-title">
-          <div className="decision-panel__bias">
-            <span id="decision-title">BIAS</span>
-            <strong className={`signal signal--${analysis.bias.toLowerCase()}`}>{analysis.bias}</strong>
-            <div className={`confidence-meter confidence-meter--${analysis.bias.toLowerCase()}`}>
-              <div className="confidence-meter__label"><span>ความมั่นใจ</span><strong>{analysis.confidence}%</strong></div>
-              <progress value={analysis.confidence} max="100" aria-label={`ความมั่นใจ ${analysis.confidence}%`}>{analysis.confidence}%</progress>
-            </div>
-          </div>
-          <div className={`decision-panel__action action--${effectiveAction.toLowerCase()}`}><div><span>ACTION</span><strong>{actionText(effectiveAction)}</strong></div><p>{effectiveAction === analysis.action ? analysis.summary : `${analysis.summary} · ระบบพักแผนเพื่อความปลอดภัย`}</p></div>
-        </section>
 
         <section className="timeframes" aria-label="แนวโน้มตามกรอบเวลา">{(["m5", "m15", "h1"] as const).map((frame) => <div key={frame}><span>{frame.toUpperCase()}</span><TrendMark trend={analysis.trend[frame]} /><strong>{analysis.trend[frame]}</strong></div>)}</section>
 
@@ -465,8 +468,6 @@ export default function Dashboard() {
           </section>
         </div>
 
-        <section className="command" id="command" aria-labelledby="command-title"><div className="section-heading"><h2 id="command-title">ถามนักวิเคราะห์ {selectedSymbol}</h2><p>คำตอบใหม่จะอัปเดต Dashboard และแผนภาพอัตโนมัติ</p></div><form onSubmit={onSubmit}><label htmlFor="analysis-command">คำสั่ง</label><div className="command__field"><textarea id="analysis-command" value={message} onChange={(event) => setMessage(event.target.value)} rows={3} maxLength={500} aria-describedby="command-helper" /><button type="submit" disabled={status === "loading"} data-state={status}>{status === "loading" ? "กำลังวิเคราะห์…" : status === "error" ? "ลองใหม่" : "วิเคราะห์ตอนนี้"}</button></div><p id="command-helper" className="field-helper">AI จะได้รับ snapshot {selectedSymbol} ล่าสุด บริบทจากแผนก่อนหน้า{chartImage ? " และ Screenshot ที่เลือก" : ""}</p><div className="quick-actions" aria-label="คำสั่งด่วน"><button type="button" disabled={status === "loading"} onClick={() => { const prompt = `วิเคราะห์ ${selectedSymbol} ตอนนี้ เน้นเข้าเร็ว M5–M15`; setMessage(prompt); void requestAnalysis(prompt); }}>เข้าเร็ว</button><button type="button" disabled={status === "loading"} onClick={() => { const prompt = `เช็กแผน ${selectedSymbol} เดิมจากราคาล่าสุด`; setMessage(prompt); void requestAnalysis(prompt); }}>เช็กแผนเดิม</button></div></form></section>
-
         <details className="settings"><summary>Feed, access และการรีเฟรช</summary><div className="settings__body"><label htmlFor="manual-price">ราคาโบรกเกอร์ (เว้นว่างเพื่อใช้ feed)</label><input id="manual-price" inputMode="decimal" value={manualPrice} onChange={(event) => setManualPrice(event.target.value)} placeholder="เช่น 4040.2" /><label htmlFor="access-token">รหัส Dashboard</label><input id="access-token" type="password" value={accessToken} onChange={(event) => saveToken(event.target.value)} autoComplete="current-password" placeholder="กรอกเมื่อ server เปิดการป้องกัน" /><label className="toggle"><input type="checkbox" checked={autoRefresh} onChange={(event) => setAutoRefresh(event.target.checked)} /> ราคาใหม่ทุก 1 นาที / วิเคราะห์ทุก 5 นาที</label></div></details>
 
         <details className="history"><summary>ประวัติบทวิเคราะห์ <span>{history.length}</span></summary><div className="history__list">{history.length === 0 ? <p>ยังไม่มีประวัติ — วิเคราะห์ครั้งแรกเพื่อเริ่มบันทึก</p> : history.slice(0, 8).map((item) => <button key={item.id} type="button" onClick={() => setAnalysis(item)}><time dateTime={item.generatedAt}>{dateFormatter.format(new Date(item.generatedAt))}</time><strong className={`signal--${item.bias.toLowerCase()}`}>{item.bias}</strong><span>{item.action.replace("_", " ")}</span><b>{formatter.format(item.price)}</b></button>)}</div></details>
@@ -474,7 +475,7 @@ export default function Dashboard() {
         <p className="risk-note">{analysis.riskNote}</p>
       </main>
 
-      <footer className="foot-dense"><p className="foot-dense__meta"><span>XAUWATCH v1.1 · {analysis.symbol} · {analysis.source.toUpperCase()} · DATA {freshness}</span><span>ไม่ใช่คำรับรองผลกำไร · ตรวจสอบราคา ข่าว และ contract size ก่อนส่งคำสั่งจริง</span></p></footer>
+      <footer className="foot-dense"><div className="foot-dense__mast"><strong>แผนมีอายุ ราคามีการเปลี่ยนแปลง</strong><span>ตรวจสอบ trigger, stop และ contract size ก่อนส่งคำสั่งจริง</span></div><p className="foot-dense__meta"><span>XAUWATCH v1.2 · {analysis.symbol} · {analysis.source.toUpperCase()}</span><span>DATA {freshness} · ไม่ใช่คำรับรองผลกำไร</span></p></footer>
     </>
   );
 }

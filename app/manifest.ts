@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Mobile-first XAUUSD and BTCUSD decision dashboard with chart screenshots, structured AI analysis, and visual trade plans.",
     start_url: "/",
     display: "standalone",
-    background_color: "#03050a",
-    theme_color: "#03050a",
+    background_color: "#f8f9fc",
+    theme_color: "#f8f9fc",
     orientation: "portrait-primary",
     icons: [
       { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },

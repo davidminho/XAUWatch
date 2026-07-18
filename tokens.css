@@ -1,35 +1,36 @@
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5
- * macrostructure: Marquee Hero · H1 knobs: quote=live-market, alignment=left, fold=62svh
- * theme: custom · vibe: "cinematic void, warm horizon, precise signal" · paper: oklch(6.5% 0.016 260) · accent: oklch(78% 0.13 65)
- * display: Space Grotesk · body: Manrope · axes: dark / geometric-sans / chromatic-amber
- * genre: atmospheric · enrichment: Tier-A market horizon · nav: N1b · footer: Ft2 · mobile: 320/375/414/768 · slop: pass (1–58) · v1.1
+ * macrostructure: Workbench · knobs: action-first, command-in-fold, utility-below
+ * theme: Cobalt · vibe: "quiet market paper, exact blue signal" · accent: electric cobalt
+ * display: Space Grotesk · body: Inter · axes: light / geometric-sans / chromatic-cobalt
+ * genre: modern-minimal · enrichment: none · nav: N9 · footer: Ft5 · mobile: 320/375/414/768 · v1.2
  */
 :root {
-  --color-paper: oklch(6.5% 0.016 260);
-  --color-paper-2: oklch(9.5% 0.020 258);
-  --color-paper-3: oklch(13.5% 0.025 255);
-  --color-ink: oklch(94% 0.016 75);
-  --color-ink-2: oklch(82% 0.018 72);
-  --color-muted: oklch(69% 0.022 250);
-  --color-rule: oklch(22% 0.030 255);
-  --color-rule-strong: oklch(31% 0.040 252);
-  --color-accent: oklch(78% 0.13 65);
-  --color-accent-ink: oklch(9% 0.020 260);
-  --color-focus: oklch(84% 0.16 65);
-  --color-star: oklch(90% 0.014 75);
-  --color-orbit: oklch(58% 0.060 245);
-  --color-horizon: oklch(80% 0.14 65);
-  --color-buy: oklch(80% 0.14 155);
-  --color-buy-surface: oklch(16% 0.038 155);
-  --color-sell: oklch(73% 0.16 25);
-  --color-sell-surface: oklch(16% 0.045 25);
-  --color-wait: oklch(82% 0.09 84);
-  --color-wait-surface: oklch(16% 0.032 84);
-  --color-error: oklch(73% 0.16 25);
-  --color-error-surface: oklch(16% 0.045 25);
+  --color-paper: oklch(98.5% 0.004 250);
+  --color-paper-2: oklch(96% 0.007 250);
+  --color-paper-3: oklch(92.5% 0.010 252);
+  --color-ink: oklch(22% 0.020 258);
+  --color-ink-2: oklch(34% 0.018 257);
+  --color-muted: oklch(46% 0.018 255);
+  --color-rule: oklch(86% 0.012 252);
+  --color-rule-strong: oklch(72% 0.020 254);
+  --color-accent: oklch(53% 0.22 256);
+  --color-accent-ink: oklch(98.5% 0.004 250);
+  --color-focus: oklch(45% 0.22 256);
+  --color-star: oklch(22% 0.020 258);
+  --color-orbit: oklch(53% 0.22 256);
+  --color-horizon: oklch(53% 0.22 256);
+  --color-buy: oklch(42% 0.14 155);
+  --color-buy-surface: oklch(94% 0.030 155);
+  --color-sell: oklch(48% 0.18 25);
+  --color-sell-surface: oklch(95% 0.028 25);
+  --color-wait: oklch(43% 0.12 84);
+  --color-wait-surface: oklch(95% 0.028 84);
+  --color-error: oklch(48% 0.18 25);
+  --color-error-surface: oklch(95% 0.028 25);
+  --color-graphite: oklch(22% 0.016 260);
 
-  --font-display: "Space Grotesk", "Manrope", ui-sans-serif, sans-serif;
-  --font-body: "Manrope", ui-sans-serif, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, sans-serif;
+  --font-body: "Inter", ui-sans-serif, sans-serif;
   --font-outlier: "JetBrains Mono", ui-monospace, monospace;
 
   --space-2xs: 0.25rem;
@@ -58,7 +59,7 @@
 
   --rule-hair: 1px;
   --rule-strong: 2px;
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
   --radius-round: 999px;
 }
