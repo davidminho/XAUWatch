@@ -3,6 +3,8 @@ import "@fontsource/ibm-plex-sans/latin-400.css";
 import "@fontsource/ibm-plex-sans/latin-600.css";
 import "@fontsource/jetbrains-mono/latin-400.css";
 import "@fontsource/jetbrains-mono/latin-600.css";
+import "@fontsource/tomorrow/latin-400.css";
+import "@fontsource/tomorrow/latin-600.css";
 import "../tokens.css";
 import "./globals.css";
 
@@ -18,7 +20,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#050b14"
+  themeColor: "#030816"
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

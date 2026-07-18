@@ -2,6 +2,15 @@
 
 Android-first XAUUSD and BTCUSD day-trade Dashboard. It keeps `Bias`, `Action`, and `Trigger` separate so a bearish market can still say `WAIT` when price is sitting on support.
 
+## v0.9 Sci-Fi Space Command Center
+
+- Aurora deep-space canvas with a restrained star map and price-linked orbital HUD
+- Tomorrow display typography for market quotes and mission-level headings
+- Floating control-pod navigation that keeps all primary controls visible down to 320px
+- Angular space-console modules without card nesting, heavy text glow, or decorative fake metrics
+- Mission-statement footer and matching orbital PWA icons/theme chrome
+- All XAUUSD/BTCUSD, Vision, chart sync, risk, alert, and AI behavior remains unchanged
+
 ## v0.8 Terminal Neon interface
 
 - Cool navy trading-console surfaces with a restrained cyan signal rail and technical grid

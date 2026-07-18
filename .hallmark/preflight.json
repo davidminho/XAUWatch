@@ -1,12 +1,12 @@
 {
   "date": "2026-07-18",
-  "signals": "existing production XAUUSD/BTCUSD dashboard v0.7 with live market, Vision, AI analysis, automatic chart sync, and explicit decision-safety operations",
+  "signals": "existing production XAUUSD/BTCUSD dashboard v0.8 with live market, Vision, AI analysis, automatic chart sync, explicit decision-safety operations, and Terminal Neon visual system",
   "framework": "Next.js App Router",
-  "fontStack": "IBM Plex Sans + JetBrains Mono",
-  "palette": "OKLCH Terminal Neon with cool navy surfaces, cyan signal accent, phosphor BUY, hot-red SELL, and amber WAIT",
-  "motion": "live-status pulse, plan-sync transition, and native control feedback; reduced-motion fallback preserved",
+  "fontStack": "Tomorrow display + IBM Plex Sans body + JetBrains Mono numeric outlier",
+  "palette": "OKLCH Aurora with deep indigo space surfaces, orbital cyan, semantic BUY/SELL/WAIT, and restrained star texture",
+  "motion": "single orbit-acquisition entrance, live-status pulse, plan-sync transition, and native control feedback; reduced-motion fallback preserved",
   "spacing": "4pt semantic scale",
   "sourceFiles": ["components/Dashboard.tsx", "app/globals.css", "tokens.css"],
-  "preserve": ["font stack", "API flows", "analysis history", "auto refresh", "compact separated cards", "XAUUSD/BTCUSD symbol isolation", "Vision workflow"],
-  "add": ["Terminal Neon token system", "cyan signal rails", "semantic restrained glows", "responsive single-line quotes", "matching PWA chrome and icons"]
+  "preserve": ["API flows", "analysis history", "auto refresh", "compact separated modules", "XAUUSD/BTCUSD symbol isolation", "Vision workflow", "decision safety"],
+  "add": ["Aurora space token system", "price-linked orbital HUD", "N5 floating control pod", "Tomorrow display face", "Ft5 mission footer", "orbital PWA chrome and icons"]
 }

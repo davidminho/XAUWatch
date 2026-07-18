@@ -1,4 +1,4 @@
-# Coding and Technical QA — XAUWatch v0.8.0
+# Coding and Technical QA — XAUWatch v0.9.0
 
 Date: 2026-07-18 (Asia/Bangkok)
 
@@ -44,6 +44,10 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 | v0.8 contrast | Pass | `node scripts/contrast.mjs` — all semantic token pairs passed; minimum tested ratio 6.56:1 |
 | v0.8 Terminal Neon responsive QA | Pass | Browser QA at 320/375/414/768/1024px; document width matched viewport, BTC price remained single-line, all visible button/link/summary targets were at least 44px, and console had 0 warnings/errors |
 | v0.8 symbol interaction | Pass | Browser switch changed pressed state and market title from BTCUSD to XAUUSD without overflow at 1024px |
+| v0.9 Sci-Fi Space responsive QA | Pass | Browser QA at 320/375/414/768/1024px; document width matched viewport, quote remained single-line, floating nav controls stayed visible, and console had 0 warnings/errors |
+| v0.9 orbital HUD integrity | Pass | HUD label tracked the selected symbol (`XAUUSD`/`BTCUSD`), remained `aria-hidden`, never intercepted input, and did not obscure quote or market controls |
+| v0.9 touch targets | Pass | All visible button/link/summary controls met 44px minimum at 320px, including the icon-only mobile wordmark target |
+| v0.9 contrast | Pass | `node scripts/contrast.mjs` — all tested semantic pairs passed; minimum tested ratio 6.82:1 |
 | Performance browser QA | Pass | First uncached demo flow showed Dashboard within 800ms; repeat load DOM ready ≈60ms and Dashboard visible within 100ms |
 | Static payload reduction | Pass | `.next/static` ≈1.3MB → 876KB; font media 616KB → 200KB |
 
@@ -56,6 +60,7 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 - Confidence now uses a compact semantic progress meter with quarter markers and existing signal colors; the narrow two-column breakpoint collapses the duplicate text label to protect the data width.
 - v0.6 adds one bounded Chart Plan workspace: the user-supplied screenshot remains visually secondary to the generated OHLC plan, and every overlay reuses the existing Entry/SELL/BUY/WAIT tokens.
 - v0.8 moves the established Stat-Led structure to a restrained Terminal Neon theme: cyan is limited to signal rails, active controls, and Entry cues; BUY/SELL/WAIT remain semantic; grid and glow never replace text or state labels.
+- v0.9 rotates to Map / Diagram + Aurora with N5 floating navigation and Ft5 statement footer; its single central move is a price-linked orbital map, while star texture and line effects remain inert, secondary, and reduced-motion safe.
 - Slop gates 1–58 pass, including token discipline, honest live market stats, two-role outlier typography, focus/reduced-motion support, contrast, mobile overflow, and single-line affordances.
 
 ## Acceptance traceability

@@ -31,8 +31,9 @@
   - v0.7 chart sync: every completed analysis refreshes M5 candles, remounts the generated plan overlay, resets export state, and displays the analysis sync time
   - v0.7 production verification: Twelve Data and OpenAI returned isolated XAUUSD/BTCUSD payloads; BTCUSD was live while weekend XAUUSD was correctly marked stale and forced to WAIT
   - v0.8 visual system: cool navy OKLCH surfaces, restrained cyan signal rails, semantic neon BUY/SELL/WAIT states, sharp modular cards, responsive single-line quote scaling, and matching PWA chrome/icons
+  - v0.9 Sci-Fi Space system: Aurora deep-space canvas, Tomorrow display face, price-linked Tier-A orbital HUD, N5 floating control pod, Ft5 mission statement, angular modules, and orbital PWA icons
 - Dependencies/data/content: provider secrets remain server-only; demo output visibly labelled stale/demo; chart screenshots are user-selected, bounded to supported raster formats, and sent only with an explicit analysis request
-- Accessibility/performance/SEO/analytics/security/privacy: keyboard/focus, labels, reduced motion, no indexing, security headers, no client-side provider secrets; repeat-load browser QA, 320/375/414/768/1024 responsive checks, contrast audit, and production provider checks passed
+- Accessibility/performance/SEO/analytics/security/privacy: keyboard/focus, labels, reduced motion, decorative HUD hidden from assistive technology, no indexing, security headers, no client-side provider secrets; repeat-load browser QA, 320/375/414/768/1024 responsive checks, contrast audit, and production provider checks passed
 - Commands/checks/results/failures/limitations: see `QA_REPORT.md`
 - Defects/risks: Twelve Data Basic 8 quota remains finite; Vision may misread low-resolution chart labels so market data remains authoritative; calculator assumes 100 oz/lot until broker-specific metadata is added; alerts only operate while the Dashboard is open; broader device-matrix UAT remains open
 - Capacity/change decisions: production is deployed through GitHub `main` to Vercel with explicit user authority
