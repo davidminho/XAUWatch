@@ -1,4 +1,4 @@
-# Coding and Technical QA — XAUWatch v1.0.0
+# Coding and Technical QA — XAUWatch v1.1.0
 
 Date: 2026-07-18 (Asia/Bangkok)
 
@@ -51,6 +51,9 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 | v1.0 Space Luxury responsive QA | Pass | Browser QA at 320/375/414/768px; document width matched viewport at every breakpoint, market quote remained contained, and navigation controls stayed visible with 44px targets |
 | v1.0 symbol interaction | Pass | XAU/BTC switch changed pressed state and market title to `XAU / USD`; console had 0 warnings/errors |
 | v1.0 contrast | Pass | `node scripts/contrast.mjs` — all tested semantic pairs passed; minimum tested ratio 7.08:1 |
+| v1.1 Cinematic Sci-Fi responsive QA | Pass | Browser QA at 320/375/414/768/1280px; document width matched viewport, XAU/BTC quotes remained contained, and the decision panel entered the 1280×800 fold |
+| v1.1 interaction + console | Pass | XAU/BTC switch changed the selected symbol and quote; visible navigation controls retained 44px targets; console had 0 warnings/errors |
+| v1.1 contrast | Pass | `node scripts/contrast.mjs` — all tested semantic pairs passed; minimum tested ratio 7.23:1 |
 | Performance browser QA | Pass | First uncached demo flow showed Dashboard within 800ms; repeat load DOM ready ≈60ms and Dashboard visible within 100ms |
 | Static payload reduction | Pass | `.next/static` ≈1.3MB → 876KB; font media 616KB → 200KB |
 
@@ -65,6 +68,7 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 - v0.8 moves the established Stat-Led structure to a restrained Terminal Neon theme: cyan is limited to signal rails, active controls, and Entry cues; BUY/SELL/WAIT remain semantic; grid and glow never replace text or state labels.
 - v0.9 rotates to Map / Diagram + Aurora with N5 floating navigation and Ft5 statement footer; its single central move is a price-linked orbital map, while star texture and line effects remain inert, secondary, and reduced-motion safe.
 - v1.0 replaces the rejected HUD direction with Split Studio + Midnight, N9 edge-aligned navigation, and Ft1 mast-headed footer. Live market data and the chart are the only visual proof; ornamental orbital and star-map layers are removed.
+- v1.1 rotates to a custom Event Horizon system with Marquee Hero, N1b compact product controls, and Ft2 inline footer. The amber market horizon is semantically anchored to the live quote; the composition adds no fake metrics, cockpit chrome, or decorative orbital UI.
 - Slop gates 1–58 pass, including token discipline, honest live market stats, two-role outlier typography, focus/reduced-motion support, contrast, mobile overflow, and single-line affordances.
 
 ## Acceptance traceability

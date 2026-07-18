@@ -1,12 +1,12 @@
 {
   "date": "2026-07-18",
-  "signals": "existing production XAUUSD/BTCUSD dashboard v0.9 with live market, Vision, AI analysis, automatic chart sync, explicit decision-safety operations, and a rejected game-like orbital HUD direction",
+  "signals": "existing production XAUUSD/BTCUSD dashboard v1.0 with live market, Vision, AI analysis, automatic chart sync, explicit decision-safety operations, and a rejected quiet Space Luxury direction",
   "framework": "Next.js App Router",
-  "fontStack": "Manrope display + IBM Plex Sans body + JetBrains Mono numeric outlier",
-  "palette": "OKLCH Midnight with matte near-black surfaces, low-chroma silver and celestial blue, plus semantic BUY/SELL/WAIT",
-  "motion": "live-status pulse, plan-sync transition, and native control feedback only; reduced-motion fallback preserved",
+  "fontStack": "Space Grotesk display + Manrope body + JetBrains Mono limited outlier",
+  "palette": "custom OKLCH Event Horizon with near-black blue void, warm silver copy, calibrated amber horizon, and semantic BUY/SELL/WAIT",
+  "motion": "one-time title and horizon acquisition, live-status pulse, plan-sync transition, and native control feedback; reduced-motion fallback preserved",
   "spacing": "4pt semantic scale",
   "sourceFiles": ["components/Dashboard.tsx", "app/globals.css", "tokens.css"],
   "preserve": ["API flows", "analysis history", "auto refresh", "compact separated modules", "XAUUSD/BTCUSD symbol isolation", "Vision workflow", "decision safety"],
-  "add": ["Midnight Space Luxury tokens", "Split Studio market hero", "N9 edge-aligned navigation", "Manrope display face", "Ft1 mast footer", "matte PWA chrome and icons"]
+  "add": ["custom Event Horizon tokens", "Marquee Hero composition", "N1b compact product navigation", "Space Grotesk display face", "Ft2 inline status footer", "cinematic PWA chrome and icons"]
 }

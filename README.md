@@ -2,6 +2,15 @@
 
 Android-first XAUUSD and BTCUSD day-trade Dashboard. It keeps `Bias`, `Action`, and `Trigger` separate so a bearish market can still say `WAIT` when price is sitting on support.
 
+## v1.1 Cinematic Sci-Fi
+
+- Custom Event Horizon palette with a near-black blue void, warm silver type, and a restrained amber signal line
+- Space Grotesk marquee quote with a live-market composition that stays legible from 320px through desktop
+- Purposeful CSS market horizon tied to the current quote rather than ornamental cockpit or orbital graphics
+- Compact N1b product controls, overlapping decision panel, sharper modules, and Ft2 inline system footer
+- One-time cinematic acquisition motion with a complete reduced-motion fallback
+- All XAUUSD/BTCUSD, Vision, chart sync, risk, alert, and AI behavior remains unchanged
+
 ## v1.0 Space Luxury
 
 - Quiet Midnight canvas with low-chroma silver and celestial-blue signals

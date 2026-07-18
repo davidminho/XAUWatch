@@ -376,6 +376,7 @@ export default function Dashboard() {
         {updateAvailable && <aside className="update-banner" role="status"><p><strong>มีเวอร์ชันใหม่พร้อมใช้</strong><span>รีโหลดเพื่อรับการแก้ไขล่าสุด</span></p><button onClick={() => window.location.reload()}>โหลดเวอร์ชันใหม่</button></aside>}
 
         <section className="market-hero" aria-labelledby="market-title">
+          <div className="market-hero__horizon" aria-hidden="true" />
           <div className="market-hero__quote"><p className="market-hero__symbol" id="market-title">{symbolLabel(market.symbol)}</p><p className="market-hero__price">{formatter.format(market.price)}</p><div className="market-hero__qualifier"><p className={`market-hero__change ${market.changePercent < 0 ? "negative" : "positive"}`}>{market.changePercent >= 0 ? "+" : ""}{market.changePercent.toFixed(2)}% วันนี้</p><p>{market.symbol === "BTCUSD" ? "ดอลลาร์สหรัฐต่อ Bitcoin" : "ดอลลาร์สหรัฐต่อออนซ์"}</p></div></div>
           <div className="market-hero__meta"><span>MARKET SNAPSHOT</span><dl><div><dt>OPEN</dt><dd>{formatter.format(market.open)}</dd></div><div><dt>HIGH</dt><dd>{formatter.format(market.high)}</dd></div><div><dt>LOW</dt><dd>{formatter.format(market.low)}</dd></div></dl><p><time dateTime={market.asOf}>{dateFormatter.format(new Date(market.asOf))}</time> · {market.source === "demo" ? "Demo" : "Twelve Data"}</p></div>
           <div className="market-controls">
@@ -473,7 +474,7 @@ export default function Dashboard() {
         <p className="risk-note">{analysis.riskNote}</p>
       </main>
 
-      <footer className="foot-dense"><div className="foot-dense__mast"><strong>XAUWATCH</strong><span>Quiet intelligence for decisive markets.</span></div><p className="foot-dense__meta"><span>v1.0 · {analysis.symbol} · {analysis.source.toUpperCase()} · DATA {freshness}</span><span>ไม่ใช่คำรับรองผลกำไร · ตรวจสอบราคา ข่าว และ contract size ก่อนส่งคำสั่งจริง</span></p></footer>
+      <footer className="foot-dense"><p className="foot-dense__meta"><span>XAUWATCH v1.1 · {analysis.symbol} · {analysis.source.toUpperCase()} · DATA {freshness}</span><span>ไม่ใช่คำรับรองผลกำไร · ตรวจสอบราคา ข่าว และ contract size ก่อนส่งคำสั่งจริง</span></p></footer>
     </>
   );
 }

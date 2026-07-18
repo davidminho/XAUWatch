@@ -1,22 +1,24 @@
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5
- * genre: atmospheric · macrostructure: Split Studio · theme: Midnight · enrichment: none · nav: N9 · footer: Ft1
- * audience: Android day trader · use: decide wait/buy/sell · tone: quiet space luxury
- * contrast: token pairs verified by scripts/contrast.mjs · mobile: 320/375/414/768 · slop: pass (1–58) · v1.0
+ * macrostructure: Marquee Hero · H1 knobs: quote=live-market, alignment=left, fold=62svh
+ * theme: custom · vibe: "cinematic void, warm horizon, precise signal" · paper: oklch(6.5% 0.016 260) · accent: oklch(78% 0.13 65)
+ * display: Space Grotesk · body: Manrope · axes: dark / geometric-sans / chromatic-amber
+ * genre: atmospheric · enrichment: Tier-A market horizon · nav: N1b · footer: Ft2 · mobile: 320/375/414/768 · slop: pass (1–58) · v1.1
  */
 :root {
-  --color-paper: oklch(7% 0.018 260);
-  --color-paper-2: oklch(10.5% 0.022 258);
-  --color-paper-3: oklch(15.5% 0.026 255);
-  --color-ink: oklch(96% 0.012 235);
-  --color-ink-2: oklch(84% 0.018 235);
-  --color-muted: oklch(69% 0.024 240);
-  --color-rule: oklch(23% 0.028 250);
-  --color-rule-strong: oklch(34% 0.042 245);
-  --color-accent: oklch(80% 0.09 235);
-  --color-accent-ink: oklch(10% 0.02 260);
-  --color-focus: oklch(86% 0.115 225);
-  --color-star: oklch(91% 0.018 230);
-  --color-orbit: oklch(64% 0.075 252);
+  --color-paper: oklch(6.5% 0.016 260);
+  --color-paper-2: oklch(9.5% 0.020 258);
+  --color-paper-3: oklch(13.5% 0.025 255);
+  --color-ink: oklch(94% 0.016 75);
+  --color-ink-2: oklch(82% 0.018 72);
+  --color-muted: oklch(69% 0.022 250);
+  --color-rule: oklch(22% 0.030 255);
+  --color-rule-strong: oklch(31% 0.040 252);
+  --color-accent: oklch(78% 0.13 65);
+  --color-accent-ink: oklch(9% 0.020 260);
+  --color-focus: oklch(84% 0.16 65);
+  --color-star: oklch(90% 0.014 75);
+  --color-orbit: oklch(58% 0.060 245);
+  --color-horizon: oklch(80% 0.14 65);
   --color-buy: oklch(80% 0.14 155);
   --color-buy-surface: oklch(16% 0.038 155);
   --color-sell: oklch(73% 0.16 25);
@@ -26,8 +28,8 @@
   --color-error: oklch(73% 0.16 25);
   --color-error-surface: oklch(16% 0.045 25);
 
-  --font-display: "Manrope", "IBM Plex Sans", ui-sans-serif, sans-serif;
-  --font-body: "IBM Plex Sans", ui-sans-serif, sans-serif;
+  --font-display: "Space Grotesk", "Manrope", ui-sans-serif, sans-serif;
+  --font-body: "Manrope", ui-sans-serif, sans-serif;
   --font-outlier: "JetBrains Mono", ui-monospace, monospace;
 
   --space-2xs: 0.25rem;
@@ -56,7 +58,7 @@
 
   --rule-hair: 1px;
   --rule-strong: 2px;
-  --radius-sm: 0.625rem;
-  --radius-md: 1rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
   --radius-round: 999px;
 }
