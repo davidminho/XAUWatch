@@ -29,6 +29,7 @@
   - v0.6.1 defect fix: image analysis now reports loading, completion, fallback, timeout, payload, and API errors beside the initiating button; mobile image decoding and stale conversation context have safe fallbacks
   - v0.7 multi-symbol: XAUUSD/BTCUSD switcher, symbol-scoped API/feed/AI validation, history, snapshot, screenshot reset, alert copy, and risk assumptions
   - v0.7 chart sync: every completed analysis refreshes M5 candles, remounts the generated plan overlay, resets export state, and displays the analysis sync time
+  - v0.7 production verification: Twelve Data and OpenAI returned isolated XAUUSD/BTCUSD payloads; BTCUSD was live while weekend XAUUSD was correctly marked stale and forced to WAIT
 - Dependencies/data/content: provider secrets remain server-only; demo output visibly labelled stale/demo; chart screenshots are user-selected, bounded to supported raster formats, and sent only with an explicit analysis request
 - Accessibility/performance/SEO/analytics/security/privacy: keyboard/focus, labels, reduced motion, no indexing, security headers, no client-side provider secrets; repeat-load browser QA, 320/375/414/768 responsive checks, contrast audit, and production provider checks passed
 - Commands/checks/results/failures/limitations: see `QA_REPORT.md`

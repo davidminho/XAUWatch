@@ -39,6 +39,8 @@ Next decision: physical-device install/UAT before final Gate 7 acceptance
 | v0.7 symbol isolation | Pass | XAUUSD/BTCUSD feed, schema, rule engine, client state, history, screenshot reset, and AI symbol checks; Browser switch produced BTC-only 64k-scale levels |
 | v0.7 automatic chart sync | Pass | Browser analysis changed `data-plan-sync` and visible `SYNCED` time from 07:20:31 to 07:20:44 while refreshing the M5 chart |
 | v0.7 mobile switcher | Pass | 320px and 375px Browser QA; no horizontal overflow and both symbol targets measured 44×44px |
+| v0.7 Production providers | Pass | BTCUSD Twelve Data feed live (`stale: false`, ~63,974.82 at test time); XAUUSD correctly reported stale during the weekend |
+| v0.7 Production AI isolation | Pass | Both requests returned HTTP 200, `source: ai`, `fallback: false`, and matching analysis/market symbols; XAUUSD safely returned WAIT while stale |
 | Performance browser QA | Pass | First uncached demo flow showed Dashboard within 800ms; repeat load DOM ready ≈60ms and Dashboard visible within 100ms |
 | Static payload reduction | Pass | `.next/static` ≈1.3MB → 876KB; font media 616KB → 200KB |
 
