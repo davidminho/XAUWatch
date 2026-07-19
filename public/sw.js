@@ -1,4 +1,4 @@
-const CACHE = "xauwatch-shell-v16";
+const CACHE = "xauwatch-shell-v17";
 const SHELL = ["/", "/manifest.webmanifest", "/icon.svg"];
 
 self.addEventListener("install", (event) => {

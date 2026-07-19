@@ -1,4 +1,4 @@
-/* Hallmark · genre: atmospheric · macrostructure: Price-first Bento Grid · theme: studied-DNA (source: supplied image set) · tone: space gradient transparent glass · anchor hue: cyan-violet · enrichment: CSS nebula and star field · nav: N9 · footer: Ft5 · contrast: pass (40–41) · slop: pass (1–58) · mobile: pass (34, 49, 50–57) */
+/* Hallmark · genre: atmospheric · macrostructure: Price-first Bento Grid · theme: studied-DNA (source: supplied image set) · tone: directional gradient glass · anchor hue: cyan-violet · enrichment: CSS nebula and gradient glass · nav: N9 · footer: Ft5 · contrast: pass (40–41) · slop: pass (1–58) · mobile: pass (34, 49, 50–57) */
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
 * { box-sizing: border-box; }
 
@@ -3182,4 +3182,107 @@ input,
       linear-gradient(160deg, var(--color-space-depth), var(--color-paper));
   }
   body::before { opacity: 0.42; }
+}
+
+/* Hallmark · component: dashboard card material · genre: atmospheric · theme: studied-DNA
+ * material: directional gradient glass · contrast: pass (40–41) · v1.4.1
+ */
+:where(
+  .market-hero,
+  .decision-panel,
+  .command,
+  .timeframes,
+  .chart-studio,
+  .levels,
+  .plan,
+  .risk-calculator,
+  .alerts-panel,
+  .settings,
+  .history
+) {
+  background-image: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--color-glass-highlight) 11%, transparent),
+    color-mix(in oklch, var(--color-glass) 54%, transparent)
+  );
+  border-color: color-mix(in oklch, var(--color-glass-highlight) 22%, var(--color-rule));
+  box-shadow:
+    inset var(--rule-hair) var(--rule-hair) 0 color-mix(in oklch, var(--color-glass-highlight) 18%, transparent),
+    inset calc(var(--rule-hair) * -1) calc(var(--rule-hair) * -1) 0 color-mix(in oklch, var(--color-accent) 8%, transparent),
+    0 var(--space-md) var(--space-2xl) color-mix(in oklch, var(--color-shadow) 34%, transparent);
+}
+
+.market-hero {
+  background-image: linear-gradient(
+    128deg,
+    color-mix(in oklch, var(--color-glass-highlight) 16%, transparent),
+    color-mix(in oklch, var(--color-glass-cyan) 48%, transparent)
+  );
+  border-color: color-mix(in oklch, var(--color-accent) 64%, var(--color-rule));
+}
+
+.decision-panel {
+  background-image: linear-gradient(
+    138deg,
+    color-mix(in oklch, var(--color-glass-highlight) 12%, transparent),
+    color-mix(in oklch, var(--color-glass-violet) 46%, transparent)
+  );
+  border-color: color-mix(in oklch, var(--color-accent-2) 58%, var(--color-rule));
+}
+
+.command,
+.chart-studio,
+.risk-calculator {
+  background-image: linear-gradient(
+    132deg,
+    color-mix(in oklch, var(--color-glass-highlight) 10%, transparent),
+    color-mix(in oklch, var(--color-glass-cyan) 38%, transparent)
+  );
+}
+
+.levels,
+.plan,
+.alerts-panel,
+.settings,
+.history,
+.timeframes {
+  background-image: linear-gradient(
+    142deg,
+    color-mix(in oklch, var(--color-glass-highlight) 9%, transparent),
+    color-mix(in oklch, var(--color-glass-violet) 30%, transparent)
+  );
+}
+
+:where(
+  .market-hero__meta,
+  .decision-panel__action,
+  .decision-panel__bias,
+  .command form,
+  .timeframes > div,
+  .levels__side,
+  .plan-grid > div,
+  .chart-upload__drop,
+  .chart-upload__preview,
+  .plan-chart,
+  .chart-placeholder,
+  .risk-results,
+  .risk-note,
+  .history__list button
+) {
+  background-image: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--color-glass-highlight) 7%, transparent),
+    color-mix(in oklch, var(--color-glass-strong) 30%, transparent)
+  );
+  border-color: color-mix(in oklch, var(--color-glass-highlight) 14%, var(--color-rule));
+}
+
+.decision-panel__action.action--buy_now {
+  background-image: linear-gradient(135deg, color-mix(in oklch, var(--color-glass-highlight) 8%, transparent), color-mix(in oklch, var(--color-buy-surface) 46%, transparent));
+}
+.decision-panel__action.action--sell_now {
+  background-image: linear-gradient(135deg, color-mix(in oklch, var(--color-glass-highlight) 8%, transparent), color-mix(in oklch, var(--color-sell-surface) 46%, transparent));
+}
+.decision-panel__action.action--wait {
+  background-image: linear-gradient(135deg, color-mix(in oklch, var(--color-glass-highlight) 8%, transparent), color-mix(in oklch, var(--color-wait-surface) 46%, transparent));
 }

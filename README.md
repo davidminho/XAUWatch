@@ -4,6 +4,7 @@ Android-first XAUUSD and BTCUSD day-trade Dashboard. It keeps `Bias`, `Action`, 
 
 ## v1.3 Neon Glass
 
+- v1.4.1 gives every dashboard card a directional glass gradient with a brighter light-facing edge and distinct Cyan/Violet material tints
 - v1.3.1 restores the live price card to the top, promotes it to a full-width quote on desktop, and makes the Cyan/Violet neon edges visibly brighter
 - v1.4.0 adds a layered deep-space gradient and CSS star field, then converts dashboard surfaces to transparent, blurred glass
 - Midnight-indigo canvas with soft cyan and violet ambient light fields
