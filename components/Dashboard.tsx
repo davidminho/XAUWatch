@@ -365,7 +365,7 @@ export default function Dashboard() {
     <>
       <ServiceWorker onUpdateAvailable={() => setUpdateAvailable(true)} />
       <header className="nav-term">
-        <a className="nav-term__line" href="#top" aria-label="XAUWatch — กลับด้านบน"><span className="brand-mark" aria-hidden="true" /><strong>XAUWATCH</strong><small>DAY TRADE DESK</small></a>
+        <a className="nav-term__line" href="#top" aria-label="XAUWatch — กลับด้านบน"><span className="brand-mark" aria-hidden="true" /><strong>XAUWATCH</strong><small>LIVE MARKET INTELLIGENCE</small></a>
         <div className="symbol-switch" role="group" aria-label="เลือกคู่เทรด">
           {(["XAUUSD", "BTCUSD"] as const).map((symbol) => <button key={symbol} type="button" aria-pressed={selectedSymbol === symbol} onClick={() => changeSymbol(symbol)}>{symbol.replace("USD", "")}</button>)}
         </div>
@@ -475,7 +475,7 @@ export default function Dashboard() {
         <p className="risk-note">{analysis.riskNote}</p>
       </main>
 
-      <footer className="foot-dense"><div className="foot-dense__mast"><strong>แผนมีอายุ ราคามีการเปลี่ยนแปลง</strong><span>ตรวจสอบ trigger, stop และ contract size ก่อนส่งคำสั่งจริง</span></div><p className="foot-dense__meta"><span>XAUWATCH v1.2 · {analysis.symbol} · {analysis.source.toUpperCase()}</span><span>DATA {freshness} · ไม่ใช่คำรับรองผลกำไร</span></p></footer>
+      <footer className="foot-dense"><div className="foot-dense__mast"><strong>แผนมีอายุ ราคามีการเปลี่ยนแปลง</strong><span>ตรวจสอบ trigger, stop และ contract size ก่อนส่งคำสั่งจริง</span></div><p className="foot-dense__meta"><span>XAUWATCH v1.3 · {analysis.symbol} · {analysis.source.toUpperCase()}</span><span>DATA {freshness} · ไม่ใช่คำรับรองผลกำไร</span></p></footer>
     </>
   );
 }

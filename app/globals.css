@@ -1,5 +1,5 @@
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
-/* Hallmark · genre: modern-minimal · macrostructure: Workbench · theme: Cobalt · tone: austere technical · anchor hue: electric cobalt · enrichment: none · nav: N9 · footer: Ft5 · contrast: pass (40–41) · slop: pass (1–58) */
+/* Hallmark · genre: atmospheric · macrostructure: Decision-led Bento Grid · theme: studied-DNA (source: supplied image set) · tone: neon glass technical · anchor hue: cyan-violet · enrichment: ambient light field · nav: N9 · footer: Ft5 · contrast: pass (40–41) · slop: pass (1–58) · honest: pass (46) · chrome: pass (47) · tokens: pass (48) · responsive: pass (49) · icons: pass (30) · mobile: pass (34, 49, 50–57) */
 * { box-sizing: border-box; }
 
 html,
@@ -2645,4 +2645,311 @@ input,
   *,
   *::before,
   *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+/* Hallmark · v1.3 · studied: yes · DNA-source: image set (primary: image 3)
+ * macrostructure: Decision-led Bento Grid · theme: studied-DNA
+ * paper: midnight indigo · accent: cyan primary + violet edge · glass: lightness elevation
+ */
+body {
+  background-color: var(--color-paper);
+  background-image:
+    radial-gradient(circle at 8% 2%, color-mix(in oklch, var(--color-accent) 16%, transparent), transparent 30rem),
+    radial-gradient(circle at 96% 8%, color-mix(in oklch, var(--color-accent-2) 14%, transparent), transparent 34rem);
+  background-attachment: fixed;
+  color: var(--color-ink);
+}
+
+.nav-term {
+  border-block-end-color: color-mix(in oklch, var(--color-accent) 24%, var(--color-rule));
+  background: color-mix(in oklch, var(--color-paper-2) 78%, transparent);
+  color: var(--color-ink);
+  box-shadow: 0 var(--space-xs) var(--space-xl) color-mix(in oklch, var(--color-shadow) 62%, transparent);
+  backdrop-filter: blur(1.25rem) saturate(135%);
+}
+.brand-mark {
+  border-color: var(--color-accent);
+  background: var(--color-paper-3);
+  box-shadow: inset 0 0 0 var(--rule-hair) color-mix(in oklch, var(--color-accent-2) 58%, transparent);
+}
+.nav-term__line strong { color: var(--color-ink); }
+.nav-term__line small { color: var(--color-muted); }
+.symbol-switch {
+  border-color: var(--color-rule-strong);
+  background: color-mix(in oklch, var(--color-glass) 80%, transparent);
+  color: var(--color-ink);
+}
+.symbol-switch button { color: var(--color-muted); }
+.symbol-switch button[aria-pressed="true"] {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  box-shadow: 0 0 var(--space-lg) color-mix(in oklch, var(--color-accent) 28%, transparent);
+}
+.nav-cta {
+  border-color: color-mix(in oklch, var(--color-accent) 54%, var(--color-rule));
+  background: color-mix(in oklch, var(--color-glass) 84%, transparent);
+  color: var(--color-ink);
+}
+
+.dashboard { width: min(100%, 82rem); }
+.workbench-primary { gap: var(--space-md); }
+
+.decision-panel,
+.market-hero,
+.command,
+.timeframes,
+.chart-studio,
+.levels,
+.plan,
+.risk-calculator,
+.alerts-panel,
+.settings,
+.history {
+  border: var(--rule-hair) solid color-mix(in oklch, var(--color-rule-strong) 78%, transparent);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklch, var(--color-glass) 78%, transparent);
+  color: var(--color-ink);
+  box-shadow: 0 var(--space-lg) var(--space-2xl) color-mix(in oklch, var(--color-shadow) 58%, transparent);
+  backdrop-filter: blur(1.25rem) saturate(132%);
+}
+
+.decision-panel {
+  border-color: color-mix(in oklch, var(--color-accent-2) 40%, var(--color-rule));
+  background: color-mix(in oklch, var(--color-glass-strong) 84%, transparent);
+}
+.decision-panel__action {
+  border-block-end-color: var(--color-rule);
+  background: color-mix(in oklch, var(--color-paper-3) 78%, transparent);
+  color: var(--color-ink);
+}
+.decision-panel__action.action--buy_now { background: color-mix(in oklch, var(--color-buy-surface) 82%, transparent); color: var(--color-ink); }
+.decision-panel__action.action--sell_now { background: color-mix(in oklch, var(--color-sell-surface) 82%, transparent); color: var(--color-ink); }
+.decision-panel__action.action--wait { background: color-mix(in oklch, var(--color-wait-surface) 82%, transparent); color: var(--color-ink); }
+.decision-panel__action span,
+.decision-panel__bias > span,
+.confidence-meter__label { color: var(--color-muted); }
+.decision-panel__action strong { color: var(--color-ink); text-shadow: none; }
+.decision-panel__action p { color: var(--color-ink-2); }
+.confidence-meter progress { background: var(--color-rule); }
+.confidence-meter progress::-webkit-progress-value,
+.confidence-meter progress::-moz-progress-bar { background: var(--confidence-color); }
+
+.market-hero {
+  border-color: color-mix(in oklch, var(--color-accent) 34%, var(--color-rule));
+  background: color-mix(in oklch, var(--color-glass) 74%, transparent);
+  color: var(--color-ink);
+}
+.market-hero__symbol,
+.market-hero__qualifier > p:last-child,
+.market-hero__meta > span,
+.market-hero__meta dt,
+.market-hero__meta p,
+.market-controls p { color: var(--color-muted); }
+.market-hero__price,
+.market-hero__meta dd { color: var(--color-ink); }
+.market-hero__price { text-shadow: none; }
+.market-hero__meta {
+  border-block-start-color: var(--color-rule);
+  background: transparent;
+  color: var(--color-ink);
+}
+.market-controls { border-block-start-color: var(--color-rule); }
+.market-controls button {
+  border-color: var(--color-rule-strong);
+  background: color-mix(in oklch, var(--color-paper-3) 82%, transparent);
+  color: var(--color-ink);
+}
+
+.command {
+  border-color: color-mix(in oklch, var(--color-accent) 72%, var(--color-rule));
+  background: color-mix(in oklch, var(--color-glass-strong) 82%, transparent);
+  color: var(--color-ink);
+  box-shadow: 0 var(--space-lg) var(--space-2xl) color-mix(in oklch, var(--color-shadow) 58%, transparent), inset 0 var(--rule-hair) 0 color-mix(in oklch, var(--color-accent) 34%, transparent);
+}
+.command .section-heading,
+.section-heading { border-block-end-color: var(--color-rule); }
+.command form { background: transparent; color: var(--color-ink); }
+.command form > label,
+.field-helper,
+.section-heading p { color: var(--color-muted); }
+.section-heading h2 { color: var(--color-ink); }
+.command__field button,
+.chart-upload__analyze {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  box-shadow: 0 0 var(--space-xl) color-mix(in oklch, var(--color-accent) 24%, transparent);
+}
+.command__field button[data-state="success"] {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+.quick-actions button,
+.plan-toolbar button,
+.notification-button,
+.chart-upload__replace,
+.chart-upload__controls button,
+.plan-chart figcaption button {
+  border-color: color-mix(in oklch, var(--color-accent-2) 38%, var(--color-rule));
+  background: color-mix(in oklch, var(--color-paper-3) 80%, transparent);
+  color: var(--color-ink-2);
+  box-shadow: none;
+}
+
+.timeframes {
+  border-color: var(--color-rule-strong);
+  background: color-mix(in oklch, var(--color-glass) 72%, transparent);
+  color: var(--color-ink);
+}
+.timeframes > div { background: transparent; color: var(--color-ink); }
+.timeframes > div + div { border-inline-start-color: var(--color-rule); }
+.timeframes span { color: var(--color-muted); }
+
+.chart-studio,
+.levels,
+.plan,
+.risk-calculator,
+.alerts-panel {
+  padding: clamp(var(--space-md), 3vw, var(--space-xl));
+  background: color-mix(in oklch, var(--color-glass) 72%, transparent);
+}
+.chart-studio { border-color: color-mix(in oklch, var(--color-accent) 30%, var(--color-rule)); }
+.chart-upload__drop,
+.chart-upload__preview,
+.plan-chart,
+.chart-placeholder,
+.risk-results {
+  border-color: var(--color-rule-strong);
+  background: color-mix(in oklch, var(--color-paper-2) 82%, transparent);
+  color: var(--color-ink);
+}
+.chart-upload__drop { background-image: none; }
+.chart-upload__drop small,
+.chart-upload__status,
+.calculator-note { color: var(--color-muted); }
+.chart-grid { stroke: var(--color-rule); }
+
+.levels__side,
+.plan-grid > div {
+  border-color: var(--color-rule);
+  background: transparent;
+  color: var(--color-ink);
+}
+.levels__side { border-block-start-color: var(--color-rule-strong); }
+.levels__side > div { border-color: var(--color-rule); }
+.levels__side span,
+.plan-grid dt { color: var(--color-muted); }
+.levels__side strong,
+.plan-grid dd,
+.copy-value { color: var(--color-ink); }
+.plan {
+  border: var(--rule-hair) solid color-mix(in oklch, var(--color-accent-2) 42%, var(--color-rule));
+  background: color-mix(in oklch, var(--color-glass-strong) 74%, transparent);
+}
+.plan-validity,
+.plan-notes { border-color: var(--color-rule); }
+.plan-notes p { color: var(--color-ink-2); }
+.plan-notes span { color: var(--color-muted); }
+
+.risk-form label,
+.settings label { color: var(--color-ink-2); }
+.risk-results { color: var(--color-ink); }
+.risk-results dt,
+.alert-log h3,
+.alert-log time,
+.alert-empty { color: var(--color-muted); }
+.alert-rules,
+.alert-rules p,
+.alert-log p { border-color: var(--color-rule); }
+.alert-rules strong,
+.alert-log span,
+.alert-log strong { color: var(--color-ink-2); }
+
+textarea,
+input,
+.chart-upload__controls select {
+  border-color: var(--color-rule-strong);
+  background: color-mix(in oklch, var(--color-paper-2) 86%, transparent);
+  color: var(--color-ink);
+}
+textarea::placeholder,
+input::placeholder { color: var(--color-muted); }
+
+.settings,
+.history {
+  border: var(--rule-hair) solid var(--color-rule);
+  background: color-mix(in oklch, var(--color-glass) 68%, transparent);
+  color: var(--color-ink);
+}
+.settings summary,
+.history summary { padding-inline: var(--space-md); color: var(--color-ink-2); }
+.settings__body,
+.history__list { padding-inline: var(--space-md); padding-block-end: var(--space-md); }
+.history__list button { border-color: var(--color-rule); background: transparent; color: var(--color-ink); }
+.risk-note {
+  border: var(--rule-hair) solid var(--color-rule);
+  background: color-mix(in oklch, var(--color-paper-2) 70%, transparent);
+  color: var(--color-muted);
+}
+.system-warning,
+.system-error {
+  background: color-mix(in oklch, var(--color-wait-surface) 84%, transparent);
+  color: var(--color-wait);
+}
+.system-error { background: color-mix(in oklch, var(--color-error-surface) 84%, transparent); color: var(--color-error); }
+
+.foot-dense {
+  width: min(100%, 82rem);
+  border-block-start-color: var(--color-rule);
+  background: transparent;
+  color: var(--color-ink);
+}
+.foot-dense__mast span,
+.foot-dense__meta { color: var(--color-muted); }
+.foot-dense__meta { border-block-start-color: var(--color-rule); }
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-cta:hover,
+  .market-controls button:hover,
+  .plan-toolbar button:hover,
+  .notification-button:hover,
+  .chart-upload__replace:hover,
+  .chart-upload__controls button:hover,
+  .plan-chart figcaption button:hover,
+  .quick-actions button:hover {
+    border-color: var(--color-accent);
+    background: color-mix(in oklch, var(--color-glass-strong) 88%, transparent);
+    color: var(--color-ink);
+    transform: translateY(-1px);
+  }
+  .command__field button:hover,
+  .chart-upload__analyze:hover {
+    background: var(--color-focus);
+    color: var(--color-accent-ink);
+    transform: translateY(-1px);
+  }
+}
+
+@media (min-width: 40rem) {
+  .decision-panel { grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr); }
+  .decision-panel__action { border-block-end: 0; border-inline-end: var(--rule-hair) solid var(--color-rule); }
+  .decision-panel__bias { align-content: space-between; }
+}
+
+@media (min-width: 60rem) {
+  .nav-term { padding-inline: max(var(--space-2xl), calc((100% - 82rem) / 2)); }
+  .workbench-primary { grid-template-columns: minmax(0, 1.4fr) minmax(22rem, 0.8fr); }
+  .trade-grid { grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr); }
+  .operations-grid { grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr); }
+}
+
+@media (max-width: 39.99rem) {
+  .decision-panel { grid-template-columns: minmax(0, 1fr); }
+  .decision-panel__action { border-inline-end: 0; border-block-end: var(--rule-hair) solid var(--color-rule); }
+  .chart-studio,
+  .levels,
+  .plan,
+  .risk-calculator,
+  .alerts-panel { padding: var(--space-md); }
 }

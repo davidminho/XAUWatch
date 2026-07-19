@@ -2,6 +2,15 @@
 
 Android-first XAUUSD and BTCUSD day-trade Dashboard. It keeps `Bias`, `Action`, and `Trigger` separate so a bearish market can still say `WAIT` when price is sitting on support.
 
+## v1.3 Neon Glass
+
+- Midnight-indigo canvas with soft cyan and violet ambient light fields
+- Translucent glass surfaces use lightness and blur for elevation instead of heavy decorative borders
+- Decision-led bento layout keeps Action, live quote, and the analysis command in the opening viewport
+- Cyan is reserved for primary interaction, violet for active edges, and semantic green/red/amber for trade states
+- The visual DNA was studied from the supplied references without copying their imagery, layout content, or branding
+- All XAUUSD/BTCUSD, Vision, chart sync, risk, alert, and AI behavior remains unchanged
+
 ## v1.2 Trading Workbench
 
 - Action-first decision desk and live quote share the opening viewport
