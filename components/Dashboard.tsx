@@ -376,6 +376,15 @@ export default function Dashboard() {
         {updateAvailable && <aside className="update-banner" role="status"><p><strong>มีเวอร์ชันใหม่พร้อมใช้</strong><span>รีโหลดเพื่อรับการแก้ไขล่าสุด</span></p><button onClick={() => window.location.reload()}>โหลดเวอร์ชันใหม่</button></aside>}
 
         <div className="workbench-primary">
+          <section className="market-hero" aria-labelledby="market-title">
+            <div className="market-hero__quote"><p className="market-hero__symbol" id="market-title">{symbolLabel(market.symbol)}</p><p className="market-hero__price">{formatter.format(market.price)}</p><div className="market-hero__qualifier"><p className={`market-hero__change ${market.changePercent < 0 ? "negative" : "positive"}`}>{market.changePercent >= 0 ? "+" : ""}{market.changePercent.toFixed(2)}% วันนี้</p><p>{market.symbol === "BTCUSD" ? "USD ต่อ Bitcoin" : "USD ต่อออนซ์"}</p></div></div>
+            <div className="market-hero__meta"><span>ช่วงราคาวันนี้</span><dl><div><dt>OPEN</dt><dd>{formatter.format(market.open)}</dd></div><div><dt>HIGH</dt><dd>{formatter.format(market.high)}</dd></div><div><dt>LOW</dt><dd>{formatter.format(market.low)}</dd></div></dl><p><time dateTime={market.asOf}>{dateFormatter.format(new Date(market.asOf))}</time> · {market.source === "demo" ? "Demo" : "Twelve Data"}</p></div>
+            <div className="market-controls">
+              <div><span className={`freshness-badge freshness-badge--${freshness.toLowerCase()}`}>{freshness}</span><p>{formatAgeThai(age)} · {timeFormatter.format(clock)}</p></div>
+              <button type="button" onClick={() => { void requestMarket(); void requestChart(); }} disabled={marketRefreshing}>{marketRefreshing ? "กำลังรีเฟรช…" : "รีเฟรชราคา"}</button>
+            </div>
+          </section>
+
           <section className="decision-panel" aria-labelledby="decision-title">
             <div className={`decision-panel__action action--${effectiveAction.toLowerCase()}`}><div><span id="decision-title">ACTION</span><strong>{actionText(effectiveAction)}</strong></div><p>{effectiveAction === analysis.action ? analysis.summary : `${analysis.summary} · ระบบพักแผนเพื่อความปลอดภัย`}</p></div>
             <div className="decision-panel__bias">
@@ -385,15 +394,6 @@ export default function Dashboard() {
                 <div className="confidence-meter__label"><span>ความมั่นใจ</span><strong>{analysis.confidence}%</strong></div>
                 <progress value={analysis.confidence} max="100" aria-label={`ความมั่นใจ ${analysis.confidence}%`}>{analysis.confidence}%</progress>
               </div>
-            </div>
-          </section>
-
-          <section className="market-hero" aria-labelledby="market-title">
-            <div className="market-hero__quote"><p className="market-hero__symbol" id="market-title">{symbolLabel(market.symbol)}</p><p className="market-hero__price">{formatter.format(market.price)}</p><div className="market-hero__qualifier"><p className={`market-hero__change ${market.changePercent < 0 ? "negative" : "positive"}`}>{market.changePercent >= 0 ? "+" : ""}{market.changePercent.toFixed(2)}% วันนี้</p><p>{market.symbol === "BTCUSD" ? "USD ต่อ Bitcoin" : "USD ต่อออนซ์"}</p></div></div>
-            <div className="market-hero__meta"><span>ช่วงราคาวันนี้</span><dl><div><dt>OPEN</dt><dd>{formatter.format(market.open)}</dd></div><div><dt>HIGH</dt><dd>{formatter.format(market.high)}</dd></div><div><dt>LOW</dt><dd>{formatter.format(market.low)}</dd></div></dl><p><time dateTime={market.asOf}>{dateFormatter.format(new Date(market.asOf))}</time> · {market.source === "demo" ? "Demo" : "Twelve Data"}</p></div>
-            <div className="market-controls">
-              <div><span className={`freshness-badge freshness-badge--${freshness.toLowerCase()}`}>{freshness}</span><p>{formatAgeThai(age)} · {timeFormatter.format(clock)}</p></div>
-              <button type="button" onClick={() => { void requestMarket(); void requestChart(); }} disabled={marketRefreshing}>{marketRefreshing ? "กำลังรีเฟรช…" : "รีเฟรชราคา"}</button>
             </div>
           </section>
 
@@ -475,7 +475,7 @@ export default function Dashboard() {
         <p className="risk-note">{analysis.riskNote}</p>
       </main>
 
-      <footer className="foot-dense"><div className="foot-dense__mast"><strong>แผนมีอายุ ราคามีการเปลี่ยนแปลง</strong><span>ตรวจสอบ trigger, stop และ contract size ก่อนส่งคำสั่งจริง</span></div><p className="foot-dense__meta"><span>XAUWATCH v1.3 · {analysis.symbol} · {analysis.source.toUpperCase()}</span><span>DATA {freshness} · ไม่ใช่คำรับรองผลกำไร</span></p></footer>
+      <footer className="foot-dense"><div className="foot-dense__mast"><strong>แผนมีอายุ ราคามีการเปลี่ยนแปลง</strong><span>ตรวจสอบ trigger, stop และ contract size ก่อนส่งคำสั่งจริง</span></div><p className="foot-dense__meta"><span>XAUWATCH v1.3.1 · {analysis.symbol} · {analysis.source.toUpperCase()}</span><span>DATA {freshness} · ไม่ใช่คำรับรองผลกำไร</span></p></footer>
     </>
   );
 }

@@ -13,7 +13,10 @@ const palette = {
   sell: [0.74, 0.180, 25],
   sellSurface: [0.16, 0.050, 25],
   wait: [0.82, 0.110, 85],
-  waitSurface: [0.16, 0.045, 85]
+  waitSurface: [0.16, 0.045, 85],
+  glass: [0.18, 0.050, 264],
+  glassStrong: [0.23, 0.070, 260],
+  accent2: [0.67, 0.220, 295]
 };
 
 function luminance([L, C, hue]) {
@@ -42,7 +45,9 @@ const pairs = [
   ["ink", "paper"], ["ink", "paper2"], ["ink2", "paper2"],
   ["muted", "paper"], ["muted", "paper2"], ["muted", "paper3"],
   ["accentInk", "accent"], ["focus", "paper"], ["focus", "paper2"],
-  ["buy", "buySurface"], ["sell", "sellSurface"], ["wait", "waitSurface"]
+  ["buy", "buySurface"], ["sell", "sellSurface"], ["wait", "waitSurface"],
+  ["ink", "glass"], ["ink", "glassStrong"], ["muted", "glass"], ["muted", "glassStrong"],
+  ["accent", "glassStrong"], ["accent2", "glassStrong"]
 ];
 
 let failed = false;

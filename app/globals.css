@@ -1,5 +1,5 @@
-/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
-/* Hallmark · genre: atmospheric · macrostructure: Decision-led Bento Grid · theme: studied-DNA (source: supplied image set) · tone: neon glass technical · anchor hue: cyan-violet · enrichment: ambient light field · nav: N9 · footer: Ft5 · contrast: pass (40–41) · slop: pass (1–58) · honest: pass (46) · chrome: pass (47) · tokens: pass (48) · responsive: pass (49) · icons: pass (30) · mobile: pass (34, 49, 50–57) */
+/* Hallmark · genre: atmospheric · macrostructure: Price-first Bento Grid · theme: studied-DNA (source: supplied image set) · tone: visible neon glass · anchor hue: cyan-violet · enrichment: neon energy lines · nav: N9 · footer: Ft5 · contrast: pass (40–41) · slop: pass (1–58) · mobile: pass (34, 49, 50–57) */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R4 V4 */
 * { box-sizing: border-box; }
 
 html,
@@ -2952,4 +2952,115 @@ input::placeholder { color: var(--color-muted); }
   .plan,
   .risk-calculator,
   .alerts-panel { padding: var(--space-md); }
+}
+
+/* Hallmark · v1.3.1 · user-directed correction
+ * hierarchy: live quote first · neon: visible on primary surfaces · text glow: none
+ */
+body {
+  background-image:
+    radial-gradient(circle at 12% 0%, color-mix(in oklch, var(--color-accent) 28%, transparent), transparent 34rem),
+    radial-gradient(circle at 92% 12%, color-mix(in oklch, var(--color-accent-2) 24%, transparent), transparent 38rem);
+}
+
+.workbench-primary { grid-template-columns: minmax(0, 1fr); }
+.market-hero { order: 1; grid-column: 1 / -1; }
+.decision-panel { order: 2; }
+.command { order: 3; }
+
+.market-hero,
+.decision-panel,
+.command {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+.market-hero {
+  border-color: color-mix(in oklch, var(--color-accent) 78%, var(--color-rule));
+  background: color-mix(in oklch, var(--color-glass-strong) 90%, transparent);
+  color: var(--color-ink);
+  box-shadow: 0 0 var(--space-xl) color-mix(in oklch, var(--color-accent) 20%, transparent);
+}
+.market-hero::before,
+.decision-panel::after,
+.command::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 0;
+  inset-inline-start: var(--space-lg);
+  width: clamp(4rem, 18vw, 9rem);
+  height: var(--rule-strong);
+  pointer-events: none;
+}
+.market-hero::before,
+.command::before {
+  background: var(--color-accent);
+  box-shadow: 0 0 var(--space-md) var(--color-accent);
+}
+.decision-panel::after {
+  inset-inline-start: auto;
+  inset-inline-end: var(--space-lg);
+  background: var(--color-accent-2);
+  box-shadow: 0 0 var(--space-md) var(--color-accent-2);
+}
+
+.decision-panel {
+  border-color: color-mix(in oklch, var(--color-accent-2) 72%, var(--color-rule));
+  background: color-mix(in oklch, var(--color-glass-strong) 86%, transparent);
+  color: var(--color-ink);
+  box-shadow: 0 0 var(--space-lg) color-mix(in oklch, var(--color-accent-2) 18%, transparent);
+}
+.command {
+  border-color: color-mix(in oklch, var(--color-accent) 78%, var(--color-rule));
+  background: color-mix(in oklch, var(--color-glass-strong) 88%, transparent);
+  color: var(--color-ink);
+  box-shadow: 0 0 var(--space-lg) color-mix(in oklch, var(--color-accent) 16%, transparent);
+}
+
+.timeframes,
+.chart-studio,
+.levels,
+.plan,
+.risk-calculator,
+.alerts-panel {
+  border-color: color-mix(in oklch, var(--color-accent) 38%, var(--color-rule));
+  background: color-mix(in oklch, var(--color-glass) 82%, transparent);
+  color: var(--color-ink);
+}
+
+.brand-mark,
+.freshness-badge,
+.vision-state {
+  box-shadow: 0 0 var(--space-sm) color-mix(in oklch, var(--color-accent) 34%, transparent);
+}
+
+@media (min-width: 40rem) {
+  .workbench-primary { grid-template-columns: minmax(0, 1fr); }
+  .market-hero { min-height: 19rem; }
+}
+
+@media (min-width: 60rem) {
+  .workbench-primary { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); }
+  .market-hero {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1.3fr) minmax(22rem, 0.7fr);
+    min-height: 16rem;
+    column-gap: var(--space-2xl);
+  }
+  .market-hero__quote { grid-row: 1 / 3; align-self: center; }
+  .market-hero__meta,
+  .market-controls { grid-column: 2; }
+  .decision-panel { grid-column: 1; min-height: 22rem; }
+  .command { grid-column: 2; min-height: 22rem; }
+}
+
+@media (max-width: 39.99rem) {
+  .market-hero { order: 1; }
+  .decision-panel { order: 2; }
+  .command { order: 3; }
+  .market-hero::before,
+  .decision-panel::after,
+  .command::before { inset-inline-start: var(--space-md); inset-inline-end: auto; }
 }
