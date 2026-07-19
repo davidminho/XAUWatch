@@ -475,7 +475,7 @@ export default function Dashboard() {
         <p className="risk-note">{analysis.riskNote}</p>
       </main>
 
-      <footer className="foot-dense"><div className="foot-dense__mast"><strong>แผนมีอายุ ราคามีการเปลี่ยนแปลง</strong><span>ตรวจสอบ trigger, stop และ contract size ก่อนส่งคำสั่งจริง</span></div><p className="foot-dense__meta"><span>XAUWATCH v1.3.1 · {analysis.symbol} · {analysis.source.toUpperCase()}</span><span>DATA {freshness} · ไม่ใช่คำรับรองผลกำไร</span></p></footer>
+      <footer className="foot-dense"><div className="foot-dense__mast"><strong>แผนมีอายุ ราคามีการเปลี่ยนแปลง</strong><span>ตรวจสอบ trigger, stop และ contract size ก่อนส่งคำสั่งจริง</span></div><p className="foot-dense__meta"><span>XAUWATCH v1.4.0 · {analysis.symbol} · {analysis.source.toUpperCase()}</span><span>DATA {freshness} · ไม่ใช่คำรับรองผลกำไร</span></p></footer>
     </>
   );
 }

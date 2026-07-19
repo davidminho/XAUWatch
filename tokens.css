@@ -1,8 +1,8 @@
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5
- * macrostructure: Price-first Bento Grid · knobs: full-width quote, visible-neon-edge, decision-command-pair
+ * macrostructure: Price-first Bento Grid · knobs: full-width quote, space-gradient-canvas, transparent-glass-cards
  * theme: studied-DNA (source: image set; primary: image 3) · paper oklch(7% 0.03 267) · accent oklch(73% 0.17 225)
  * display: Space Grotesk · body: Inter · axes: dark / geometric-sans / cyan-violet
- * genre: atmospheric · enrichment: visible neon energy lines · nav: N9 · footer: Ft5 · mobile: 320/375/414/768 · v1.3.1
+ * genre: atmospheric · enrichment: CSS nebula + star field · nav: N9 · footer: Ft5 · mobile: 320/375/414/768 · v1.4.0
  */
 :root {
   --color-paper: oklch(7% 0.030 267);
@@ -33,6 +33,9 @@
   --color-glass: oklch(18% 0.050 264);
   --color-glass-strong: oklch(23% 0.070 260);
   --color-shadow: oklch(3.5% 0.018 266);
+  --color-nebula-blue: oklch(48% 0.190 254);
+  --color-nebula-cyan: oklch(52% 0.160 220);
+  --color-space-depth: oklch(5% 0.035 278);
 
   --font-display: "Space Grotesk", "Inter", ui-sans-serif, sans-serif;
   --font-body: "Inter", ui-sans-serif, sans-serif;

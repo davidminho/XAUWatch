@@ -1,5 +1,5 @@
-/* Hallmark · genre: atmospheric · macrostructure: Price-first Bento Grid · theme: studied-DNA (source: supplied image set) · tone: visible neon glass · anchor hue: cyan-violet · enrichment: neon energy lines · nav: N9 · footer: Ft5 · contrast: pass (40–41) · slop: pass (1–58) · mobile: pass (34, 49, 50–57) */
-/* Hallmark · pre-emit critique: P5 H5 E5 S5 R4 V4 */
+/* Hallmark · genre: atmospheric · macrostructure: Price-first Bento Grid · theme: studied-DNA (source: supplied image set) · tone: space gradient transparent glass · anchor hue: cyan-violet · enrichment: CSS nebula and star field · nav: N9 · footer: Ft5 · contrast: pass (40–41) · slop: pass (1–58) · mobile: pass (34, 49, 50–57) */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
 * { box-sizing: border-box; }
 
 html,
@@ -3063,4 +3063,123 @@ body {
   .market-hero::before,
   .decision-panel::after,
   .command::before { inset-inline-start: var(--space-md); inset-inline-end: auto; }
+}
+
+/* Hallmark · v1.4.0 · material pass
+ * canvas: deep-space gradient + CSS star field
+ * surfaces: transparent glass · readable blur · neon rim light
+ */
+body {
+  background-color: var(--color-space-depth);
+  background-image:
+    radial-gradient(ellipse at 8% -8%, color-mix(in oklch, var(--color-nebula-blue) 64%, transparent) 0%, transparent 42%),
+    radial-gradient(ellipse at 92% 10%, color-mix(in oklch, var(--color-nebula-cyan) 42%, transparent) 0%, transparent 40%),
+    radial-gradient(ellipse at 18% 92%, color-mix(in oklch, var(--color-accent) 18%, transparent) 0%, transparent 38%),
+    linear-gradient(145deg, var(--color-space-depth), var(--color-paper));
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+body::before {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, color-mix(in oklch, var(--color-star) 76%, transparent) 0 var(--rule-hair), transparent calc(var(--rule-hair) + 0.5px)),
+    radial-gradient(circle, color-mix(in oklch, var(--color-accent) 58%, transparent) 0 var(--rule-hair), transparent calc(var(--rule-hair) + 0.5px));
+  background-position: 0 0, 2.5rem 1.75rem;
+  background-size: 7rem 7rem, 11rem 11rem;
+  opacity: 0.52;
+  content: "";
+}
+
+.nav-term,
+.dashboard,
+.foot-dense { position: relative; z-index: 1; }
+
+.nav-term {
+  background: color-mix(in oklch, var(--color-glass-strong) 44%, transparent);
+  backdrop-filter: blur(1.5rem) saturate(145%);
+  -webkit-backdrop-filter: blur(1.5rem) saturate(145%);
+}
+
+:where(
+  .market-hero,
+  .decision-panel,
+  .command,
+  .timeframes,
+  .chart-studio,
+  .levels,
+  .plan,
+  .risk-calculator,
+  .alerts-panel,
+  .settings,
+  .history
+) {
+  background: color-mix(in oklch, var(--color-glass) 46%, transparent);
+  backdrop-filter: blur(1.5rem) saturate(145%);
+  -webkit-backdrop-filter: blur(1.5rem) saturate(145%);
+  box-shadow:
+    inset 0 var(--rule-hair) 0 color-mix(in oklch, var(--color-star) 13%, transparent),
+    0 var(--space-md) var(--space-2xl) color-mix(in oklch, var(--color-shadow) 36%, transparent);
+}
+
+.market-hero {
+  background: linear-gradient(135deg, color-mix(in oklch, var(--color-glass-strong) 52%, transparent), color-mix(in oklch, var(--color-glass) 30%, transparent));
+  box-shadow:
+    inset 0 var(--rule-hair) 0 color-mix(in oklch, var(--color-star) 17%, transparent),
+    0 0 var(--space-xl) color-mix(in oklch, var(--color-accent) 18%, transparent),
+    0 var(--space-lg) var(--space-3xl) color-mix(in oklch, var(--color-shadow) 42%, transparent);
+}
+
+.decision-panel {
+  background: linear-gradient(145deg, color-mix(in oklch, var(--color-glass-strong) 48%, transparent), color-mix(in oklch, var(--color-accent-2) 9%, transparent));
+}
+
+.command {
+  background: linear-gradient(145deg, color-mix(in oklch, var(--color-glass-strong) 46%, transparent), color-mix(in oklch, var(--color-accent) 7%, transparent));
+}
+
+:where(
+  .market-hero__meta,
+  .decision-panel__action,
+  .decision-panel__bias,
+  .command form,
+  .timeframes > div,
+  .levels__side,
+  .plan-grid > div,
+  .chart-upload__drop,
+  .chart-upload__preview,
+  .plan-chart,
+  .chart-placeholder,
+  .risk-results,
+  .risk-note,
+  .history__list button
+) {
+  background: color-mix(in oklch, var(--color-glass-strong) 28%, transparent);
+}
+
+.decision-panel__action.action--buy_now { background: color-mix(in oklch, var(--color-buy-surface) 42%, transparent); }
+.decision-panel__action.action--sell_now { background: color-mix(in oklch, var(--color-sell-surface) 42%, transparent); }
+.decision-panel__action.action--wait { background: color-mix(in oklch, var(--color-wait-surface) 42%, transparent); }
+
+textarea,
+input,
+.chart-upload__controls select,
+.market-controls button,
+.quick-actions button {
+  background: color-mix(in oklch, var(--color-glass-strong) 38%, transparent);
+  backdrop-filter: blur(var(--space-sm));
+  -webkit-backdrop-filter: blur(var(--space-sm));
+}
+
+@media (max-width: 39.99rem) {
+  body {
+    background-image:
+      radial-gradient(ellipse at 0% 0%, color-mix(in oklch, var(--color-nebula-blue) 56%, transparent) 0%, transparent 30rem),
+      radial-gradient(ellipse at 100% 22%, color-mix(in oklch, var(--color-nebula-cyan) 38%, transparent) 0%, transparent 28rem),
+      linear-gradient(160deg, var(--color-space-depth), var(--color-paper));
+  }
+  body::before { opacity: 0.42; }
 }

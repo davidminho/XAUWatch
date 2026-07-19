@@ -4,6 +4,18 @@
     "macrostructure": "Price-first Bento Grid",
     "theme": "studied-DNA",
     "theme_axes": "dark / geometric-sans / cyan-violet",
+    "vibe": "deep-space gradient, transparent glass, neon rim light",
+    "enrichment": "Tier-A CSS nebula and star field",
+    "brief": "Transform the canvas into a space gradient and all dashboard cards into transparent glass",
+    "variation": "space-canvas / transparent-surfaces / layered-nebula",
+    "nav": "N9",
+    "footer": "Ft5"
+  },
+  {
+    "date": "2026-07-19",
+    "macrostructure": "Price-first Bento Grid",
+    "theme": "studied-DNA",
+    "theme_axes": "dark / geometric-sans / cyan-violet",
     "vibe": "visible neon edges, glass depth, price-first hierarchy",
     "enrichment": "Tier-A neon energy lines",
     "brief": "Restore the live quote to the top and make the Neon Glass treatment clearly visible",
